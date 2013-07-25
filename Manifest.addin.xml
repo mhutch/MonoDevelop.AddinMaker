@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Addin namespace   = "MonoDevelop"
+       id          = "AddinMaker"
+       name        = "Addin Maker"
+       author      = "Michael Hutchinson"
+       copyright   = "MIT/X11"
+       url         = "http://www.monodevelop.com"
+       description = "Makes it eay to create and edit addins."
+       category    = "Addin Development"
+       version     = "1.0">
+
+    <Dependencies>
+        <Addin id="::MonoDevelop.Ide" version="4.0"/>
+    </Dependencies>
+    
+ </Addin>
