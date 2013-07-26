@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ExtensionModel>
+	<Runtime>
+		<Import file = "Templates/Properties/AddinInfo.cs" />
+		<Import file = "Templates/Properties/Manifest.addin.xml" />
+		<Import file = "Templates/EmptyAddinProject.xpt.xml" />
+	</Runtime>
+
+	<Extension path = "/MonoDevelop/Ide/ProjectTemplates">
+		<ProjectTemplate id   = "EmptyAddinProject"
+		                 file = "Templates/EmptyAddinProject.xpt.xml" />
+	</Extension>
+
+	<Extension path = "/MonoDevelop/ProjectModel/MSBuildItemTypes">
+		<DotNetProjectSubtype
+			guid="{7DBEB09D-BB9F-4D92-A141-A009135475EF}"
+			type="MonoDevelop.AddinMaker.AddinProject"
+			/>
+		<!-- TODO: Figure out how to install some new MSBuild targets from the addin -->
+	</Extension>
+
+	<Extension path = "/MonoDevelop/ProjectModel/ProjectBindings">
+		<ProjectBinding class = "MonoDevelop.AddinMaker.AddinProjectBinding" />
+	</Extension>
+</ExtensionModel>
