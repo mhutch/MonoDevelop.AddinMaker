@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <Template>
 	<TemplateConfiguration>
-		<_Name>MonoDevelop Addin</_Name>
-		<_Category>C#/MonoDevelop</_Category>
+		<_Name>Xamarin Studio Addin</_Name>
+		<_Category>C#/Xamarin Studio</_Category>
 		<LanguageName>C#</LanguageName>
-		<_Description>Creates an MonoDevelop/Xamarin Studio addin.</_Description>
+		<_Description>Creates a Xamarin Studio / MonoDevelop addin.</_Description>
 	</TemplateConfiguration>
 
 	<Actions>
