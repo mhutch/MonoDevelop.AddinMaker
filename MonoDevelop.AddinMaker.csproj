@@ -86,7 +86,6 @@
     <Compile Include="AddinProjectBinding.cs" />
     <Compile Include="AddinProject.cs" />
     <Compile Include="AddinProjectConfiguration.cs" />
-    <Compile Include="Properties\AddinInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -99,9 +98,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Templates\Properties\Manifest.addin.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Templates\Properties\AddinInfo.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

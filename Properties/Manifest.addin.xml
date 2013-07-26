@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<ExtensionModel>
+<Addin namespace   = "MonoDevelop"
+       id          = "AddinMaker"
+       name        = "Addin Maker"
+       author      = "Michael Hutchinson"
+       copyright   = "MIT/X11"
+       url         = "http://github.com/mhutch/MonoDevelop.AddinMaker"
+       description = "Makes it easy to create and edit addins."
+       category    = "Addin Development"
+       version     = "1.0">
+
+    <Dependencies>
+        <Addin id="::MonoDevelop.Core" version="4.0"/>
+        <Addin id="::MonoDevelop.Ide" version="4.0"/>
+        <Addin id="::MonoDevelop.CSharpBinding" version="4.0"/>
+    </Dependencies>
+
 	<Runtime>
-		<Import file = "Templates/Properties/AddinInfo.cs" />
 		<Import file = "Templates/Properties/Manifest.addin.xml" />
 		<Import file = "Templates/EmptyAddinProject.xpt.xml" />
 	</Runtime>
@@ -22,4 +36,4 @@
 	<Extension path = "/MonoDevelop/ProjectModel/ProjectBindings">
 		<ProjectBinding class = "MonoDevelop.AddinMaker.AddinProjectBinding" />
 	</Extension>
-</ExtensionModel>
+</Addin>
