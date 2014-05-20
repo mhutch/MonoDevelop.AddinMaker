@@ -57,16 +57,19 @@ namespace MonoDevelop.AddinMaker
 
 		void AddAddinsAssemblyContext ()
 		{
-			var ctx = GetAddinsAssemblyContext ();
-			((ComposedAssemblyContext)AssemblyContext).Add (ctx);
+			var pctx = (DirectoryAssemblyContext) this.PrivateAssemblyContext;
+
+			var dirs = new List<string> (pctx.Directories);
+			dirs.AddRange (GetAddinsAssemblyDirs ());
+			pctx.Directories = dirs;
 		}
 
-		static DirectoryAssemblyContext addinsAssemblyContext;
+		static HashSet<string> addinAssemblyDirs;
 
-		static DirectoryAssemblyContext GetAddinsAssemblyContext ()
+		static HashSet<string> GetAddinsAssemblyDirs ()
 		{
-			if (addinsAssemblyContext != null)
-				return addinsAssemblyContext;
+			if (addinAssemblyDirs != null)
+				return addinAssemblyDirs;
 
 			FilePath entryAssembly = Assembly.GetEntryAssembly ().Location;
 			string binDir = entryAssembly.ParentDirectory;
@@ -75,13 +78,10 @@ namespace MonoDevelop.AddinMaker
 			var addinDirs = Directory.GetFiles (libDir, "*.dll", SearchOption.AllDirectories)
 				.Select (Path.GetDirectoryName);
 
-			HashSet<string> dirs = new HashSet<string> (addinDirs);
-			dirs.Add (binDir);
+			addinAssemblyDirs = new HashSet<string> (addinDirs);
+			addinAssemblyDirs.Add (binDir);
 
-			addinsAssemblyContext = new DirectoryAssemblyContext ();
-			addinsAssemblyContext.Directories = dirs;
-
-			return addinsAssemblyContext;
+			return addinAssemblyDirs;
 		}
 	}
 }
