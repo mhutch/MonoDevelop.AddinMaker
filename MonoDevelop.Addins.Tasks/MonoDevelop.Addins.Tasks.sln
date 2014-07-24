@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDevelop.Addins.Tasks", "MonoDevelop.Addins.Tasks.csproj", "{AC367EC2-202F-4FB4-A461-5B95827C5DFF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC367EC2-202F-4FB4-A461-5B95827C5DFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC367EC2-202F-4FB4-A461-5B95827C5DFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC367EC2-202F-4FB4-A461-5B95827C5DFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC367EC2-202F-4FB4-A461-5B95827C5DFF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = MonoDevelop.Addins.Tasks.csproj
+	EndGlobalSection
+EndGlobal

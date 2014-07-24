@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <UsingTask TaskName="MonoDevelop.Addins.Tasks.ResolveMonoDevelopAddins" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
+  <UsingTask TaskName="MonoDevelop.Addins.Tasks.GetDefaultMonoDevelopLocations" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
+  <!--
+  TODO:
+  * the Addin Maker addin should set MDInstallRoot so it can target custom MD version
+  * properly install addin via pack/install
+  * targets for packing, etc
+  -->
+  <PropertyGroup>
+    <MDProfileID Condition="'$(MDProfileID)' == ''">XamarinStudio-5.0</MDProfileID>
+    <MDProfilePath Condition="'$(MDProfilePath)' == ''">$(MONODEVELOP_TEST_PROFILE)</MDProfilePath>
+  </PropertyGroup>
+
+  <!-- always reference the core addins -->
+  <ItemGroup>
+    <MDAddinReference Include="MonoDevelop.Core"/>
+    <MDAddinReference Include="MonoDevelop.Ide" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <!-- FIXME this should be ResolveReferencesDependsOn but XS currently uses ResolveAssemblyReferences -->
+    <ResolveAssemblyReferencesDependsOn>
+      _MDResolveAddinReferences;
+      $(ResolveAssemblyReferencesDependsOn)
+    </ResolveAssemblyReferencesDependsOn>
+  </PropertyGroup>
+
+  <Target Name="_MDResolveLocations">
+    <GetDefaultMonoDevelopLocations ProfileID="$(MDProfileID)" ProfilePath="$(MDProfilePath)">
+      <Output TaskParameter="ConfigDir"   PropertyName="MDConfigDir"   Condition="'$(MDConfigDir)' == ''"    />
+      <Output TaskParameter="AddinsDir"   PropertyName="MDAddinsDir"   Condition="'$(MDAddinsDir)' == ''"    />
+      <Output TaskParameter="DatabaseDir" PropertyName="MDDatabaseDir" Condition="'$(MDDatabaseDir)' == ''"  />
+      <Output TaskParameter="InstallRoot" PropertyName="MDInstallRoot" Condition="'$(MDInstallRoot)' == ''"  />
+    </GetDefaultMonoDevelopLocations>
+    <Error Text = "Install root not found: $(MDInstallRoot)" Condition="!Exists('$(MDInstallRoot)\bin\mdtool.exe')" />
+  </Target>
+
+  <Target Name="_MDResolveAddinReferences" DependsOnTargets="_MDResolveLocations">
+    <ResolveMonoDevelopAddins
+      ConfigDir="$(MDConfigDir)"
+      AddinsDir="$(MDAddinsDir)"
+      DatabaseDir="$(MDDatabaseDir)"
+      InstallRoot="$(MDInstallRoot)"
+      AddinReferences="@(MDAddinReference)"
+    >
+      <Output TaskParameter="AssemblyReferences" ItemName ="ReferencePath" />
+    </ResolveMonoDevelopAddins>
+  </Target>
+
+  <Target Name="InstallAddin" DependsOnTargets="Build">
+    <ItemGroup>
+        <_MDAddinFiles Include="$(OutDir)\**\*"/>
+    </ItemGroup>
+    <Copy
+      SourceFiles="@(_MDAddinFiles)"
+      DestinationFiles="@(_MDAddinFiles->'$(MDAddinsDir)\$(AssemblyName)\%(RecursiveDir)%(Filename)%(Extension)')"
+      SkipUnchangedFiles="True" />
+  </Target>
+</Project>
