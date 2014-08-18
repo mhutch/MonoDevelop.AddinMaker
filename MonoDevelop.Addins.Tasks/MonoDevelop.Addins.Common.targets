@@ -13,14 +13,44 @@
     <MDProfilePath Condition="'$(MDProfilePath)' == ''">$(MONODEVELOP_TEST_PROFILE)</MDProfilePath>
   </PropertyGroup>
 
-  <!-- always reference the core addins -->
+  <!-- always reference the core addins and assemblies -->
   <ItemGroup>
     <MDAddinReference Include="MonoDevelop.Core"/>
     <MDAddinReference Include="MonoDevelop.Ide" />
+    <Reference Include="Mono.Addins">
+        <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Debugging">
+        <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.TextEditor">
+        <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cairo">
+        <Private>False</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory">
+        <Private>False</Private>
+    </Reference>
+    <Reference Include="gtk-sharp">
+        <Private>False</Private>
+    </Reference>
+    <Reference Include="atk-sharp">
+        <Private>False</Private>
+    </Reference>
+    <Reference Include="glib-sharp">
+        <Private>False</Private>
+    </Reference>
+    <Reference Include="gdk-sharp">
+        <Private>False</Private>
+    </Reference>
+    <Reference Include="pango-sharp">
+        <Private>False</Private>
+    </Reference>
   </ItemGroup>
 
   <PropertyGroup>
-    <!-- FIXME this should be ResolveReferencesDependsOn but XS currently uses ResolveAssemblyReferences -->
+    <!-- FIXME logically this should be ResolveReferencesDependsOn but XS currently uses ResolveAssemblyReferences -->
     <ResolveAssemblyReferencesDependsOn>
       _MDResolveAddinReferences;
       $(ResolveAssemblyReferencesDependsOn)
@@ -35,6 +65,9 @@
       <Output TaskParameter="InstallRoot" PropertyName="MDInstallRoot" Condition="'$(MDInstallRoot)' == ''"  />
     </GetDefaultMonoDevelopLocations>
     <Error Text = "Install root not found: $(MDInstallRoot)" Condition="!Exists('$(MDInstallRoot)\bin\mdtool.exe')" />
+    <PropertyGroup>
+      <AssemblySearchPaths>$(MDInstallRoot)\bin;$(AssemblySearchPaths)</AssemblySearchPaths>
+    </PropertyGroup>
   </Target>
 
   <Target Name="_MDResolveAddinReferences" DependsOnTargets="_MDResolveLocations">
@@ -45,7 +78,7 @@
       InstallRoot="$(MDInstallRoot)"
       AddinReferences="@(MDAddinReference)"
     >
-      <Output TaskParameter="AssemblyReferences" ItemName ="ReferencePath" />
+      <Output TaskParameter="AssemblyReferences" ItemName ="Reference" />
     </ResolveMonoDevelopAddins>
   </Target>
 

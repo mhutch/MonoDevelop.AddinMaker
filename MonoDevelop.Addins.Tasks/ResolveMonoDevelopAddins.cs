@@ -35,17 +35,16 @@ namespace MonoDevelop.Addins.Tasks
 		{
 			var assemblies = new List<string> ();
 
+			var binDir = Path.GetFullPath (Path.Combine (InstallRoot, "bin"));
+
 			var reg = new AddinRegistry (
 				ConfigDir,
-				Path.Combine (InstallRoot, "bin"),
+				binDir,
 				AddinsDir,
 				DatabaseDir
 			);
 
 			bool success = true;
-
-			var resolvedDeps = new HashSet<AssemblyName> ();
-			var unresolvedDeps = new Dictionary<AssemblyName,string> ();
 
 			foreach (var addinName in AddinReferences) {
 				//TODO: respect versions
@@ -56,58 +55,26 @@ namespace MonoDevelop.Addins.Tasks
 					continue;
 				}
 
+				Log.LogMessage (MessageImportance.Low, "Resolving assemblies for addin {0}", addinName);
+
 				//TODO: reference optional modules if this addin depends on the addins they depend on
 				var dir = Path.GetDirectoryName (addin.AddinFile);
-				foreach (var asmFile in addin.Description.MainModule.Assemblies) {
-					var asmFilePath = Path.Combine (dir, asmFile);
-					if (!File.Exists (asmFilePath)) {
-						Log.LogWarning ("Could not find assembly '{0}' in addin '{1}'", asmFilePath, addinName);
+				foreach (var a in addin.Description.MainModule.Assemblies) {
+					var addinAssemblyPath = Path.Combine (dir, a);
+					if (!File.Exists (addinAssemblyPath)) {
+						Log.LogWarning ("Could not find assembly '{0}' in addin '{1}'", addinAssemblyPath, addinName);
 						continue;
 					}
-					assemblies.Add (asmFilePath);
 
-					//also reference indirect dependencies one hop out
-					//TODO: cache the resolve map
-					Assembly asm = Assembly.ReflectionOnlyLoadFrom (asmFilePath);
-					var asmName = asm.GetName ();
-					unresolvedDeps.Remove (asmName);
-					resolvedDeps.Add (asmName);
-
-					var searchPath = Path.GetDirectoryName (asmFilePath);
-					foreach (var refName in asm.GetReferencedAssemblies ()) {
-						if (resolvedDeps.Contains (refName))
-							continue;
-						var possible = Path.Combine (searchPath, refName.Name + ".dll");
-						if (File.Exists (possible)) {
-							assemblies.Add (possible);
-							resolvedDeps.Add (refName);
-							unresolvedDeps.Remove (refName);
-							continue;
-						}
-						Assembly gacAsm;
-						try {
-							gacAsm = Assembly.ReflectionOnlyLoad (asmName.ToString ());
-							if (gacAsm != null) {
-								resolvedDeps.Add (refName);
-								unresolvedDeps.Remove (refName);
-								assemblies.Add (gacAsm.Location);
-								continue;
-							}
-						} catch (FileNotFoundException) {
-						}
-						unresolvedDeps[refName] = addinName.ItemSpec;
-					}
+					assemblies.Add (addinAssemblyPath);
+					Log.LogMessage (MessageImportance.Low, "Found addin assembly at path '{0}'", addinAssemblyPath);
 				}
 			}
 
-			foreach (var u in unresolvedDeps) {
-				Log.LogWarning ("Could not find assembly '{0}' referenced by addin '{1}'", u.Key, u.Value);
-			}
-
-
 			AssemblyReferences = assemblies.Select (a => {
-				var item = new TaskItem (a);
+				var item = new TaskItem (Path.GetFileNameWithoutExtension (a));
 				item.SetMetadata ("Private", "False");
+				item.SetMetadata ("HintPath", a);
 				return item;
 			}).ToArray ();
 
