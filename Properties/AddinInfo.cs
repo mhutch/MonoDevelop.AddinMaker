@@ -13,6 +13,3 @@ using Mono.Addins.Description;
 [assembly:AddinCategory ("Addin Development")]
 [assembly:AddinDescription ("Makes it easy to create and edit addins")]
 [assembly:AddinAuthor ("Michael Hutchinson")]
-
-[assembly:AddinDependency ("::MonoDevelop.Core", MonoDevelop.BuildInfo.Version)]
-[assembly:AddinDependency ("::MonoDevelop.Ide", MonoDevelop.BuildInfo.Version)]
