@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>MonoDevelop.Addins.CSharp</id>
+        <version>0.1.0</version>
+        <title>MonoDevelop Addin C# Build</title>
+        <authors>Michael Hutchinson</authors>
+        <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>MSBuild targets for building Xamarin Studio / MonoDevelop addins using C#.</description>
+        <summary>Used by Xamarin Studio / MonoDevelop addin projects created by the Addin Maker addin.</summary>
+    </metadata>
+    <files>
+        <file src="bin\Debug\ICSharpCode.SharpZipLib.dll" target="build\net40\ICSharpCode.SharpZipLib.dll" />
+        <file src="bin\Debug\Mono.Addins.dll" target="build\net40\Mono.Addins.dll" />
+        <file src="bin\Debug\MonoDevelop.Addins.Common.targets" target="build\net40\MonoDevelop.Addins.Common.targets" />
+        <file src="bin\Debug\MonoDevelop.Addins.CSharp.targets" target="build\net40\MonoDevelop.Addins.CSharp.targets" />
+        <file src="bin\Debug\MonoDevelop.Addins.Tasks.dll" target="build\net40\MonoDevelop.Addins.Tasks.dll" />
+    </files>
+</package>
