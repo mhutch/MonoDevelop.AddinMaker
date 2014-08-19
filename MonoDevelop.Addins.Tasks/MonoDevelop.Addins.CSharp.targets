@@ -13,15 +13,16 @@
 
   <Target Name="_MDGenerateDependencyCS" Inputs="$(MSBuildProjectFile)" Outputs="$(_MDAddinDepsFile)">
     <!-- version support -->
-    <WriteLinesToFile
-      File="$(_MDAddinDepsFile)"
-      Lines="@(MDAddinReference->'[assembly:Mono.Addins.AddinDependency (&quot;::%(Identity)&quot;, MonoDevelop.BuildInfo.Version)]')"
-      Overwrite="true"
-      Encoding="Unicode" />
+    <PropertyGroup>
+        <_MDAddinDepsText>@(MDAddinReference->'[assembly:Mono.Addins.AddinDependency ("::%(Identity)", MonoDevelop.BuildInfo.Version)]')</_MDAddinDepsText>
+    </PropertyGroup>
+    <WriteLinesToFile File="$(_MDAddinDepsFile)" Lines="$(_MDAddinDepsText)" Overwrite="true" Encoding="Unicode" Condition="$(OS)!='Unix'" />
+    <!-- xbuild WriteLinesToFile doesn't support Encoding property-->
+    <WriteLinesToFile File="$(_MDAddinDepsFile)" Lines="$(_MDAddinDepsText)" Overwrite="true" Condition="$(OS)=='Unix'" />
   </Target>
 
   <PropertyGroup>
-    <_MDAddinDepsFile>$(IntermediateOutputPath)\MonoDevelop-Addin-Deps.g.cs</_MDAddinDepsFile>
+    <_MDAddinDepsFile>$(IntermediateOutputPath)MonoDevelop-Addin-Deps.g.cs</_MDAddinDepsFile>
   </PropertyGroup>
 
   <ItemGroup>
