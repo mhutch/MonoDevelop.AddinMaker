@@ -9,7 +9,7 @@
   * targets for packing, etc
   -->
   <PropertyGroup>
-    <MDProfileID Condition="'$(MDProfileID)' == ''">XamarinStudio-5.0</MDProfileID>
+    <MDProfileVersion Condition="'$(MDProfileVersion)' == ''">5.0</MDProfileVersion>
     <MDProfilePath Condition="'$(MDProfilePath)' == ''">$(MONODEVELOP_TEST_PROFILE)</MDProfilePath>
   </PropertyGroup>
 
@@ -58,13 +58,21 @@
   </PropertyGroup>
 
   <Target Name="_MDResolveLocations">
-    <GetDefaultMonoDevelopLocations ProfileID="$(MDProfileID)" ProfilePath="$(MDProfilePath)">
+    <GetDefaultMonoDevelopLocations ProfileVersion="$(MDProfileVersion)" ProfilePath="$(MDProfilePath)">
       <Output TaskParameter="ConfigDir"   PropertyName="MDConfigDir"   Condition="'$(MDConfigDir)' == ''"    />
       <Output TaskParameter="AddinsDir"   PropertyName="MDAddinsDir"   Condition="'$(MDAddinsDir)' == ''"    />
       <Output TaskParameter="DatabaseDir" PropertyName="MDDatabaseDir" Condition="'$(MDDatabaseDir)' == ''"  />
       <Output TaskParameter="InstallRoot" PropertyName="MDInstallRoot" Condition="'$(MDInstallRoot)' == ''"  />
     </GetDefaultMonoDevelopLocations>
+
+    <Message Text = "MDConfigDir:   $(MDConfigDir)" />
+    <Message Text = "MDAddinsDir:   $(MDAddinsDir)" />
+    <Message Text = "MDDatabaseDir: $(MDDatabaseDir)" />
+    <Message Text = "MDInstallRoot: $(MDInstallRoot)" />
+
     <Error Text = "Install root not found: $(MDInstallRoot)" Condition="!Exists('$(MDInstallRoot)\bin\mdtool.exe')" />
+    <Error Text = "Addin cache not found: $(MDDatabaseDir)" Condition="!Exists('$(MDDatabaseDir)\addin-db-001\addin-data')" />
+
     <PropertyGroup>
       <AssemblySearchPaths>$(MDInstallRoot)\bin;$(AssemblySearchPaths)</AssemblySearchPaths>
     </PropertyGroup>
