@@ -67,7 +67,11 @@ namespace MonoDevelop.Addins.Tasks
 					"Xamarin Studio"
 				);
 			} else if (Platform.IsMac) {
-				InstallRoot = "/Applications/Xamarin Studio.app/Contents/MacOS/lib/monodevelop";
+				InstallRoot = "/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop";
+				//fall back to old pre-Yosemite location
+				if (!Directory.Exists (InstallRoot)) {
+					InstallRoot = "/Applications/Xamarin Studio.app/Contents/MacOS/lib/monodevelop";
+				}
 			} else {
 				InstallRoot = "/usr/lib/monodevelop";
 			}
