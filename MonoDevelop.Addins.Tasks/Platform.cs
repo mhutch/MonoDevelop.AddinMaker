@@ -30,6 +30,7 @@ namespace MonoDevelop.Addins.Tasks
 					if (os == "Darwin")
 						return true;
 				}
+			// Analysis disable once EmptyGeneralCatchClause
 			} catch {
 			} finally {
 				if (buf != IntPtr.Zero)

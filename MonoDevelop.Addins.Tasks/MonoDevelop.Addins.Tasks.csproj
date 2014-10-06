@@ -40,14 +40,12 @@
     <Compile Include="Platform.cs" />
     <Compile Include="GetDefaultMonoDevelopLocations.cs" />
     <Compile Include="ResolveMonoDevelopAddins.cs" />
+    <Compile Include="GenerateDependencyAttributes.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="MonoDevelop.Addins.CSharp.targets">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="MonoDevelop.Addins.Common.targets">
+    <None Include="MonoDevelop.Addins.targets">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

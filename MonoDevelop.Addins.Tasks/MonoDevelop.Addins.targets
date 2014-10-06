@@ -2,6 +2,7 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.ResolveMonoDevelopAddins" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.GetDefaultMonoDevelopLocations" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
+  <UsingTask TaskName="MonoDevelop.Addins.Tasks.GenerateDependencyAttributes" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <!--
   TODO:
   * the Addin Maker addin should set MDInstallRoot so it can target custom MD version
@@ -101,5 +102,32 @@
       SourceFiles="@(_MDAddinFiles)"
       DestinationFiles="@(_MDAddinFiles->'$(MDAddinsDir)\$(AssemblyName)\%(RecursiveDir)%(Filename)%(Extension)')"
       SkipUnchangedFiles="True" />
+  </Target>
+
+  <PropertyGroup>
+    <CoreCompileDependsOn>
+      _MDCollectGeneratedCode;
+      $(CoreCompileDependsOn)
+    </CoreCompileDependsOn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <_MDAddinDepsFile>$(IntermediateOutputPath)MonoDevelop-Addin-Deps.g$(DefaultLanguageSourceExtension)</_MDAddinDepsFile>
+  </PropertyGroup>
+
+  <Target Name="_MDCollectGeneratedCode" DependsOnTargets="_MDGenerateDependencyAttributes">
+    <ItemGroup>
+      <Compile Include="$(_MDAddinDepsFile)" />
+      <FileWrites Include="$(_MDAddinDepsFile)" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="_MDGenerateDependencyAttributes" Inputs="$(MSBuildProjectFile)" Outputs="$(_MDAddinDepsFile)">
+    <!-- TODO: version support -->
+    <GenerateDependencyAttributes
+      AddinReferences="@(MDAddinReference)"
+      Filename="$(_MDAddinDepsFile)"
+      Language="$(Language)"
+    />
   </Target>
 </Project>

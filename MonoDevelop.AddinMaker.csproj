@@ -61,5 +61,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <Import Project="MonoDevelop.Addins.Tasks\bin\$(Configuration)\MonoDevelop.Addins.CSharp.targets" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="MonoDevelop.Addins.Tasks\bin\$(Configuration)\MonoDevelop.Addins.targets" />
 </Project>
