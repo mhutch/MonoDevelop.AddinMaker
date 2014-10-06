@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{AC367EC2-202F-4FB4-A461-5B95827C5DFF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>MonoDevelop.Addins.Tasks</RootNamespace>

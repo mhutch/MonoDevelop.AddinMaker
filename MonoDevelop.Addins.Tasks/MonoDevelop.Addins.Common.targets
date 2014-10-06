@@ -47,6 +47,9 @@
     <Reference Include="pango-sharp">
         <Private>False</Private>
     </Reference>
+    <Reference Include="xwt">
+        <Private>False</Private>
+    </Reference>
   </ItemGroup>
 
   <PropertyGroup>
