@@ -16,6 +16,9 @@
 
   <!-- always reference the core addins and assemblies -->
   <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
     <MDAddinReference Include="MonoDevelop.Core"/>
     <MDAddinReference Include="MonoDevelop.Ide" />
     <Reference Include="Mono.Addins">
@@ -31,6 +34,9 @@
         <Private>False</Private>
     </Reference>
     <Reference Include="ICSharpCode.NRefactory">
+        <Private>False</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory.CSharp">
         <Private>False</Private>
     </Reference>
     <Reference Include="gtk-sharp">
@@ -49,6 +55,12 @@
         <Private>False</Private>
     </Reference>
     <Reference Include="xwt">
+        <Private>False</Private>
+    </Reference>
+    <Reference Include="IKVM.Reflection">
+        <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
         <Private>False</Private>
     </Reference>
   </ItemGroup>
