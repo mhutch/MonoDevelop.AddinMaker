@@ -19,8 +19,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
-    <MDAddinReference Include="MonoDevelop.Core"/>
-    <MDAddinReference Include="MonoDevelop.Ide" />
+    <AddinReference Include="MonoDevelop.Core"/>
+    <AddinReference Include="MonoDevelop.Ide" />
     <Reference Include="Mono.Addins">
         <Private>False</Private>
     </Reference>
@@ -73,7 +73,7 @@
     </ResolveAssemblyReferencesDependsOn>
   </PropertyGroup>
 
-  <Target Name="_MDResolveLocations">
+  <Target Name="ResolveMonoDevelopLocations">
     <GetDefaultMonoDevelopLocations ProfileVersion="$(MDProfileVersion)" ProfilePath="$(MDProfilePath)">
       <Output TaskParameter="ConfigDir"   PropertyName="MDConfigDir"   Condition="'$(MDConfigDir)' == ''"    />
       <Output TaskParameter="AddinsDir"   PropertyName="MDAddinsDir"   Condition="'$(MDAddinsDir)' == ''"    />
@@ -94,13 +94,13 @@
     </PropertyGroup>
   </Target>
 
-  <Target Name="_MDResolveAddinReferences" DependsOnTargets="_MDResolveLocations">
+  <Target Name="_MDResolveAddinReferences" DependsOnTargets="ResolveMonoDevelopLocations">
     <ResolveMonoDevelopAddins
       ConfigDir="$(MDConfigDir)"
       AddinsDir="$(MDAddinsDir)"
       DatabaseDir="$(MDDatabaseDir)"
       InstallRoot="$(MDInstallRoot)"
-      AddinReferences="@(MDAddinReference)"
+      AddinReferences="@(AddinReference)"
     >
       <Output TaskParameter="AssemblyReferences" ItemName ="Reference" />
       <Output TaskParameter="AssemblyReferences" ItemName ="_MDResolvedAddinAssemblies" />
