@@ -136,7 +136,7 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="_MDGenerateDependencyAttributes" Inputs="$(MSBuildProjectFile);@(_MDResolvedAddinAssemblies)" Outputs="$(_MDAddinDepsFile)" DependsOnTargets="_MDResolveAddinReferences">
+  <Target Name="_MDGenerateDependencyAttributes" Inputs="$(MSBuildProjectFile);@(_MDResolvedAddins->'%(AddinFile)')" Outputs="$(_MDAddinDepsFile)" DependsOnTargets="_MDResolveAddinReferences">
     <GenerateDependencyAttributes
       AddinReferences="@(_MDResolvedAddins)"
       Filename="$(_MDAddinDepsFile)"

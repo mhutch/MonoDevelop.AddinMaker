@@ -65,6 +65,7 @@ namespace MonoDevelop.Addins.Tasks
 
 				var item = new TaskItem (addinName);
 				item.SetMetadata ("Version", addin.Version);
+				item.SetMetadata ("AddinFile", addin.AddinFile);
 				resolvedAddins.Add (item);
 
 				Log.LogMessage (MessageImportance.Low, "Resolving assemblies for addin {0}", addinName);
