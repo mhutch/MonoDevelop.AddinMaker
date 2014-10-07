@@ -49,10 +49,16 @@ namespace MonoDevelop.Addins.Tasks
 			var resolvedAddins = new List<ITaskItem> ();
 
 			foreach (var addinName in AddinReferences) {
-				//TODO: respect versions
 				var addin = reg.GetAddin (addinName.ItemSpec);
 				if (addin == null) {
-					Log.LogError ("Could not resolve addin reference {0}", addinName);
+					Log.LogError ("Could not resolve addin reference '{0}'", addinName);
+					success = false;
+					continue;
+				}
+
+				var expectedVersion = addinName.GetMetadata ("Version");
+				if (!string.IsNullOrEmpty (expectedVersion) && !addin.SupportsVersion (expectedVersion)) {
+					Log.LogError ("Addin '{0}' does not satisfy specified version '{1}", addinName, expectedVersion);
 					success = false;
 					continue;
 				}
