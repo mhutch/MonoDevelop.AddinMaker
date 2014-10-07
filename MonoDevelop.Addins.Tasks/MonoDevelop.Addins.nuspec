@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>MonoDevelop.Addins</id>
-        <version>0.1.3</version>
+        <version>0.1.4</version>
         <title>MonoDevelop Addins Build Support</title>
         <authors>Michael Hutchinson</authors>
         <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
