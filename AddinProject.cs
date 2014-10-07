@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
+using MonoDevelop.Core;
 using MonoDevelop.Core.Execution;
 using MonoDevelop.Projects;
 
@@ -45,10 +46,10 @@ namespace MonoDevelop.AddinMaker
 			var addinRefs = objs.OfType<AddinReference> ().ToList ();
 			if (addinRefs.Count > 0) {
 				AddinReferences.AddRange (addinRefs);
-				var args = new ProjectItemEventArgs ();
+				var args = new AddinReferenceEventArgs ();
 				foreach (var item in addinRefs) {
 					item.OwnerProject = this;
-					args.Add (new ProjectItemEventInfo (this, item));
+					args.AddInfo (this, item);
 				}
 				var evt = AddinReferenceAdded;
 				if (evt != null)
@@ -63,9 +64,9 @@ namespace MonoDevelop.AddinMaker
 			var addinRefs = objs.OfType<AddinReference> ().ToList ();
 			if (addinRefs.Count > 0) {
 				AddinReferences.RemoveRange (addinRefs);
-				var args = new ProjectItemEventArgs ();
+				var args = new AddinReferenceEventArgs ();
 				foreach (var item in addinRefs) {
-					args.Add (new ProjectItemEventInfo (this, item));
+					args.AddInfo (this, item);
 				}
 				var evt = AddinReferenceRemoved;
 				if (evt != null)
@@ -75,9 +76,8 @@ namespace MonoDevelop.AddinMaker
 
 		public AddinReferenceCollection AddinReferences { get; private set; }
 
-		//TODO: stronger typing
-		public event EventHandler<ProjectItemEventArgs> AddinReferenceAdded;
-		public event EventHandler<ProjectItemEventArgs> AddinReferenceRemoved;
+		public event EventHandler<AddinReferenceEventArgs> AddinReferenceAdded;
+		public event EventHandler<AddinReferenceEventArgs> AddinReferenceRemoved;
 
 		protected override ExecutionCommand CreateExecutionCommand (ConfigurationSelector configSel, DotNetProjectConfiguration configuration)
 		{
@@ -96,6 +96,26 @@ namespace MonoDevelop.AddinMaker
 
 		public override bool IsLibraryBasedProjectType {
 			get { return true; }
+		}
+	}
+
+	class AddinReferenceEventArgs : EventArgsChain<AddinReferenceEventInfo>
+	{
+		public void AddInfo (AddinProject project, AddinReference reference)
+		{
+			Add (new AddinReferenceEventInfo (project, reference));
+		}
+	}
+
+	class AddinReferenceEventInfo
+	{
+		public AddinReference Reference { get; private set; }
+		public AddinProject Project { get; private set; }
+
+		public AddinReferenceEventInfo (AddinProject project, AddinReference reference)
+		{
+			this.Reference = reference;
+			this.Project = project;
 		}
 	}
 }

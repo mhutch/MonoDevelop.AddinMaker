@@ -1,7 +1,6 @@
 ﻿using System;
+using System.Linq;
 using MonoDevelop.Ide.Gui.Components;
-using MonoDevelop.Projects;
-using System.Collections.Generic;
 
 namespace MonoDevelop.AddinMaker
 {
@@ -30,26 +29,22 @@ namespace MonoDevelop.AddinMaker
 		public override void OnNodeAdded (object dataObject)
 		{
 			var project = (AddinProject)dataObject;
-			project.AddinReferenceAdded += OnItemsChanged;
-			project.AddinReferenceRemoved += OnItemsChanged;
+			project.AddinReferenceAdded += OnReferencesChanged;
+			project.AddinReferenceRemoved += OnReferencesChanged;
 			base.OnNodeAdded (dataObject);
 		}
 
 		public override void OnNodeRemoved (object dataObject)
 		{
 			var project = (AddinProject)dataObject;
-			project.AddinReferenceAdded -= OnItemsChanged;
-			project.AddinReferenceRemoved -= OnItemsChanged;
+			project.AddinReferenceAdded -= OnReferencesChanged;
+			project.AddinReferenceRemoved -= OnReferencesChanged;
 			base.OnNodeRemoved (dataObject);
 		}
 
-		void OnItemsChanged (object sender, ProjectItemEventArgs e)
+		void OnReferencesChanged (object sender, AddinReferenceEventArgs e)
 		{
-			var projects = new HashSet<DotNetProject> ();
-			foreach (ProjectItemEventInfo evt in e)
-				if (evt.Item is AddinReference)
-					projects.Add ((DotNetProject)evt.SolutionItem);
-			foreach (var project in projects) {
+			foreach (var project in e.Select (x => x.Project).Distinct ()) {
 				ITreeBuilder builder = Context.GetTreeBuilder (project);
 				if (builder != null)
 					builder.UpdateChildren ();
