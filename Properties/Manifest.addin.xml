@@ -6,6 +6,14 @@
 		<Import file = "Templates/EmptyAddinProject.xpt.xml" />
 	</Runtime>
 
+	<ExtensionPoint path = "/MonoDevelop/AddinMaker/ContextMenu/ProjectPad/AddinReferenceFolder">
+		<ExtensionNodeSet id="MonoDevelop.Components.Commands.ItemSet"/>
+	</ExtensionPoint>
+
+	<ExtensionPoint path = "/MonoDevelop/AddinMaker/ContextMenu/ProjectPad/AddinReference">
+		<ExtensionNodeSet id="MonoDevelop.Components.Commands.ItemSet"/>
+	</ExtensionPoint>
+
 	<Extension path = "/MonoDevelop/Ide/ProjectTemplates">
 		<ProjectTemplate id   = "EmptyAddinProject"
 		                 file = "Templates/EmptyAddinProject.xpt.xml" />
@@ -20,7 +28,24 @@
 		<!-- TODO: Figure out how to install some new MSBuild targets from the addin -->
 	</Extension>
 
+	<Extension path = "/MonoDevelop/Ide/Pads/ProjectPad">
+		<NodeBuilder class = "MonoDevelop.AddinMaker.AddinProjectNodeBuilder"/>
+		<NodeBuilder class = "MonoDevelop.AddinMaker.AddinReferenceFolderNodeBuilder"/>
+		<NodeBuilder class = "MonoDevelop.AddinMaker.AddinReferenceNodeBuilder"/>
+	</Extension>
+
 	<Extension path = "/MonoDevelop/ProjectModel/ProjectBindings">
 		<ProjectBinding class = "MonoDevelop.AddinMaker.AddinProjectBinding" />
+	</Extension>
+	<Extension path = "/MonoDevelop/ProjectModel/SerializableClasses">
+		<DataType name="AddinReference" class = "MonoDevelop.AddinMaker.AddinReference" />
+	</Extension>
+
+	<Extension path = "/MonoDevelop/DesignerSupport/PropertyProviders">
+		<Class class = "MonoDevelop.AddinMaker.AddinReferencePropertyProvider"/>
+	</Extension>
+
+	<Extension path = "/MonoDevelop/AddinMaker/ContextMenu/ProjectPad/AddinReference">
+		<CommandItem id = "MonoDevelop.Ide.Commands.EditCommands.Delete" />
 	</Extension>
 </ExtensionModel>

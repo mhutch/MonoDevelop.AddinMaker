@@ -1,6 +1,4 @@
-using System;
 using MonoDevelop.Projects;
-using System.Xml;
 
 namespace MonoDevelop.AddinMaker
 {

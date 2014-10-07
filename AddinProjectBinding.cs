@@ -1,6 +1,5 @@
 using System;
 using System.Xml;
-using Mono.Addins;
 using MonoDevelop.Projects;
 
 namespace MonoDevelop.AddinMaker
