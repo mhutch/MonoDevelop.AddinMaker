@@ -18,20 +18,10 @@
 
 		<Project name = "${ProjectName}" directory = "." type = "Addin">
 			<References>
-				<Reference type="Package" refto="System" />
-				<Reference type="Package" refto="System.Xml" />
-				<Reference type="Package" refto="System.Core" />
-				<Reference type="Package" refto="Mono.Addins" />
-				<Reference type="Package" refto="MonoDevelop.Core" />
-				<Reference type="Package" refto="MonoDevelop.Ide" />
-				<Reference type="Package" refto="Mono.TextEditor" />
-				<Reference type="Package" refto="ICSharpCode.NRefactory" />
-				<Reference type="Package" refto="gtk-sharp" />
-				<Reference type="Package" refto="glib-sharp" />
-				<Reference type="Package" refto="gdk-sharp" />
-				<Reference type="Package" refto="pango-sharp" />
-				<Reference type="Package" refto="Mono.Cairo" />
 			</References>
+			<Packages>
+				<Package ID="MonoDevelop.Addins" Version="0.1.2" />
+			</Packages>
 			<Files>
 				<FileTemplateReference TemplateID="CSharpAssemblyInfo" />
 				<Directory name="Properties">

@@ -12,6 +12,3 @@ using Mono.Addins.Description;
 [assembly:AddinCategory ("${ProjectName}")]
 [assembly:AddinDescription ("${ProjectName}")]
 [assembly:AddinAuthor ("${AuthorName}")]
-
-[assembly:AddinDependency ("::MonoDevelop.Core", MonoDevelop.BuildInfo.Version)]
-[assembly:AddinDependency ("::MonoDevelop.Ide", MonoDevelop.BuildInfo.Version)]
