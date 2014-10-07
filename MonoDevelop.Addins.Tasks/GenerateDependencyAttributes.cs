@@ -33,12 +33,7 @@ namespace MonoDevelop.Addins.Tasks
 						new CodeTypeReference ("Mono.Addins.AddinDependencyAttribute"),
 						new [] {
 							new CodeAttributeArgument (new CodePrimitiveExpression ("::" + addin.ItemSpec)),
-							new CodeAttributeArgument (
-								new CodeFieldReferenceExpression (
-									new CodeTypeReferenceExpression ("MonoDevelop.BuildInfo"),
-									"Version"
-								)
-							)
+							new CodeAttributeArgument (new CodePrimitiveExpression (addin.GetMetadata ("Version")))
 						}
 					)
 				);

@@ -28,6 +28,9 @@ namespace MonoDevelop.Addins.Tasks
 		[Output]
 		public ITaskItem[] AssemblyReferences { get; set; }
 
+		[Output]
+		public ITaskItem[] ResolvedAddins { get; set; }
+
 		public override bool Execute ()
 		{
 			var assemblies = new List<string> ();
@@ -43,6 +46,8 @@ namespace MonoDevelop.Addins.Tasks
 
 			bool success = true;
 
+			var resolvedAddins = new List<ITaskItem> ();
+
 			foreach (var addinName in AddinReferences) {
 				//TODO: respect versions
 				var addin = reg.GetAddin (addinName.ItemSpec);
@@ -51,6 +56,10 @@ namespace MonoDevelop.Addins.Tasks
 					success = false;
 					continue;
 				}
+
+				var item = new TaskItem (addinName);
+				item.SetMetadata ("Version", addin.Version);
+				resolvedAddins.Add (item);
 
 				Log.LogMessage (MessageImportance.Low, "Resolving assemblies for addin {0}", addinName);
 
@@ -74,6 +83,8 @@ namespace MonoDevelop.Addins.Tasks
 				item.SetMetadata ("HintPath", a);
 				return item;
 			}).ToArray ();
+
+			ResolvedAddins = resolvedAddins.ToArray ();
 
 			return success;
 		}

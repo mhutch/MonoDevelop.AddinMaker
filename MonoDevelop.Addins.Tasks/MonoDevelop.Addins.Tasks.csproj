@@ -48,5 +48,6 @@
     <None Include="MonoDevelop.Addins.targets">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="MonoDevelop.Addins.nuspec" />
   </ItemGroup>
 </Project>

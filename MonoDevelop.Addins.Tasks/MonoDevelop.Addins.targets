@@ -91,6 +91,8 @@
       AddinReferences="@(MDAddinReference)"
     >
       <Output TaskParameter="AssemblyReferences" ItemName ="Reference" />
+      <Output TaskParameter="AssemblyReferences" ItemName ="_MDResolvedAddinAssemblies" />
+      <Output TaskParameter="ResolvedAddins" ItemName ="_MDResolvedAddins" />
     </ResolveMonoDevelopAddins>
   </Target>
 
@@ -122,10 +124,9 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="_MDGenerateDependencyAttributes" Inputs="$(MSBuildProjectFile)" Outputs="$(_MDAddinDepsFile)">
-    <!-- TODO: version support -->
+  <Target Name="_MDGenerateDependencyAttributes" Inputs="$(MSBuildProjectFile);@(_MDResolvedAddinAssemblies)" Outputs="$(_MDAddinDepsFile)" DependsOnTargets="_MDResolveAddinReferences">
     <GenerateDependencyAttributes
-      AddinReferences="@(MDAddinReference)"
+      AddinReferences="@(_MDResolvedAddins)"
       Filename="$(_MDAddinDepsFile)"
       Language="$(Language)"
     />
