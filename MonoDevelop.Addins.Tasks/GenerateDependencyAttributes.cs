@@ -19,7 +19,7 @@ namespace MonoDevelop.Addins.Tasks
 
 		public override bool Execute ()
 		{
-			var provider = System.CodeDom.Compiler.CodeDomProvider.CreateProvider (Language);
+			var provider = CodeDomProvider.CreateProvider (Language);
 			if (provider == null) {
 				Log.LogError ("Could not create CodeDOM provider for language '{0}'", Language);
 				return false;
@@ -45,7 +45,7 @@ namespace MonoDevelop.Addins.Tasks
 				provider.GenerateCodeFromCompileUnit (ccu, sw, new CodeGeneratorOptions ());
 			}
 
-			return false;
+			return true;
 		}
 	}
 }
