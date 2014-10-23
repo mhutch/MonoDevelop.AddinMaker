@@ -30,6 +30,7 @@ namespace MonoDevelop.AddinMaker
 		void Init ()
 		{
 			AddinReferences = new AddinReferenceCollection (this);
+			Items.Bind (AddinReferences);
 		}
 
 		public override SolutionItemConfiguration CreateConfiguration (string name)
@@ -44,17 +45,21 @@ namespace MonoDevelop.AddinMaker
 			base.OnItemsAdded (objs);
 
 			var addinRefs = objs.OfType<AddinReference> ().ToList ();
-			if (addinRefs.Count > 0) {
-				AddinReferences.AddRange (addinRefs);
-				var args = new AddinReferenceEventArgs ();
-				foreach (var item in addinRefs) {
-					item.OwnerProject = this;
-					args.AddInfo (this, item);
-				}
-				var evt = AddinReferenceAdded;
-				if (evt != null)
-					evt (this, args);
+			if (addinRefs.Count == 0)
+				return;
+
+			var args = new AddinReferenceEventArgs ();
+			foreach (var item in addinRefs) {
+				args.AddInfo (this, item);
 			}
+			OnAddinReferenceAdded (args);
+		}
+
+		protected virtual void OnAddinReferenceAdded (AddinReferenceEventArgs args)
+		{
+			var evt = AddinReferenceRemoved;
+			if (evt != null)
+				evt (this, args);
 		}
 
 		protected override void OnItemsRemoved (IEnumerable<ProjectItem> objs)
@@ -62,16 +67,21 @@ namespace MonoDevelop.AddinMaker
 			base.OnItemsRemoved (objs);
 
 			var addinRefs = objs.OfType<AddinReference> ().ToList ();
-			if (addinRefs.Count > 0) {
-				AddinReferences.RemoveRange (addinRefs);
-				var args = new AddinReferenceEventArgs ();
-				foreach (var item in addinRefs) {
-					args.AddInfo (this, item);
-				}
-				var evt = AddinReferenceRemoved;
-				if (evt != null)
-					evt (this, args);
+			if (addinRefs.Count == 0)
+				return;
+
+			var args = new AddinReferenceEventArgs ();
+			foreach (var item in addinRefs) {
+				args.AddInfo (this, item);
 			}
+			OnAddinReferenceRemoved (args);
+		}
+
+		protected virtual void OnAddinReferenceRemoved (AddinReferenceEventArgs args)
+		{
+			var evt = AddinReferenceRemoved;
+			if (evt != null)
+				evt (this, args);
 		}
 
 		public AddinReferenceCollection AddinReferences { get; private set; }
