@@ -10,17 +10,5 @@ namespace MonoDevelop.AddinMaker
 		{
 			this.Project = project;
 		}
-
-		protected override void OnItemAdded (AddinReference item)
-		{
-			item.OwnerProject = Project;
-			base.OnItemAdded (item);
-		}
-
-		protected override void OnItemRemoved (AddinReference item)
-		{
-			item.OwnerProject = null;
-			base.OnItemRemoved (item);
-		}
 	}
 }

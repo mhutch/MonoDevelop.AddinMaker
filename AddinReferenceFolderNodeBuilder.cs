@@ -94,11 +94,13 @@ namespace MonoDevelop.AddinMaker
 					dialog.Destroy ();
 				}
 
-				arc.Project.AddinReferences.AddRange (
-					selectedAddins.Select (a => new AddinReference {
-						Id = AddinHelpers.GetUnversionedId (a)
-					})
-				);
+				//HACK: we have to ToList() or the event handlers attached to the
+				//collection will all enumerate the list and get different copies
+				var references = selectedAddins.Select (a => new AddinReference {
+					Id = AddinHelpers.GetUnversionedId (a)
+				}).ToList ();
+
+				arc.Project.AddinReferences.AddRange (references);
 				IdeApp.ProjectOperations.Save (arc.Project);
 			}
 

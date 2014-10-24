@@ -54,6 +54,7 @@ namespace MonoDevelop.AddinMaker
 
 			var args = new AddinReferenceEventArgs ();
 			foreach (var item in addinRefs) {
+				item.OwnerProject = this;
 				args.AddInfo (this, item);
 			}
 			OnAddinReferenceAdded (args);
@@ -61,7 +62,7 @@ namespace MonoDevelop.AddinMaker
 
 		protected virtual void OnAddinReferenceAdded (AddinReferenceEventArgs args)
 		{
-			var evt = AddinReferenceRemoved;
+			var evt = AddinReferenceAdded;
 			if (evt != null)
 				evt (this, args);
 		}
@@ -76,6 +77,7 @@ namespace MonoDevelop.AddinMaker
 
 			var args = new AddinReferenceEventArgs ();
 			foreach (var item in addinRefs) {
+				item.OwnerProject = null;
 				args.AddInfo (this, item);
 			}
 			OnAddinReferenceRemoved (args);
