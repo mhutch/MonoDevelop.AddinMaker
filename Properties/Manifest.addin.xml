@@ -48,4 +48,15 @@
 	<Extension path = "/MonoDevelop/AddinMaker/ContextMenu/ProjectPad/AddinReference">
 		<CommandItem id = "MonoDevelop.Ide.Commands.EditCommands.Delete" />
 	</Extension>
+
+	<Extension path = "/MonoDevelop/Ide/Commands">
+		<Category _name = "Addin Maker" id = "AddinMaker">
+			<Command id = "MonoDevelop.AddinMaker.AddinCommands.AddAddinReference"
+				_label = "Add Addin Reference..." />
+		</Category>
+	</Extension>
+
+	<Extension path = "/MonoDevelop/AddinMaker/ContextMenu/ProjectPad/AddinReferenceFolder">
+		<CommandItem id = "MonoDevelop.AddinMaker.AddinCommands.AddAddinReference" />
+	</Extension>
 </ExtensionModel>

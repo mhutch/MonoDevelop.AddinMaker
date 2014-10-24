@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
+using Mono.Addins;
 using MonoDevelop.Core;
 using MonoDevelop.Core.Execution;
 using MonoDevelop.Projects;
@@ -29,6 +30,9 @@ namespace MonoDevelop.AddinMaker
 
 		void Init ()
 		{
+			//TODO: load the actual addin registry referenced from the project file
+			AddinRegistry = AddinManager.Registry;
+
 			AddinReferences = new AddinReferenceCollection (this);
 			Items.Bind (AddinReferences);
 		}
@@ -89,6 +93,8 @@ namespace MonoDevelop.AddinMaker
 		public event EventHandler<AddinReferenceEventArgs> AddinReferenceAdded;
 		public event EventHandler<AddinReferenceEventArgs> AddinReferenceRemoved;
 
+		public AddinRegistry AddinRegistry { get; private set; }
+
 		protected override ExecutionCommand CreateExecutionCommand (ConfigurationSelector configSel, DotNetProjectConfiguration configuration)
 		{
 			var cmd = (DotNetExecutionCommand) base.CreateExecutionCommand (configSel, configuration);
@@ -124,8 +130,8 @@ namespace MonoDevelop.AddinMaker
 
 		public AddinReferenceEventInfo (AddinProject project, AddinReference reference)
 		{
-			this.Reference = reference;
-			this.Project = project;
+			Reference = reference;
+			Project = project;
 		}
 	}
 }

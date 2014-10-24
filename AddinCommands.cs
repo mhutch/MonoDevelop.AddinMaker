@@ -1,6 +1,7 @@
 ﻿namespace MonoDevelop.AddinMaker
 {
-	enum AddinReferenceCommands
+	enum AddinCommands
 	{
+		AddAddinReference,
 	}
 }

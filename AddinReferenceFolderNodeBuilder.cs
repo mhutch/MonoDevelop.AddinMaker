@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Mono.Addins;
+using MonoDevelop.Components.Commands;
 using MonoDevelop.Core;
+using MonoDevelop.Ide;
 using MonoDevelop.Ide.Gui;
 using MonoDevelop.Ide.Gui.Components;
 
@@ -59,6 +64,48 @@ namespace MonoDevelop.AddinMaker
 
 		class AddinReferenceFolderCommandHandler : NodeCommandHandler
 		{
+			[CommandHandler(AddinCommands.AddAddinReference)]
+			public void AddAddinReference ()
+			{
+				var arc = (AddinReferenceCollection) CurrentNode.DataItem;
+
+				var existingAddins = new HashSet<string> (
+					arc.Project.AddinReferences.Select (a => a.Id)
+				);
+
+				var allAddins = arc.Project.AddinRegistry.GetAddins ()
+					.Where (a => !existingAddins.Contains (AddinHelpers.GetUnversionedId (a)))
+					.ToArray ();
+
+				if (allAddins.Length  == 0) {
+					MessageService.ShowMessage (
+						GettextCatalog.GetString ("You have already referenced all available addins")
+					);
+					return;
+				}
+
+				var dialog = new AddAddinReferenceDialog (allAddins);
+				Addin[] selectedAddins;
+				try {
+					if (MessageService.RunCustomDialog (dialog) != (int)Gtk.ResponseType.Ok)
+						return;
+					selectedAddins = dialog.GetSelectedAddins ();
+				} finally {
+					dialog.Destroy ();
+				}
+
+				arc.Project.AddinReferences.AddRange (
+					selectedAddins.Select (a => new AddinReference {
+						Id = AddinHelpers.GetUnversionedId (a)
+					})
+				);
+				IdeApp.ProjectOperations.Save (arc.Project);
+			}
+
+			public override void ActivateItem ()
+			{
+				AddAddinReference ();
+			}
 		}
 	}
 }
