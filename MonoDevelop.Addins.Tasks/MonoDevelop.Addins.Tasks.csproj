@@ -41,6 +41,7 @@
     <Compile Include="GetDefaultMonoDevelopLocations.cs" />
     <Compile Include="ResolveMonoDevelopAddins.cs" />
     <Compile Include="GenerateDependencyAttributes.cs" />
+    <Compile Include="AddinTask.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

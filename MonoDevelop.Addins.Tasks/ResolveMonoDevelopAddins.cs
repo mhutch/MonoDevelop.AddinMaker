@@ -8,20 +8,8 @@ using Mono.Addins;
 
 namespace MonoDevelop.Addins.Tasks
 {
-	public class ResolveMonoDevelopAddins : Task
+	public class ResolveMonoDevelopAddins : AddinTask
 	{
-		[Required]
-		public string ConfigDir { get; set; }
-
-		[Required]
-		public string AddinsDir { get; set; }
-
-		[Required]
-		public string DatabaseDir { get; set; }
-
-		[Required]
-		public string InstallRoot { get; set; }
-
 		[Required]
 		public ITaskItem[] AddinReferences { get; set; }
 
@@ -33,23 +21,17 @@ namespace MonoDevelop.Addins.Tasks
 
 		public override bool Execute ()
 		{
+			if (!InitializeAddinRegistry ())
+				return false;
+
 			var assemblies = new List<string> ();
-
-			var binDir = Path.GetFullPath (Path.Combine (InstallRoot, "bin"));
-
-			var reg = new AddinRegistry (
-				ConfigDir,
-				binDir,
-				AddinsDir,
-				DatabaseDir
-			);
 
 			bool success = true;
 
 			var resolvedAddins = new List<ITaskItem> ();
 
 			foreach (var addinName in AddinReferences) {
-				var addin = reg.GetAddin (addinName.ItemSpec);
+				var addin = Registry.GetAddin (addinName.ItemSpec);
 				if (addin == null) {
 					Log.LogError ("Could not resolve addin reference '{0}'", addinName);
 					success = false;
