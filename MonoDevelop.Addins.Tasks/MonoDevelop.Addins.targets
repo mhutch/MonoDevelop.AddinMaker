@@ -3,6 +3,7 @@
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.ResolveMonoDevelopAddins" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.GetDefaultMonoDevelopLocations" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.GenerateDependencyAttributes" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
+  <UsingTask TaskName="MonoDevelop.Addins.Tasks.CreatePackage" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <!--
   TODO:
   * the Addin Maker addin should set MDInstallRoot so it can target custom MD version
@@ -116,6 +117,17 @@
       SourceFiles="@(_MDAddinFiles)"
       DestinationFiles="@(_MDAddinFiles->'$(MDAddinsDir)\$(AssemblyName)\%(RecursiveDir)%(Filename)%(Extension)')"
       SkipUnchangedFiles="True" />
+  </Target>
+
+  <Target Name="CreatePackage" DependsOnTargets="Build">
+    <CreatePackage
+      ConfigDir="$(MDConfigDir)"
+      AddinsDir="$(MDAddinsDir)"
+      DatabaseDir="$(MDDatabaseDir)"
+      InstallRoot="$(MDInstallRoot)"
+      OutputDir="$(OutDir)"
+      AddinFile="$(TargetPath)"
+    />
   </Target>
 
   <PropertyGroup>

@@ -34,6 +34,12 @@
     <Reference Include="Microsoft.Build.Utilities.v4.0" />
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Build.Tasks.v4.0" />
+    <Reference Include="Mono.Addins.Setup">
+      <HintPath>..\packages\Mono.Addins.Setup.1.1\lib\Mono.Addins.Setup.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\packages\Mono.Addins.Setup.1.1\lib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -41,7 +47,9 @@
     <Compile Include="GetDefaultMonoDevelopLocations.cs" />
     <Compile Include="ResolveMonoDevelopAddins.cs" />
     <Compile Include="GenerateDependencyAttributes.cs" />
+    <Compile Include="CreatePackage.cs" />
     <Compile Include="AddinTask.cs" />
+    <Compile Include="LogProgressStatus.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
