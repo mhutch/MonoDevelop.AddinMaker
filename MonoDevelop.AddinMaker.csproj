@@ -74,5 +74,6 @@
     <AddinReference Include="MonoDevelop.DesignerSupport" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="MonoDevelop.Addins.Tasks\bin\$(Configuration)\MonoDevelop.Addins.targets" />
+  <Import Project="MonoDevelop.Addins.Tasks\bin\$(Configuration)\MonoDevelop.Addins.targets"
+      Condition="Exists('MonoDevelop.Addins.Tasks\bin\$(Configuration)\MonoDevelop.Addins.targets')"/>
 </Project>
