@@ -1,5 +1,5 @@
 <AddinProject appVersion="5.0">
-	<Project platforms="Win32 Mac">
+	<Project platforms="Win32 Mac Linux">
 		<AddinFile>bin/Debug/MonoDevelop.AddinMaker.dll</AddinFile>
 		<BuildFile>MonoDevelop.AddinMaker.sln</BuildFile>
 		<BuildConfiguration>Debug</BuildConfiguration>
