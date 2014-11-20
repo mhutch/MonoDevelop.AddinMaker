@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 using Mono.Addins;
@@ -8,8 +9,9 @@ namespace MonoDevelop.Addins.Tasks
 	{
 		readonly TaskLoggingHelper log;
 		readonly int logLevel;
+		bool isCanceled;
 
-		public LogProgressStatus (TaskLoggingHelper log, int logLevel)
+		public LogProgressStatus (TaskLoggingHelper log, int logLevel = 0)
 		{
 			this.logLevel = logLevel;
 			this.log = log;
@@ -34,14 +36,17 @@ namespace MonoDevelop.Addins.Tasks
 			log.LogWarning (message);
 		}
 
-		public void ReportError (string message, System.Exception exception)
+		public void ReportError (string message, Exception exception)
 		{
-			log.LogError ("{0}: {1}", message, exception); 
+			if (exception == null)
+				log.LogError ("{0}", message);
+			else
+				log.LogError ("{0}: {1}", message, exception);
 		}
 
 		public void Cancel ()
 		{
-			throw new System.NotSupportedException ();
+			isCanceled = true;
 		}
 
 		public int LogLevel {
@@ -49,7 +54,7 @@ namespace MonoDevelop.Addins.Tasks
 		}
 
 		public bool IsCanceled {
-			get { return false; }
+			get { return isCanceled; }
 		}
 	}
 }

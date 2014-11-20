@@ -43,7 +43,9 @@ namespace MonoDevelop.Addins.Tasks
 				DatabaseDir
 			);
 
-			return true;
+			Registry.Update (new LogProgressStatus (Log, 0));
+
+			return !Log.HasLoggedErrors;
 		}
 
 		protected AddinRegistry Registry { get; private set; }

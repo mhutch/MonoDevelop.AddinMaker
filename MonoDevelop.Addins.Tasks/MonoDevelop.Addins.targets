@@ -78,20 +78,22 @@
     <GetDefaultMonoDevelopLocations ProfileVersion="$(MDProfileVersion)" ProfilePath="$(MDProfilePath)">
       <Output TaskParameter="ConfigDir"   PropertyName="MDConfigDir"   Condition="'$(MDConfigDir)' == ''"    />
       <Output TaskParameter="AddinsDir"   PropertyName="MDAddinsDir"   Condition="'$(MDAddinsDir)' == ''"    />
-      <Output TaskParameter="DatabaseDir" PropertyName="MDDatabaseDir" Condition="'$(MDDatabaseDir)' == ''"  />
       <Output TaskParameter="InstallRoot" PropertyName="MDInstallRoot" Condition="'$(MDInstallRoot)' == ''"  />
     </GetDefaultMonoDevelopLocations>
 
     <Message Text = "MDConfigDir:   $(MDConfigDir)" />
     <Message Text = "MDAddinsDir:   $(MDAddinsDir)" />
-    <Message Text = "MDDatabaseDir: $(MDDatabaseDir)" />
     <Message Text = "MDInstallRoot: $(MDInstallRoot)" />
 
-    <Error Text = "Install root not found: $(MDInstallRoot)" Condition="!Exists('$(MDInstallRoot)\bin\mdtool.exe')" />
-    <Error Text = "Addin cache not found: $(MDDatabaseDir)" Condition="!Exists('$(MDDatabaseDir)\addin-db-001\addin-data')" />
+    <PropertyGroup>
+      <MDToolExe>$(MDInstallRoot)\bin\mdtool.exe</MDToolExe>
+    </PropertyGroup>
+
+    <Error Text = "Install root not found: $(MDInstallRoot)" Condition="!Exists('$(MDToolExe)')" />
 
     <PropertyGroup>
       <AssemblySearchPaths>$(MDInstallRoot)\bin;$(AssemblySearchPaths)</AssemblySearchPaths>
+      <MDDatabaseDir>$(IntermediateOutputPath)\addin-db</MDDatabaseDir>
     </PropertyGroup>
   </Target>
 
