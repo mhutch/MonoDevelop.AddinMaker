@@ -111,16 +111,6 @@
     </ResolveMonoDevelopAddins>
   </Target>
 
-  <Target Name="InstallAddin" DependsOnTargets="Build">
-    <ItemGroup>
-        <_MDAddinFiles Include="$(OutDir)\**\*"/>
-    </ItemGroup>
-    <Copy
-      SourceFiles="@(_MDAddinFiles)"
-      DestinationFiles="@(_MDAddinFiles->'$(MDAddinsDir)\$(AssemblyName)\%(RecursiveDir)%(Filename)%(Extension)')"
-      SkipUnchangedFiles="True" />
-  </Target>
-
   <Target Name="CreatePackage" DependsOnTargets="Build">
     <CreatePackage
       ConfigDir="$(MDConfigDir)"
@@ -128,8 +118,17 @@
       DatabaseDir="$(MDDatabaseDir)"
       InstallRoot="$(MDInstallRoot)"
       OutputDir="$(OutDir)"
-      AddinFile="$(TargetPath)"
-    />
+      AddinFile="$(TargetPath)">
+          <Output TaskParameter="PackageFile" PropertyName="PackageFile" />
+      </CreatePackage>
+  </Target>
+
+  <Target Name="InstallAddin" DependsOnTargets="CreatePackage">
+    <PropertyGroup>
+      <_MDToolCommand>"$(MDToolExe)"</_MDToolCommand>
+      <_MDToolCommand Condition="'$(OS)'=='Unix'">mono </_MDToolCommand>
+    </PropertyGroup>
+    <Exec Command='$(_MDToolCommand) setup install -y "$(PackageFile)"' StandardOutputImportance="Low" />
   </Target>
 
   <PropertyGroup>
