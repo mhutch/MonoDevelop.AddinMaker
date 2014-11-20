@@ -93,7 +93,7 @@
 
     <PropertyGroup>
       <AssemblySearchPaths>$(MDInstallRoot)\bin;$(AssemblySearchPaths)</AssemblySearchPaths>
-      <MDDatabaseDir>$(IntermediateOutputPath)\addin-db</MDDatabaseDir>
+      <MDDatabaseDir>$(IntermediateOutputPath)addin-db</MDDatabaseDir>
     </PropertyGroup>
   </Target>
 
