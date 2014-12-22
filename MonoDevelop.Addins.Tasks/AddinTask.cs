@@ -18,7 +18,7 @@ namespace MonoDevelop.Addins.Tasks
 		public string DatabaseDir { get; set; }
 
 		[Required]
-		public string InstallRoot { get; set; }
+		public string BinDir { get; set; }
 
 		protected bool InitializeAddinRegistry ()
 		{
@@ -31,14 +31,12 @@ namespace MonoDevelop.Addins.Tasks
 			if (string.IsNullOrEmpty (DatabaseDir))
 				Log.LogError ("DatabaseDir must be specified");
 
-			if (string.IsNullOrEmpty (InstallRoot))
-				Log.LogError ("InstallRoot must be specified");
-
-			var binDir = Path.GetFullPath (Path.Combine (InstallRoot, "bin"));
+			if (string.IsNullOrEmpty (BinDir))
+				Log.LogError ("BinDir must be specified");
 
 			Registry = new AddinRegistry (
 				ConfigDir,
-				binDir,
+				BinDir,
 				AddinsDir,
 				DatabaseDir
 			);

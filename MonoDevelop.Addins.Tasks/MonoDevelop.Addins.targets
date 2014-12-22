@@ -6,9 +6,8 @@
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.CreatePackage" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <!--
   TODO:
-  * the Addin Maker addin should set MDInstallRoot so it can target custom MD version
-  * properly install addin via pack/install
-  * targets for packing, etc
+  * the Addin Maker addin should set MDBinDir so it can target custom MD version
+  * support downloading missing dependencies
   -->
   <PropertyGroup>
     <MDProfileVersion Condition="'$(MDProfileVersion)' == ''">5.0</MDProfileVersion>
@@ -75,25 +74,27 @@
   </PropertyGroup>
 
   <Target Name="ResolveMonoDevelopLocations">
-    <GetDefaultMonoDevelopLocations ProfileVersion="$(MDProfileVersion)" ProfilePath="$(MDProfilePath)">
+    <GetDefaultMonoDevelopLocations ProfileVersion="$(MDProfileVersion)" ProfilePath="$(MDProfilePath)" ReferencePath="$(ReferencePath)">
       <Output TaskParameter="ConfigDir"   PropertyName="MDConfigDir"   Condition="'$(MDConfigDir)' == ''"    />
       <Output TaskParameter="AddinsDir"   PropertyName="MDAddinsDir"   Condition="'$(MDAddinsDir)' == ''"    />
-      <Output TaskParameter="InstallRoot" PropertyName="MDInstallRoot" Condition="'$(MDInstallRoot)' == ''"  />
+      <Output TaskParameter="BinDir" PropertyName="MDBinDir" Condition="'$(MDBinDir)' == ''"  />
     </GetDefaultMonoDevelopLocations>
 
     <Message Text = "MDConfigDir:   $(MDConfigDir)" />
     <Message Text = "MDAddinsDir:   $(MDAddinsDir)" />
-    <Message Text = "MDInstallRoot: $(MDInstallRoot)" />
+    <Message Text = "MDBinDir:      $(MDBinDir)" />
 
     <PropertyGroup>
-      <MDToolExe>$(MDInstallRoot)\bin\mdtool.exe</MDToolExe>
+      <MDToolExe>$(MDBinDir)\mdtool.exe</MDToolExe>
     </PropertyGroup>
 
-    <Error Text = "Install root not found: $(MDInstallRoot)" Condition="!Exists('$(MDToolExe)')" />
+    <Error Text = "Bin directory not found: $(BinDir)" Condition="!Exists('$(MDToolExe)')" />
 
     <PropertyGroup>
-      <AssemblySearchPaths>$(MDInstallRoot)\bin;$(AssemblySearchPaths)</AssemblySearchPaths>
-      <MDDatabaseDir>$(IntermediateOutputPath)addin-db</MDDatabaseDir>
+      <AssemblySearchPaths>$(MDBinDir);$(AssemblySearchPaths)</AssemblySearchPaths>
+      <MDDatabaseDir>$(IntermediateOutputPath)mdam\db</MDDatabaseDir>
+      <MDConfigDir Condition="'$(MDConfigDir)'==''">$(IntermediateOutputPath)mdam\config</MDConfigDir>
+      <MDAddinsDir Condition="'$(MDAddinsDir)'==''">$(IntermediateOutputPath)mdam\addins</MDAddinsDir>
     </PropertyGroup>
   </Target>
 
@@ -102,7 +103,7 @@
       ConfigDir="$(MDConfigDir)"
       AddinsDir="$(MDAddinsDir)"
       DatabaseDir="$(MDDatabaseDir)"
-      InstallRoot="$(MDInstallRoot)"
+      BinDir="$(MDBinDir)"
       AddinReferences="@(AddinReference)"
     >
       <Output TaskParameter="AssemblyReferences" ItemName ="Reference" />
@@ -116,7 +117,7 @@
       ConfigDir="$(MDConfigDir)"
       AddinsDir="$(MDAddinsDir)"
       DatabaseDir="$(MDDatabaseDir)"
-      InstallRoot="$(MDInstallRoot)"
+      BinDir="$(MDBinDir)"
       OutputDir="$(OutDir)"
       AddinFile="$(TargetPath)">
           <Output TaskParameter="PackageFile" PropertyName="PackageFile" />

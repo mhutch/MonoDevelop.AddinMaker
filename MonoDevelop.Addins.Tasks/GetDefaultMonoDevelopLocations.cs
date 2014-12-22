@@ -14,9 +14,17 @@ namespace MonoDevelop.Addins.Tasks
 
 		public string ProfilePath { get; set; }
 
+		public string ReferencePath { get; set; }
+
 		// Based on logic in MonoDevelop.Core.UserProfile
 		public override bool Execute ()
 		{
+			//HACK to allow building on addins.monodevelop.com
+			if (ReferencePath != null && ReferencePath.IndexOf ("cydin-files/AppReleases", StringComparison.Ordinal) > 0) {
+				BinDir = ReferencePath;
+				return true;
+			}
+
 			string profileID = ProfileName;
 
 			if (string.IsNullOrEmpty (profileID)) {
@@ -62,18 +70,18 @@ namespace MonoDevelop.Addins.Tasks
 			}
 
 			if (Platform.IsWindows) {
-				InstallRoot = Path.Combine (
+				BinDir = Path.Combine (
 					Environment.GetFolderPath (Environment.SpecialFolder.ProgramFilesX86),
-					"Xamarin Studio"
+					"Xamarin Studio", "bin"
 				);
 			} else if (Platform.IsMac) {
-				InstallRoot = "/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop";
+				BinDir = "/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/bin";
 				//fall back to old pre-Yosemite location
-				if (!Directory.Exists (InstallRoot)) {
-					InstallRoot = "/Applications/Xamarin Studio.app/Contents/MacOS/lib/monodevelop";
+				if (!Directory.Exists (BinDir)) {
+					BinDir = "/Applications/Xamarin Studio.app/Contents/MacOS/lib/monodevelop/bin";
 				}
 			} else {
-				InstallRoot = "/usr/lib/monodevelop";
+				BinDir = "/usr/lib/monodevelop/bin";
 			}
 
 			//TODO: check locations are valid
@@ -90,6 +98,6 @@ namespace MonoDevelop.Addins.Tasks
 		public string DatabaseDir { get; set; }
 
 		[Output]
-		public string InstallRoot { get; set; }
+		public string BinDir { get; set; }
 	}
 }
