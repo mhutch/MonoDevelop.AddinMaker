@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
+using System.Diagnostics;
 
 namespace MonoDevelop.Addins.Tasks
 {
@@ -81,7 +82,12 @@ namespace MonoDevelop.Addins.Tasks
 					BinDir = "/Applications/Xamarin Studio.app/Contents/MacOS/lib/monodevelop/bin";
 				}
 			} else {
-				BinDir = "/usr/lib/monodevelop/bin";
+				string checkDir = Environment.GetEnvironmentVariable ("LD_LIBRARY_PATH").TrimStart(':');
+				if (!checkDir.Contains("monodevelop/bin")) {
+					checkDir += "/monodevelop/bin";
+				}
+
+				BinDir = checkDir;
 			}
 
 			//TODO: check locations are valid

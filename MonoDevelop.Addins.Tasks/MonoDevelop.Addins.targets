@@ -54,7 +54,7 @@
     <Reference Include="pango-sharp">
         <Private>False</Private>
     </Reference>
-    <Reference Include="xwt">
+    <Reference Include="Xwt">
         <Private>False</Private>
     </Reference>
     <Reference Include="IKVM.Reflection">
@@ -124,6 +124,7 @@
       </CreatePackage>
   </Target>
 
+  <!--
   <Target Name="InstallAddin" DependsOnTargets="CreatePackage">
     <PropertyGroup>
       <_MDToolCommand>"$(MDToolExe)"</_MDToolCommand>
@@ -131,6 +132,7 @@
     </PropertyGroup>
     <Exec Command='$(_MDToolCommand) setup install -y "$(PackageFile)"' StandardOutputImportance="Low" />
   </Target>
+  -->
 
   <PropertyGroup>
     <CoreCompileDependsOn>

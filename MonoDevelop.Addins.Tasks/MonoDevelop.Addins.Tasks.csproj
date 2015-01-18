@@ -28,17 +28,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="Mono.Addins">
-      <HintPath>..\packages\Mono.Addins.1.1\lib\Mono.Addins.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Build.Utilities.v4.0" />
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Build.Tasks.v4.0" />
-    <Reference Include="Mono.Addins.Setup">
-      <HintPath>..\packages\Mono.Addins.Setup.1.1\lib\Mono.Addins.Setup.dll</HintPath>
+    <Reference Include="ICSharpCode.SharpZipLib" />
+    <Reference Include="Mono.Addins">
+      <HintPath>..\packages\Mono.Addins.1.2\lib\net40\Mono.Addins.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\packages\Mono.Addins.Setup.1.1\lib\ICSharpCode.SharpZipLib.dll</HintPath>
+    <Reference Include="Mono.Addins.Setup">
+      <HintPath>..\packages\Mono.Addins.Setup.1.2\lib\net40\Mono.Addins.Setup.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
