@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace MonoDevelop.Addins.Tasks
 {
@@ -82,16 +83,39 @@ namespace MonoDevelop.Addins.Tasks
 					BinDir = "/Applications/Xamarin Studio.app/Contents/MacOS/lib/monodevelop/bin";
 				}
 			} else {
-				string checkDir = Environment.GetEnvironmentVariable ("LD_LIBRARY_PATH").TrimStart(':');
-				if (!checkDir.Contains("monodevelop/bin")) {
-					checkDir += "/monodevelop/bin";
-				}
-
-				BinDir = checkDir;
+				BinDir = GetBinDir(Environment.GetEnvironmentVariable("LD_LIBRARY_PATH"));
 			}
 
 			//TODO: check locations are valid
 			return true;
+		}
+
+		private string GetBinDir(string libraryPaths) {
+			//string libraryPaths = Environment.GetEnvironmentVariable ("LD_LIBRARY_PATH");
+			List<string> tempDir = new List<string> ();
+			string dir = "";
+
+			int pos = 1;
+			bool foundColon = false;
+
+
+			if(libraryPaths.Contains("monodevelop/lib") && !libraryPaths.Contains("monodevelop/bin")) {
+				while(!foundColon) {
+					if(libraryPaths[libraryPaths.IndexOf("monodevelop/lib")-pos] != ':') {
+						tempDir.Insert (0, libraryPaths [libraryPaths.IndexOf ("monodevelop/lib") - pos].ToString ());
+						pos++;
+					} else {
+						foundColon = true;
+						tempDir.Add ("monodevelop/lib/monodevelop/bin");
+					}
+				}
+			}
+
+			foreach(string s in tempDir) {
+				dir += s;
+			}
+
+			return dir;
 		}
 
 		[Output]
