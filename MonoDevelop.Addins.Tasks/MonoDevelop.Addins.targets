@@ -54,7 +54,7 @@
     <Reference Include="pango-sharp">
         <Private>False</Private>
     </Reference>
-    <Reference Include="xwt">
+    <Reference Include="Xwt">
         <Private>False</Private>
     </Reference>
     <Reference Include="IKVM.Reflection">
