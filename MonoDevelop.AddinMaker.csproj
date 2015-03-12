@@ -3,12 +3,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectTypeGuids>{7DBEB09D-BB9F-4D92-A141-A009135475EF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectTypeGuids>{86F6BF2A-E449-4B3E-813B-9ACC37E5545F};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ProjectGuid>{10ED7C7D-CD4D-4003-90D6-B36678232B6A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>MonoDevelop.AddinMaker</RootNamespace>
     <AssemblyName>MonoDevelop.AddinMaker</AssemblyName>
-    <UseMSBuildEngine>True</UseMSBuildEngine>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -53,6 +53,7 @@
     <Compile Include="AddinCommands.cs" />
     <Compile Include="AddAddinReferenceDialog.cs" />
     <Compile Include="AddinHelpers.cs" />
+    <Compile Include="AddinProjectNeedsMigration.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
@@ -74,6 +75,5 @@
     <AddinReference Include="MonoDevelop.DesignerSupport" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="MonoDevelop.Addins.Tasks\bin\$(Configuration)\MonoDevelop.Addins.targets"
-      Condition="Exists('MonoDevelop.Addins.Tasks\bin\$(Configuration)\MonoDevelop.Addins.targets')"/>
+  <Import Project="MonoDevelop.Addins.Tasks\bin\$(Configuration)\MonoDevelop.Addins.targets" Condition="Exists('MonoDevelop.Addins.Tasks\bin\$(Configuration)\MonoDevelop.Addins.targets')" />
 </Project>

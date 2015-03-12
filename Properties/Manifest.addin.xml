@@ -22,10 +22,14 @@
 	<Extension path = "/MonoDevelop/ProjectModel/MSBuildItemTypes">
 		<DotNetProjectSubtype
 			guid="{7DBEB09D-BB9F-4D92-A141-A009135475EF}"
+			type="MonoDevelop.AddinMaker.AddinProjectNeedsMigration"
+			/>
+		<DotNetProjectSubtype
+			guid="{86F6BF2A-E449-4B3E-813B-9ACC37E5545F}"
 			type="MonoDevelop.AddinMaker.AddinProject"
 			useXBuild="true"
+			requireXbuild="true"
 			/>
-		<!-- TODO: Figure out how to install some new MSBuild targets from the addin -->
 	</Extension>
 
 	<Extension path = "/MonoDevelop/Ide/Pads/ProjectPad">

@@ -26,7 +26,6 @@ Global
 		{AC367EC2-202F-4FB4-A461-5B95827C5DFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = MonoDevelop.AddinMaker.csproj
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = None
@@ -42,7 +41,8 @@ Global
 		$3.inheritsScope = text/x-csharp
 		$3.scope = text/x-csharp
 		$0.TextStylePolicy = $4
-		$4.inheritsSet = Mono
+		$4.TabsToSpaces = False
+		$4.inheritsSet = VisualStudio
 		$4.inheritsScope = text/plain
 		$4.scope = text/plain
 	EndGlobalSection
