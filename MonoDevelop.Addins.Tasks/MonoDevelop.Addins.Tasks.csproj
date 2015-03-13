@@ -40,6 +40,8 @@
     <Reference Include="Mono.Addins.Setup">
       <HintPath>..\packages\Mono.Addins.Setup.1.2\lib\net40\Mono.Addins.Setup.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -50,6 +52,7 @@
     <Compile Include="CreatePackage.cs" />
     <Compile Include="AddinTask.cs" />
     <Compile Include="LogProgressStatus.cs" />
+    <Compile Include="CollectOutputFiles.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

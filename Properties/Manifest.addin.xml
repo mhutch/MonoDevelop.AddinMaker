@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <ExtensionModel>
-	<Runtime>
-		<Import file = "Templates/Properties/Manifest.addin.xml" />
-		<Import file = "Templates/Properties/AddinInfo.cs" />
-		<Import file = "Templates/EmptyAddinProject.xpt.xml" />
-	</Runtime>
-
 	<ExtensionPoint path = "/MonoDevelop/AddinMaker/ContextMenu/ProjectPad/AddinReferenceFolder">
 		<ExtensionNodeSet id="MonoDevelop.Components.Commands.ItemSet"/>
 	</ExtensionPoint>

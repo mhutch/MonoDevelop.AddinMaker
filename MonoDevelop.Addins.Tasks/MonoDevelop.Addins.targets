@@ -3,6 +3,7 @@
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.ResolveMonoDevelopAddins" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.GetDefaultMonoDevelopLocations" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.GenerateDependencyAttributes" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
+  <UsingTask TaskName="MonoDevelop.Addins.Tasks.CollectOutputFiles" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.CreatePackage" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <!--
   TODO:
@@ -90,14 +91,14 @@
 
     <Error Text = "Bin directory not found: $(BinDir)" Condition="!Exists('$(MDToolExe)')" />
 
-    <PropertyGroup>
+    <PropertyGroup>  
       <AssemblySearchPaths>$(MDBinDir);$(AssemblySearchPaths)</AssemblySearchPaths>
       <MDDatabaseDir>$(IntermediateOutputPath)mdam\db</MDDatabaseDir>
       <MDConfigDir Condition="'$(MDConfigDir)'==''">$(IntermediateOutputPath)mdam\config</MDConfigDir>
       <MDAddinsDir Condition="'$(MDAddinsDir)'==''">$(IntermediateOutputPath)mdam\addins</MDAddinsDir>
     </PropertyGroup>
   </Target>
-
+  
   <Target Name="_MDResolveAddinReferences" DependsOnTargets="ResolveMonoDevelopLocations">
     <ResolveMonoDevelopAddins
       ConfigDir="$(MDConfigDir)"
@@ -133,20 +134,24 @@
   </Target>
 
   <PropertyGroup>
-    <CoreCompileDependsOn>
+    <BuildDependsOn>
       _MDCollectGeneratedCode;
-      $(CoreCompileDependsOn)
-    </CoreCompileDependsOn>
+      $(BuildDependsOn)
+    </BuildDependsOn>
   </PropertyGroup>
 
   <PropertyGroup>
     <_MDAddinDepsFile>$(IntermediateOutputPath)MonoDevelop-Addin-Deps.g$(DefaultLanguageSourceExtension)</_MDAddinDepsFile>
+    <_MDAddinFilesManifest>$(IntermediateOutputPath)_AddinFiles.addin.xml</_MDAddinFilesManifest>
   </PropertyGroup>
 
-  <Target Name="_MDCollectGeneratedCode" DependsOnTargets="_MDGenerateDependencyAttributes">
+  <Target Name="_MDCollectGeneratedCode" DependsOnTargets="_MDGenerateDependencyAttributes;_MDGenerateFilesManifest">
     <ItemGroup>
       <Compile Include="$(_MDAddinDepsFile)" />
-      <FileWrites Include="$(_MDAddinDepsFile)" />
+      <EmbeddedResource Include="$(_MDAddinFilesManifest)">
+        <LogicalName>_AddinFiles.addin.xml</LogicalName>
+      </EmbeddedResource>
+      <FileWrites Include="$(_MDAddinDepsFile);$(_MDAddinFilesManifest)" />
     </ItemGroup>
   </Target>
 
@@ -156,5 +161,15 @@
       Filename="$(_MDAddinDepsFile)"
       Language="$(Language)"
     />
+  </Target>
+
+  <Target Name="_MDGenerateFilesManifest">
+    <CollectOutputFiles ManifestFile="$(_MDAddinFilesManifest)" AddinFiles="@(AddinFile)">
+      <Output TaskParameter="AddinFilesWithLinkMetadata" ItemName ="_AddinFilesWithLinkMetadata" />
+    </CollectOutputFiles>
+    <Copy SkipUnchangedFiles="True" SourceFiles="@(_AddinFilesWithLinkMetadata)" DestinationFiles="@(_AddinFilesWithLinkMetadata->'$(OutputPath)%(Link)')" />
+    <ItemGroup>
+      <FileWrites Include="@(_AddinFilesWithLinkMetadata->'$(OutputPath)%(Link)')" />
+    </ItemGroup>
   </Target>
 </Project>

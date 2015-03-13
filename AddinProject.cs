@@ -115,6 +115,13 @@ namespace MonoDevelop.AddinMaker
 		public override bool IsLibraryBasedProjectType {
 			get { return true; }
 		}
+
+		protected override IList<string> GetCommonBuildActions ()
+		{
+			var list = new List<string> (base.GetCommonBuildActions ());
+			list.Add ("AddinFile");
+			return list;
+		}
 	}
 
 	class AddinReferenceEventArgs : EventArgsChain<AddinReferenceEventInfo>
