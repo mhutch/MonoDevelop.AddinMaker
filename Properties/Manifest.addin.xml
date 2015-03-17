@@ -57,4 +57,11 @@
 	<Extension path = "/MonoDevelop/AddinMaker/ContextMenu/ProjectPad/AddinReferenceFolder">
 		<CommandItem id = "MonoDevelop.AddinMaker.AddinCommands.AddAddinReference" />
 	</Extension>
+
+	<Extension path = "/MonoDevelop/Ide/TextEditorExtensions">
+		<Class id = "AddinManifestEditorExtension"
+			class = "MonoDevelop.AddinMaker.AddinManifestEditorExtension"
+			mimeTypes ="application/x-addin+xml"
+			insertbefore="XmlTextEditorExtension" />
+	</Extension>
 </ExtensionModel>

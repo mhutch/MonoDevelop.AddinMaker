@@ -53,6 +53,7 @@
     <Compile Include="AddAddinReferenceDialog.cs" />
     <Compile Include="AddinHelpers.cs" />
     <Compile Include="AddinProjectNeedsMigration.cs" />
+    <Compile Include="AddinManifestEditorExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
@@ -66,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <AddinReference Include="MonoDevelop.DesignerSupport" />
+    <AddinReference Include="MonoDevelop.Xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="MonoDevelop.Addins.Tasks\bin\$(Configuration)\MonoDevelop.Addins.targets" Condition="Exists('MonoDevelop.Addins.Tasks\bin\$(Configuration)\MonoDevelop.Addins.targets')" />
