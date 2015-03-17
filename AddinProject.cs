@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
+
 using Mono.Addins;
+
 using MonoDevelop.Core;
+using MonoDevelop.Core.Assemblies;
 using MonoDevelop.Core.Execution;
 using MonoDevelop.Projects;
 
@@ -12,6 +15,8 @@ namespace MonoDevelop.AddinMaker
 {
 	class AddinProject : DotNetProject
 	{
+		TargetFrameworkMoniker targetFX = TargetFrameworkMoniker.NET_4_5;
+
 		public AddinProject ()
 		{
 			Init ();
@@ -35,6 +40,11 @@ namespace MonoDevelop.AddinMaker
 
 			AddinReferences = new AddinReferenceCollection (this);
 			Items.Bind (AddinReferences);
+		}
+
+		public override bool SupportsFramework (TargetFramework framework)
+		{
+			return framework.Id == targetFX;
 		}
 
 		public override SolutionItemConfiguration CreateConfiguration (string name)

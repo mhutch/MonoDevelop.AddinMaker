@@ -15,6 +15,11 @@
     <MDProfilePath Condition="'$(MDProfilePath)' == ''">$(MONODEVELOP_TEST_PROFILE)</MDProfilePath>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkMoniker>.NETFramework,Version=v4.5</TargetFrameworkMoniker>
+  </PropertyGroup>
+
   <!-- always reference the core addins and assemblies -->
   <ItemGroup>
     <Reference Include="System" />
