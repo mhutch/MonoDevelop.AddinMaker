@@ -102,6 +102,15 @@ namespace MonoDevelop.AddinMaker
 
 		public AddinReferenceCollection AddinReferences { get; private set; }
 
+		public IEnumerable<Addin> GetReferencedAddins ()
+		{
+			yield return AddinRegistry.GetAddin ("MonoDevelop.Core");
+			yield return AddinRegistry.GetAddin ("MonoDevelop.Ide");
+			foreach (var ar in AddinReferences) {
+				yield return AddinRegistry.GetAddin (ar.Id);
+			}
+		}
+
 		public event EventHandler<AddinReferenceEventArgs> AddinReferenceAdded;
 		public event EventHandler<AddinReferenceEventArgs> AddinReferenceRemoved;
 

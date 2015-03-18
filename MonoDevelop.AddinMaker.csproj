@@ -55,11 +55,15 @@
     <Compile Include="AddinProjectNeedsMigration.cs" />
     <Compile Include="AddinManifestEditorExtension.cs" />
     <Compile Include="AddinMSBuildGlobalPropertyProvider.cs" />
+    <Compile Include="ManifestSchema\ExtensionSchemaItem.cs" />
+    <Compile Include="ManifestSchema\SchemaItem.cs" />
+    <Compile Include="ManifestSchema\ManifestSchemaRoot.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
     <Folder Include="Templates\" />
     <Folder Include="Templates\Properties\" />
+    <Folder Include="ManifestSchema\" />
   </ItemGroup>
   <ItemGroup>
     <AddinFile Include="Templates\EmptyAddinProject.xpt.xml" />
