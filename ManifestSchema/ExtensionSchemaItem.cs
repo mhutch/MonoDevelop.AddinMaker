@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using Mono.Addins.Description;
 using MonoDevelop.Ide.CodeCompletion;
 using MonoDevelop.Xml.Dom;
+using System.Linq;
 
 namespace MonoDevelop.AddinMaker.ManifestSchema
 {
@@ -58,6 +59,59 @@ namespace MonoDevelop.AddinMaker.ManifestSchema
 					list.Add (ep.Path, null, ep.Description);
 				}
 			}
+		}
+
+		ExtensionPoint GetExtensionPoint (XElement element)
+		{
+			if (element == null) {
+				return null;
+			}
+
+			var pathAtt = element.Attributes.Get (new XName ("path"), true);
+			if (pathAtt == null || pathAtt.Value == null) {
+				return null;
+			}
+
+			return GetExtensionPoint (pathAtt.Value);
+		}
+
+		ExtensionPoint GetExtensionPoint (string path)
+		{
+			foreach (var addin in project.GetReferencedAddins ()) {
+				foreach (ExtensionPoint ep in addin.Description.ExtensionPoints) {
+					if (ep.Path == path) {
+						return ep;
+					}
+				}
+			}
+			return null;
+		}
+
+		public override void GetElementCompletions (CompletionDataList list, XElement element)
+		{
+			var ep = GetExtensionPoint (element);
+			if (ep == null) {
+				return;
+			}
+
+			foreach (ExtensionNodeType n in ep.NodeSet.GetAllowedNodeTypes ()) {
+				list.Add (n.NodeName, null, n.Description);
+			}
+		}
+
+		public override SchemaItem GetChild (XElement el)
+		{
+			var ep = GetExtensionPoint (el.Parent as XElement);
+			if (ep == null) {
+				return null;
+			}
+
+			var node = ep.NodeSet.GetAllowedNodeTypes ().OfType<ExtensionNodeType> ().FirstOrDefault (n => n.NodeName == el.Name.FullName);
+			if (node != null) {
+				return new ExtensionNodeSchemaItem (node);
+			}
+
+			return null;
 		}
 	}
 }

@@ -58,6 +58,7 @@
     <Compile Include="ManifestSchema\ExtensionSchemaItem.cs" />
     <Compile Include="ManifestSchema\SchemaItem.cs" />
     <Compile Include="ManifestSchema\ManifestSchemaRoot.cs" />
+    <Compile Include="ManifestSchema\ExtensionNodeSchemaItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
