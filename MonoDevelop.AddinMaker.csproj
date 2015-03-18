@@ -54,6 +54,7 @@
     <Compile Include="AddinHelpers.cs" />
     <Compile Include="AddinProjectNeedsMigration.cs" />
     <Compile Include="AddinManifestEditorExtension.cs" />
+    <Compile Include="AddinMSBuildGlobalPropertyProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
