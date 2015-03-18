@@ -133,9 +133,10 @@
   <Target Name="InstallAddin" DependsOnTargets="CreatePackage">
     <PropertyGroup>
       <_MDToolCommand>"$(MDToolExe)"</_MDToolCommand>
-      <_MDToolCommand Condition="'$(OS)'=='Unix'">mono </_MDToolCommand>
+      <_MDToolCommand Condition="'$(OS)'=='Unix'">mono "$(MDToolExe)"</_MDToolCommand>
     </PropertyGroup>
-    <Exec Command='$(_MDToolCommand) setup install -y "$(PackageFile)"' StandardOutputImportance="Low" />
+    <!-- xbuild doesn't support StandardOutputImportance="Low" -->
+    <Exec Command='$(_MDToolCommand) setup install -y "$(PackageFile)"' />
   </Target>
 
   <PropertyGroup>
