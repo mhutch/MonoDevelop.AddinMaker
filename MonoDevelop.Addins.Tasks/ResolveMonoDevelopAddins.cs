@@ -19,6 +19,9 @@ namespace MonoDevelop.Addins.Tasks
 		[Output]
 		public ITaskItem[] ResolvedAddins { get; set; }
 
+		[Output]
+		public string VersionDefines { get; set; }
+
 		public override bool Execute ()
 		{
 			if (!InitializeAddinRegistry ())
@@ -64,6 +67,12 @@ namespace MonoDevelop.Addins.Tasks
 					assemblies.Add (addinAssemblyPath);
 					Log.LogMessage (MessageImportance.Low, "Found addin assembly at path '{0}'", addinAssemblyPath);
 				}
+			}
+
+			//TODO: define a basic range of constants for minor versions between Version and CompatVersion
+			var core = Registry.GetAddin ("MonoDevelop.Core");
+			if (core != null) {
+				VersionDefines = "MD_" + core.Description.CompatVersion.Replace ('.', '_');
 			}
 
 			AssemblyReferences = assemblies.Select (a => {

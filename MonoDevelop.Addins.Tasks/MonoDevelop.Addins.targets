@@ -115,7 +115,11 @@
       <Output TaskParameter="AssemblyReferences" ItemName ="Reference" />
       <Output TaskParameter="AssemblyReferences" ItemName ="_MDResolvedAddinAssemblies" />
       <Output TaskParameter="ResolvedAddins" ItemName ="_MDResolvedAddins" />
+      <Output TaskParameter="VersionDefines" PropertyName ="_MDVersionDefines" />
     </ResolveMonoDevelopAddins>
+    <PropertyGroup>
+      <DefineConstants>$(DefineConstants);$(_MDVersionDefines)</DefineConstants>
+    </PropertyGroup>
   </Target>
 
   <Target Name="CreatePackage" DependsOnTargets="Build">
