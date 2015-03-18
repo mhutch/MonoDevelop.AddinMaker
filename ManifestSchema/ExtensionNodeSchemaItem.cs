@@ -26,6 +26,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using ICSharpCode.NRefactory.Completion;
 using Mono.Addins.Description;
@@ -60,6 +61,23 @@ namespace MonoDevelop.AddinMaker.ManifestSchema
 			list.Add ("id", null, "ID for the extension, unique in this extension point.");
 			list.Add ("insertbefore", null, "ID of an existing extension before which to insert this.");
 			list.Add ("insertafter", null, "ID of an existing extension after which to insert this.");
+		}
+
+		public override SchemaItem GetChild (XElement el)
+		{
+			var node = info.GetAllowedNodeTypes ().FirstOrDefault (n => n.NodeName == el.Name.FullName);
+			if (node != null) {
+				return new ExtensionNodeSchemaItem (node);
+			}
+
+			return null;
+		}
+
+		public override void GetElementCompletions (CompletionDataList list, XElement element)
+		{
+			foreach (ExtensionNodeType n in info.GetAllowedNodeTypes ()) {
+				list.Add (n.NodeName, null, n.Description);
+			}
 		}
 
 		class NodeCompletionCategory : CompletionCategory
