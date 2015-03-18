@@ -108,7 +108,7 @@ namespace MonoDevelop.AddinMaker.ManifestSchema
 
 			var node = ep.NodeSet.GetAllowedNodeTypes ().FirstOrDefault (n => n.NodeName == el.Name.FullName);
 			if (node != null) {
-				return new ExtensionNodeSchemaItem (node);
+				return new ExtensionNodeSchemaItem (project, ep, node);
 			}
 
 			return null;
