@@ -35,8 +35,13 @@ namespace MonoDevelop.AddinMaker.Editor
 
 		protected override SchemaItem CreateSchema ()
 		{
-			return new SchemaItem (null, null);
+			return new SchemaItem (null, null, new[] {
+				new SchemaItem ("Template", "Root element for file templates", new[] {
+					new SchemaItem ("TemplateConfiguration", "Metadata for the template"),
+					new SchemaItem ("Actions", "Actions to be run after the project is created"),
+					new SchemaItem ("Combine", "The solution to be created"),
+				})
+			});
 		}
 	}
 }
-
