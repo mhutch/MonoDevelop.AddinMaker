@@ -56,11 +56,11 @@
     <Compile Include="AddinMSBuildGlobalPropertyProvider.cs" />
     <Compile Include="Editor\ManifestSchema\ExtensionNodeSchemaItem.cs" />
     <Compile Include="Editor\ManifestSchema\ExtensionSchemaItem.cs" />
-    <Compile Include="Editor\ManifestSchema\ManifestSchemaRoot.cs" />
-    <Compile Include="Editor\ManifestSchema\SchemaItem.cs" />
     <Compile Include="Editor\AddinManifestEditorExtension.cs" />
     <Compile Include="Editor\ProjectTemplateEditorExtension.cs" />
     <Compile Include="Editor\FileTemplateEditorExtension.cs" />
+    <Compile Include="Editor\SchemaBasedEditorExtension.cs" />
+    <Compile Include="Editor\SchemaItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

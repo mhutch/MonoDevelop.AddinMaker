@@ -24,13 +24,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-using MonoDevelop.Xml.Editor;
-
 namespace MonoDevelop.AddinMaker.Editor
 {
-	public class ProjectTemplateEditorExtension : BaseXmlEditorExtension
+	class ProjectTemplateEditorExtension : SchemaBasedEditorExtension
 	{
+		public override bool ExtendsEditor (MonoDevelop.Ide.Gui.Document doc, MonoDevelop.Ide.Gui.Content.IEditableTextBuffer editor)
+		{
+			return base.ExtendsEditor (doc, editor) && doc.HasProject && doc.Project is AddinProject;
+		}
+
+		protected override SchemaItem CreateSchema ()
+		{
+			return new SchemaItem (null, null);
+		}
 	}
 }
 

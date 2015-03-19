@@ -1,83 +1,33 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using MonoDevelop.Ide.CodeCompletion;
-using MonoDevelop.Xml.Dom;
-using MonoDevelop.Xml.Editor;
-using MonoDevelop.AddinMaker.Editor.ManifestSchema;
+﻿using MonoDevelop.AddinMaker.Editor.ManifestSchema;
 
 namespace MonoDevelop.AddinMaker.Editor
 {
-	//TODO: this schema system could be psuhed down into MonoDevelop.Xml
-	class AddinManifestEditorExtension : BaseXmlEditorExtension
+	class AddinManifestEditorExtension : SchemaBasedEditorExtension
 	{
-		ManifestSchemaRoot schema;
-
 		public override bool ExtendsEditor (MonoDevelop.Ide.Gui.Document doc, MonoDevelop.Ide.Gui.Content.IEditableTextBuffer editor)
 		{
 			return base.ExtendsEditor (doc, editor) && doc.HasProject && doc.Project is AddinProject;
 		}
 
-		public override void Initialize ()
+		protected override SchemaItem CreateSchema ()
 		{
-			base.Initialize ();
-			schema = new ManifestSchemaRoot (Project);
-		}
+			var project = (AddinProject)Document.Project;
 
-		AddinProject Project {
-			get { return (AddinProject) Document.Project; }
-		}
+			var addinContents = new SchemaItem[] {
+				new ExtensionSchemaItem (project),
+				new SchemaItem ("ExtensionPoint", "Declares an extension point"),
+				new SchemaItem ("ExtensionNodeSet", "Declares an extension node set"),
+				new SchemaItem ("Runtime", "Declares what files belong to the add-in"),
+				new SchemaItem ("Module", "Declares an optional extension module"),
+				new SchemaItem ("Localizer", "Declares a localizer for the add-in"),
+				new SchemaItem ("ConditionType", "Declares a global condition type"),
+				new SchemaItem ("Dependencies", "Declares dependencies"),
+			};
 
-		SchemaItem GetSchemaItem (IEnumerable<XObject> path, out XElement el)
-		{
-			el = null;
-			SchemaItem item = schema;
-			foreach (var val in path) {
-				el = val as XElement;
-				if (el == null) {
-					return null;
-				}
-				item = item.GetChild (el);
-				if (item == null) {
-					return null;
-				}
-			}
-			return item;
-		}
-
-		protected override void GetElementCompletions (CompletionDataList list)
-		{
-			AddMiscBeginTags (list);
-
-			XElement el;
-			var item = GetSchemaItem (GetCurrentPath (), out el);
-			if (item != null) {
-				item.GetElementCompletions (list, el);
-			}
-		}
-
-		protected override CompletionDataList GetAttributeCompletions (IAttributedXObject attributedOb, Dictionary<string, string> existingAtts)
-		{
-			XElement el;
-			var item = GetSchemaItem (GetCurrentPath (), out el);
-			if (item != null) {
-				var list = new CompletionDataList ();
-				item.GetAttributeCompletions (list, attributedOb, existingAtts);
-				return list;
-			}
-			return null;
-		}
-
-		protected override CompletionDataList GetAttributeValueCompletions (IAttributedXObject attributedOb, XAttribute att)
-		{
-			XElement el;
-			var path = GetCurrentPath ();
-			var item = GetSchemaItem (path.Take (path.Count - 1), out el);
-			if (item != null) {
-				var list = new CompletionDataList ();
-				item.GetAttributeValueCompletions (list, attributedOb, att);
-				return list;
-			}
-			return null;
+			return new SchemaItem (null, null, new[] {
+				new SchemaItem ("Addin", "Root element for add-in and add-in root descriptions", addinContents),
+				new SchemaItem ("ExtensionModel", "Root element for add-in and add-in root descriptions", addinContents)
+			});
 		}
 	}
 }

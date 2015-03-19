@@ -28,16 +28,16 @@ using System.Collections.Generic;
 using MonoDevelop.Ide.CodeCompletion;
 using MonoDevelop.Xml.Dom;
 
-namespace MonoDevelop.AddinMaker
+namespace MonoDevelop.AddinMaker.Editor
 {
 	class SchemaItem
 	{
-		Dictionary<string,SchemaItem> children;
+		readonly Dictionary<string,SchemaItem> children;
 
-		public SchemaItem (string name, string description, params SchemaItem[] children)
+		public SchemaItem (string name, string description, SchemaItem[] children = null)
 		{
-			this.Name = name;
-			this.Description = description;
+			Name = name;
+			Description = description;
 
 			if (children != null) {
 				this.children = new Dictionary<string, SchemaItem> ();
