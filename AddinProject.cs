@@ -42,6 +42,13 @@ namespace MonoDevelop.AddinMaker
 			Items.Bind (AddinReferences);
 		}
 
+		public override IEnumerable<string> GetProjectTypes ()
+		{
+			yield return "Addin";
+			foreach (var t in base.GetProjectTypes ())
+				yield return t;
+		}
+
 		public override bool SupportsFramework (TargetFramework framework)
 		{
 			return framework.Id == targetFX;

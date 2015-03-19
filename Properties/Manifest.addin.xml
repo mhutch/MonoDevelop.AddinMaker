@@ -13,6 +13,15 @@
 		                 file = "Templates/EmptyAddinProject.xpt.xml" />
 	</Extension>
 
+	<Extension path = "/MonoDevelop/Ide/FileTemplates">
+		<FileTemplate
+			id = "AddinFileTemplate"
+			file = "Templates/FileTemplate.xft.xml" />
+		<FileTemplate
+			id = "AddinProjectTemplate"
+			file = "Templates/ProjectTemplate.xft.xml" />
+	</Extension>
+
 	<Extension path = "/MonoDevelop/ProjectModel/MSBuildItemTypes">
 		<DotNetProjectSubtype
 			guid="{7DBEB09D-BB9F-4D92-A141-A009135475EF}"

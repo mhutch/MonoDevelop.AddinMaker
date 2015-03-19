@@ -72,6 +72,10 @@
     <AddinFile Include="Templates\EmptyAddinProject.xpt.xml" />
     <AddinFile Include="Templates\Properties\Manifest.addin.xml" />
     <AddinFile Include="Templates\Properties\AddinInfo.cs" />
+    <AddinFile Include="Templates\FileTemplate.xft.xml" />
+    <AddinFile Include="Templates\ProjectTemplate.xft.xml" />
+    <AddinFile Include="Templates\FileTemplate.xml" />
+    <AddinFile Include="Templates\ProjectTemplate.xml" />
   </ItemGroup>
   <ItemGroup>
     <AddinReference Include="MonoDevelop.DesignerSupport" />
