@@ -62,9 +62,16 @@ namespace MonoDevelop.AddinMaker.ManifestSchema
 				}
 			}
 
-			list.Add ("id", null, "ID for the extension, unique in this extension point.");
-			list.Add ("insertbefore", null, "ID of an existing extension before which to insert this.");
-			list.Add ("insertafter", null, "ID of an existing extension after which to insert this.");
+			var ordering = new NodeCompletionCategory ("Ordering", 2);
+			if (!existingAtts.ContainsKey ("id")) {
+				list.Add (new CompletionData ("id", null, "ID for the extension, unique in this extension point.") { CompletionCategory = ordering });
+			}
+			if (!existingAtts.ContainsKey ("insertbefore")) {
+				list.Add (new CompletionData ("insertbefore", null, "ID of an existing extension before which to insert this.") { CompletionCategory = ordering });
+			}
+			if (!existingAtts.ContainsKey ("insertafter")) {
+				list.Add (new CompletionData ("insertafter", null, "ID of an existing extension after which to insert this.") { CompletionCategory = ordering });
+			}
 		}
 
 		public override SchemaItem GetChild (XElement el)
