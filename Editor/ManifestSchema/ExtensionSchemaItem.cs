@@ -30,7 +30,7 @@ using MonoDevelop.Ide.CodeCompletion;
 using MonoDevelop.Xml.Dom;
 using System.Linq;
 
-namespace MonoDevelop.AddinMaker.ManifestSchema
+namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 {
 	class ExtensionSchemaItem : SchemaItem
 	{

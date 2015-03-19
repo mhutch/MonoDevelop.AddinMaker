@@ -53,18 +53,20 @@
     <Compile Include="AddAddinReferenceDialog.cs" />
     <Compile Include="AddinHelpers.cs" />
     <Compile Include="AddinProjectNeedsMigration.cs" />
-    <Compile Include="AddinManifestEditorExtension.cs" />
     <Compile Include="AddinMSBuildGlobalPropertyProvider.cs" />
-    <Compile Include="ManifestSchema\ExtensionSchemaItem.cs" />
-    <Compile Include="ManifestSchema\SchemaItem.cs" />
-    <Compile Include="ManifestSchema\ManifestSchemaRoot.cs" />
-    <Compile Include="ManifestSchema\ExtensionNodeSchemaItem.cs" />
+    <Compile Include="Editor\ManifestSchema\ExtensionNodeSchemaItem.cs" />
+    <Compile Include="Editor\ManifestSchema\ExtensionSchemaItem.cs" />
+    <Compile Include="Editor\ManifestSchema\ManifestSchemaRoot.cs" />
+    <Compile Include="Editor\ManifestSchema\SchemaItem.cs" />
+    <Compile Include="Editor\AddinManifestEditorExtension.cs" />
+    <Compile Include="Editor\ProjectTemplateEditorExtension.cs" />
+    <Compile Include="Editor\FileTemplateEditorExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
     <Folder Include="Templates\" />
     <Folder Include="Templates\Properties\" />
-    <Folder Include="ManifestSchema\" />
+    <Folder Include="Editor\" />
   </ItemGroup>
   <ItemGroup>
     <AddinFile Include="Templates\EmptyAddinProject.xpt.xml" />

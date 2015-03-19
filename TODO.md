@@ -1,6 +1,7 @@
 ﻿* Extension tree explorer
 * Addin manifest editing
   * Completion
+  	* Nested extension paths
   * Navigation
   * Actions (create class, etc)
   * Validation (missing classes, attributes, etc)

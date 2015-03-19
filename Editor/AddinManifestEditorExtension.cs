@@ -3,9 +3,9 @@ using System.Linq;
 using MonoDevelop.Ide.CodeCompletion;
 using MonoDevelop.Xml.Dom;
 using MonoDevelop.Xml.Editor;
-using MonoDevelop.AddinMaker.ManifestSchema;
+using MonoDevelop.AddinMaker.Editor.ManifestSchema;
 
-namespace MonoDevelop.AddinMaker
+namespace MonoDevelop.AddinMaker.Editor
 {
 	//TODO: this schema system could be psuhed down into MonoDevelop.Xml
 	class AddinManifestEditorExtension : BaseXmlEditorExtension

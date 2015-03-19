@@ -33,7 +33,7 @@ using Mono.Addins.Description;
 using MonoDevelop.Ide.CodeCompletion;
 using MonoDevelop.Xml.Dom;
 
-namespace MonoDevelop.AddinMaker.ManifestSchema
+namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 {
 	class ExtensionNodeSchemaItem : SchemaItem
 	{

@@ -1,5 +1,5 @@
 ﻿//
-// ManifestSchema.cs
+// FileTemplateEditorExtension.cs
 //
 // Author:
 //       Michael Hutchinson <m.j.hutchinson@gmail.com>
@@ -23,34 +23,14 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 using System;
+using MonoDevelop.Xml.Editor;
 
-namespace MonoDevelop.AddinMaker.ManifestSchema
+namespace MonoDevelop.AddinMaker.Editor
 {
-	class ManifestSchemaRoot : SchemaItem
+	public class FileTemplateEditorExtension : BaseXmlEditorExtension
 	{
-		public ManifestSchemaRoot (AddinProject project) : base (null, null, CreateChildren (project))
-		{
-		}
-
-		static SchemaItem[] CreateChildren (AddinProject project)
-		{
-			var addinContents = new SchemaItem[] {
-				new ExtensionSchemaItem (project),
-				new SchemaItem ("ExtensionPoint", "Declares an extension point"),
-				new SchemaItem ("ExtensionNodeSet", "Declares an extension node set"),
-				new SchemaItem ("Runtime", "Declares what files belong to the add-in"),
-				new SchemaItem ("Module", "Declares an optional extension module"),
-				new SchemaItem ("Localizer", "Declares a localizer for the add-in"),
-				new SchemaItem ("ConditionType", "Declares a global condition type"),
-				new SchemaItem ("Dependencies", "Declares dependencies"),
-			};
-
-			return new[] {
-				new SchemaItem ("Addin", "Root element for add-in and add-in root descriptions", addinContents),
-				new SchemaItem ("ExtensionModel", "Root element for add-in and add-in root descriptions", addinContents)
-			};
-		}
 	}
 }
 
