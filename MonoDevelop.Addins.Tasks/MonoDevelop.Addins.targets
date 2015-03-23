@@ -92,6 +92,8 @@
 
     <PropertyGroup>
       <MDToolExe>$(MDBinDir)\mdtool.exe</MDToolExe>
+      <_MDToolCommand>"$(MDToolExe)"</_MDToolCommand>
+      <_MDToolCommand Condition="'$(OS)'=='Unix'">mono "$(MDToolExe)"</_MDToolCommand>
     </PropertyGroup>
 
     <Error Text = "Bin directory not found: $(BinDir)" Condition="!Exists('$(MDToolExe)')" />
@@ -132,13 +134,12 @@
       AddinFile="$(TargetPath)">
           <Output TaskParameter="PackageFile" PropertyName="PackageFile" />
       </CreatePackage>
+    <!-- HACK: re-pack the addin since files packed directly by Mono.Addins can't
+    be loaded by XS since it uses a different SharpZipLib version -->
+    <Exec Command='$(_MDToolCommand) setup pack "-d:$(OutDir)." "$(TargetPath)"' />
   </Target>
 
   <Target Name="InstallAddin" DependsOnTargets="CreatePackage">
-    <PropertyGroup>
-      <_MDToolCommand>"$(MDToolExe)"</_MDToolCommand>
-      <_MDToolCommand Condition="'$(OS)'=='Unix'">mono "$(MDToolExe)"</_MDToolCommand>
-    </PropertyGroup>
     <!-- xbuild doesn't support StandardOutputImportance="Low" -->
     <Exec Command='$(_MDToolCommand) setup install -y "$(PackageFile)"' />
   </Target>
