@@ -27,22 +27,31 @@
 using System.Collections.Generic;
 using MonoDevelop.Ide.CodeCompletion;
 using MonoDevelop.Xml.Dom;
+using System.Linq;
 
 namespace MonoDevelop.AddinMaker.Editor
 {
-	class SchemaItem
+	class SchemaElement
 	{
-		readonly Dictionary<string,SchemaItem> children;
+		readonly Dictionary<string,SchemaElement> children;
+		readonly Dictionary<string,SchemaAttribute> attributes;
 
-		public SchemaItem (string name, string description, SchemaItem[] children = null)
+		public SchemaElement (string name, string description, SchemaElement[] children = null, SchemaAttribute[] attributes = null)
 		{
 			Name = name;
 			Description = description;
 
 			if (children != null) {
-				this.children = new Dictionary<string, SchemaItem> ();
+				this.children = new Dictionary<string, SchemaElement> ();
 				foreach (var c in children) {
 					this.children.Add (c.Name, c);
+				}
+			}
+
+			if (attributes != null) {
+				this.attributes = new Dictionary<string, SchemaAttribute> ();
+				foreach (var a in attributes) {
+					this.attributes.Add (a.Name, a);
 				}
 			}
 		}
@@ -57,21 +66,36 @@ namespace MonoDevelop.AddinMaker.Editor
 			}
 
 			foreach (var c in children) {
-				list.Add (c.Value.Name, null, c.Value.Description);
+				list.Add (c.Key, null, c.Value.Description);
 			}
 		}
 
 		public virtual void GetAttributeCompletions (CompletionDataList list, IAttributedXObject attributedOb, Dictionary<string, string> existingAtts)
 		{
+			if (attributes == null) {
+				return;
+			}
+
+			foreach (var a in attributes) {
+				if (existingAtts.ContainsKey (a.Key)) {
+					continue;
+				}
+
+				if (a.Value.Exclude != null && a.Value.Exclude.Any (existingAtts.ContainsKey)) {
+					continue;
+				}
+
+				list.Add (a.Value.Name, null, a.Value.Description);
+			}
 		}
 
 		public virtual void GetAttributeValueCompletions (CompletionDataList list, IAttributedXObject attributedOb, XAttribute att)
 		{
 		}
 
-		public virtual SchemaItem GetChild (XElement el)
+		public virtual SchemaElement GetChild (XElement el)
 		{
-			SchemaItem child;
+			SchemaElement child;
 			if (children != null && children.TryGetValue (el.Name.FullName, out child)) {
 				return child;
 			}

@@ -33,13 +33,13 @@ namespace MonoDevelop.AddinMaker.Editor
 			return base.ExtendsEditor (doc, editor) && doc.HasProject && doc.Project is AddinProject;
 		}
 
-		protected override SchemaItem CreateSchema ()
+		protected override SchemaElement CreateSchema ()
 		{
-			return new SchemaItem (null, null, new[] {
-				new SchemaItem ("Template", "Root element for file templates", new[] {
-					new SchemaItem ("TemplateConfiguration", "Metadata for the template"),
-					new SchemaItem ("Actions", "Actions to be run after the project is created"),
-					new SchemaItem ("Combine", "The solution to be created"),
+			return new SchemaElement (null, null, new[] {
+				new SchemaElement ("Template", "Root element for file templates", new[] {
+					new SchemaElement ("TemplateConfiguration", "Metadata for the template"),
+					new SchemaElement ("Actions", "Actions to be run after the project is created"),
+					new SchemaElement ("Combine", "The solution to be created"),
 				})
 			});
 		}

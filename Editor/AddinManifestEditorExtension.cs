@@ -9,24 +9,24 @@ namespace MonoDevelop.AddinMaker.Editor
 			return base.ExtendsEditor (doc, editor) && doc.HasProject && doc.Project is AddinProject;
 		}
 
-		protected override SchemaItem CreateSchema ()
+		protected override SchemaElement CreateSchema ()
 		{
 			var project = (AddinProject)Document.Project;
 
-			var addinContents = new SchemaItem[] {
-				new ExtensionSchemaItem (project),
-				new SchemaItem ("ExtensionPoint", "Declares an extension point"),
-				new SchemaItem ("ExtensionNodeSet", "Declares an extension node set"),
-				new SchemaItem ("Runtime", "Declares what files belong to the add-in"),
-				new SchemaItem ("Module", "Declares an optional extension module"),
-				new SchemaItem ("Localizer", "Declares a localizer for the add-in"),
-				new SchemaItem ("ConditionType", "Declares a global condition type"),
-				new SchemaItem ("Dependencies", "Declares dependencies"),
+			var addinContents = new SchemaElement[] {
+				new ExtensionSchemaElement (project),
+				new SchemaElement ("ExtensionPoint", "Declares an extension point"),
+				new SchemaElement ("ExtensionNodeSet", "Declares an extension node set"),
+				new SchemaElement ("Runtime", "Declares what files belong to the add-in"),
+				new SchemaElement ("Module", "Declares an optional extension module"),
+				new SchemaElement ("Localizer", "Declares a localizer for the add-in"),
+				new SchemaElement ("ConditionType", "Declares a global condition type"),
+				new SchemaElement ("Dependencies", "Declares dependencies"),
 			};
 
-			return new SchemaItem (null, null, new[] {
-				new SchemaItem ("Addin", "Root element for add-in and add-in root descriptions", addinContents),
-				new SchemaItem ("ExtensionModel", "Root element for add-in and add-in root descriptions", addinContents)
+			return new SchemaElement (null, null, new[] {
+				new SchemaElement ("Addin", "Root element for add-in and add-in root descriptions", addinContents),
+				new SchemaElement ("ExtensionModel", "Root element for add-in and add-in root descriptions", addinContents)
 			});
 		}
 	}

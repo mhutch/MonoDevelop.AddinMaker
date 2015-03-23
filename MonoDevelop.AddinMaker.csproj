@@ -54,13 +54,14 @@
     <Compile Include="AddinHelpers.cs" />
     <Compile Include="AddinProjectNeedsMigration.cs" />
     <Compile Include="AddinMSBuildGlobalPropertyProvider.cs" />
-    <Compile Include="Editor\ManifestSchema\ExtensionNodeSchemaItem.cs" />
-    <Compile Include="Editor\ManifestSchema\ExtensionSchemaItem.cs" />
     <Compile Include="Editor\AddinManifestEditorExtension.cs" />
     <Compile Include="Editor\ProjectTemplateEditorExtension.cs" />
     <Compile Include="Editor\FileTemplateEditorExtension.cs" />
     <Compile Include="Editor\SchemaBasedEditorExtension.cs" />
-    <Compile Include="Editor\SchemaItem.cs" />
+    <Compile Include="Editor\SchemaAttribute.cs" />
+    <Compile Include="Editor\SchemaElement.cs" />
+    <Compile Include="Editor\ManifestSchema\ExtensionSchemaElement.cs" />
+    <Compile Include="Editor\ManifestSchema\ExtensionNodeSchemaElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

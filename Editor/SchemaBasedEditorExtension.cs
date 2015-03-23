@@ -35,7 +35,7 @@ namespace MonoDevelop.AddinMaker.Editor
 	//TODO: this schema system could be pushed down into MonoDevelop.Xml
 	abstract class SchemaBasedEditorExtension : BaseXmlEditorExtension
 	{
-		SchemaItem schema;
+		SchemaElement schema;
 
 		public override bool ExtendsEditor (MonoDevelop.Ide.Gui.Document doc, MonoDevelop.Ide.Gui.Content.IEditableTextBuffer editor)
 		{
@@ -48,12 +48,12 @@ namespace MonoDevelop.AddinMaker.Editor
 			schema = CreateSchema ();
 		}
 
-		protected abstract SchemaItem CreateSchema ();
+		protected abstract SchemaElement CreateSchema ();
 
-		SchemaItem GetSchemaItem (IEnumerable<XObject> path, out XElement el)
+		SchemaElement GetSchemaItem (IEnumerable<XObject> path, out XElement el)
 		{
 			el = null;
-			SchemaItem item = schema;
+			SchemaElement item = schema;
 			foreach (var val in path) {
 				el = val as XElement;
 				if (el == null) {

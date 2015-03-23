@@ -1,5 +1,5 @@
-﻿//
-// FileTemplateEditorExtension.cs
+//
+// SchemaItem.cs
 //
 // Author:
 //       Michael Hutchinson <m.j.hutchinson@gmail.com>
@@ -26,21 +26,21 @@
 
 namespace MonoDevelop.AddinMaker.Editor
 {
-	class FileTemplateEditorExtension : SchemaBasedEditorExtension
+	class SchemaAttribute
 	{
-		public override bool ExtendsEditor (MonoDevelop.Ide.Gui.Document doc, MonoDevelop.Ide.Gui.Content.IEditableTextBuffer editor)
-		{
-			return base.ExtendsEditor (doc, editor) && doc.HasProject && doc.Project is AddinProject;
-		}
+		public string Name { get; private set; }
+		public string Description { get; private set; }
 
-		protected override SchemaElement CreateSchema ()
+		/// <summary>
+		/// Name of attributes that cannot be specified in conjection with this one.
+		/// </summary>
+		public string[] Exclude { get; set; }
+
+		public SchemaAttribute (string name, string description, string[] exclude = null)
 		{
-			return new SchemaElement (null, null, new[] {
-				new SchemaElement ("Template", "Root element for file templates", new[] {
-					new SchemaElement ("TemplateConfiguration", "Metadata for the template"),
-					new SchemaElement ("TemplateFiles", "File(s) to be created"),
-				})
-			});
+			this.Name = name;
+			this.Description = description;
+			this.Exclude = exclude;
 		}
 	}
 }

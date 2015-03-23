@@ -25,18 +25,18 @@
 // THE SOFTWARE.
 
 using System.Collections.Generic;
+using System.Linq;
 using Mono.Addins.Description;
 using MonoDevelop.Ide.CodeCompletion;
 using MonoDevelop.Xml.Dom;
-using System.Linq;
 
 namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 {
-	class ExtensionSchemaItem : SchemaItem
+	class ExtensionSchemaElement : SchemaElement
 	{
 		readonly AddinProject project;
 
-		public ExtensionSchemaItem (AddinProject project) : base ("Extension", "Declares an extension")
+		public ExtensionSchemaElement (AddinProject project) : base ("Extension", "Declares an extension")
 		{
 			this.project = project;
 		}
@@ -99,7 +99,7 @@ namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 			}
 		}
 
-		public override SchemaItem GetChild (XElement el)
+		public override SchemaElement GetChild (XElement el)
 		{
 			var ep = GetExtensionPoint (el.Parent as XElement);
 			if (ep == null) {
@@ -108,7 +108,7 @@ namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 
 			var node = ep.NodeSet.GetAllowedNodeTypes ().FirstOrDefault (n => n.NodeName == el.Name.FullName);
 			if (node != null) {
-				return new ExtensionNodeSchemaItem (project, ep, node);
+				return new ExtensionNodeSchemaElement (project, ep, node);
 			}
 
 			return null;

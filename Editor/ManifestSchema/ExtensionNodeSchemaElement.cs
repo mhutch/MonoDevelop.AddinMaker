@@ -35,13 +35,13 @@ using MonoDevelop.Xml.Dom;
 
 namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 {
-	class ExtensionNodeSchemaItem : SchemaItem
+	class ExtensionNodeSchemaElement : SchemaElement
 	{
 		readonly AddinProject proj;
 		readonly ExtensionNodeType info;
 		readonly ExtensionPoint extensionPoint;
 
-		public ExtensionNodeSchemaItem (AddinProject proj, ExtensionPoint extensionPoint, ExtensionNodeType info) : base (info.NodeName, info.Description)
+		public ExtensionNodeSchemaElement (AddinProject proj, ExtensionPoint extensionPoint, ExtensionNodeType info) : base (info.NodeName, info.Description)
 		{
 			this.proj = proj;
 			this.extensionPoint = extensionPoint;
@@ -74,11 +74,11 @@ namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 			}
 		}
 
-		public override SchemaItem GetChild (XElement el)
+		public override SchemaElement GetChild (XElement el)
 		{
 			var node = info.GetAllowedNodeTypes ().FirstOrDefault (n => n.NodeName == el.Name.FullName);
 			if (node != null) {
-				return new ExtensionNodeSchemaItem (proj, extensionPoint, node);
+				return new ExtensionNodeSchemaElement (proj, extensionPoint, node);
 			}
 
 			return null;
