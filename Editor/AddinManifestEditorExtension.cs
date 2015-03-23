@@ -17,7 +17,7 @@ namespace MonoDevelop.AddinMaker.Editor
 				new ExtensionSchemaElement (project),
 				new SchemaElement ("ExtensionPoint", "Declares an extension point"),
 				new SchemaElement ("ExtensionNodeSet", "Declares an extension node set"),
-				new SchemaElement ("Runtime", "Declares what files belong to the add-in"),
+				new RuntimeSchemaItem (),
 				new SchemaElement ("Module", "Declares an optional extension module"),
 				new SchemaElement ("Localizer", "Declares a localizer for the add-in"),
 				new SchemaElement ("ConditionType", "Declares a global condition type"),

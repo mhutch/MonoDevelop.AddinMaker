@@ -62,6 +62,7 @@
     <Compile Include="Editor\SchemaElement.cs" />
     <Compile Include="Editor\ManifestSchema\ExtensionSchemaElement.cs" />
     <Compile Include="Editor\ManifestSchema\ExtensionNodeSchemaElement.cs" />
+    <Compile Include="Editor\ManifestSchema\RuntimeSchemaItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
