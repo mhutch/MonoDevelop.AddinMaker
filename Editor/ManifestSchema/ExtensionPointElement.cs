@@ -26,35 +26,18 @@
 
 namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 {
-	class RuntimeSchemaElement : SchemaElement
+	class ExtensionPointSchemaElement : SchemaElement
 	{
-		public RuntimeSchemaElement () : base (
-			"Runtime",
-			"Declares the files that are included in the add-in.",
+		public ExtensionPointSchemaElement (AddinProject project) : base (
+			"ExtensionPoint",
+			"Declares an extension point",
 			new [] {
-				new SchemaElement (
-					"Import",
-					"A file or assembly to be included in the add-in.",
-					null,
-					new[] {
-						new SchemaAttribute (
-							"assembly",
-							"An assembly to be packaged with the add-in and automatically loaded.",
-							new[] { "file" }
-						),
-						new SchemaAttribute (
-							"file",
-							"A file to be packaged with the add-in.",
-							new[] { "assembly" }
-						)
-					}
-				),
-				new SchemaElement (
-					"ScanExclude",
-					"A path to exclude when scanning the add-in",
-					null,
-					new[] { new SchemaAttribute ("path", "The path to exclude") }
-				),
+				new SchemaElement ("Description", "Long description of the extension point."),
+				new ExtensionNodeDefinitionElement (project),
+			},
+			new[] {
+				new SchemaAttribute ("path", "Path of the extension point."),
+				new SchemaAttribute ("name", "Display name of the extension point (to be shown in documentation)."),
 			}
 		) {}
 	}

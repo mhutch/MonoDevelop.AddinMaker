@@ -93,10 +93,10 @@ namespace MonoDevelop.AddinMaker.Editor
 		{
 		}
 
-		public virtual SchemaElement GetChild (XElement el)
+		public virtual SchemaElement GetChild (XElement element)
 		{
 			SchemaElement child;
-			if (children != null && children.TryGetValue (el.Name.FullName, out child)) {
+			if (children != null && children.TryGetValue (element.Name.FullName, out child)) {
 				return child;
 			}
 			return null;

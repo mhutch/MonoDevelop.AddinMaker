@@ -32,6 +32,7 @@ using MonoDevelop.Xml.Dom;
 
 namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 {
+	//TODO: completion for extension points defined in this addin
 	class ExtensionSchemaElement : SchemaElement
 	{
 		readonly AddinProject project;
@@ -99,14 +100,14 @@ namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 			}
 		}
 
-		public override SchemaElement GetChild (XElement el)
+		public override SchemaElement GetChild (XElement element)
 		{
-			var ep = GetExtensionPoint (el.Parent as XElement);
+			var ep = GetExtensionPoint (element.Parent as XElement);
 			if (ep == null) {
 				return null;
 			}
 
-			var node = ep.NodeSet.GetAllowedNodeTypes ().FirstOrDefault (n => n.NodeName == el.Name.FullName);
+			var node = ep.NodeSet.GetAllowedNodeTypes ().FirstOrDefault (n => n.NodeName == element.Name.FullName);
 			if (node != null) {
 				return new ExtensionNodeSchemaElement (project, ep, node);
 			}

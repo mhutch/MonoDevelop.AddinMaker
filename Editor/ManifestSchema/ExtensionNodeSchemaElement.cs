@@ -74,9 +74,9 @@ namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 			}
 		}
 
-		public override SchemaElement GetChild (XElement el)
+		public override SchemaElement GetChild (XElement element)
 		{
-			var node = info.GetAllowedNodeTypes ().FirstOrDefault (n => n.NodeName == el.Name.FullName);
+			var node = info.GetAllowedNodeTypes ().FirstOrDefault (n => n.NodeName == element.Name.FullName);
 			if (node != null) {
 				return new ExtensionNodeSchemaElement (proj, extensionPoint, node);
 			}

@@ -26,35 +26,28 @@
 
 namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 {
-	class RuntimeSchemaElement : SchemaElement
+
+	class DependenciesSchemaElement : SchemaElement
 	{
-		public RuntimeSchemaElement () : base (
-			"Runtime",
-			"Declares the files that are included in the add-in.",
+		public DependenciesSchemaElement () : base (
+			"Dependencies",
+			"Declares dependencies on other add-ins.",
 			new [] {
 				new SchemaElement (
-					"Import",
-					"A file or assembly to be included in the add-in.",
+					"Addin",
+					"Declares a dependency on another add-in.",
 					null,
 					new[] {
 						new SchemaAttribute (
-							"assembly",
-							"An assembly to be packaged with the add-in and automatically loaded.",
-							new[] { "file" }
+							"id",
+							"The id of the add-in."
 						),
 						new SchemaAttribute (
-							"file",
-							"A file to be packaged with the add-in.",
-							new[] { "assembly" }
+							"version",
+							"The version of the add-in."
 						)
 					}
-				),
-				new SchemaElement (
-					"ScanExclude",
-					"A path to exclude when scanning the add-in",
-					null,
-					new[] { new SchemaAttribute ("path", "The path to exclude") }
-				),
+				)
 			}
 		) {}
 	}

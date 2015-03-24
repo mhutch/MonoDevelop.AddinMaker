@@ -26,36 +26,24 @@
 
 namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 {
-	class RuntimeSchemaElement : SchemaElement
+	//TODO: completion for the type attribute
+	class ExtensionNodeDefinitionElement : SchemaElement
 	{
-		public RuntimeSchemaElement () : base (
-			"Runtime",
-			"Declares the files that are included in the add-in.",
+		readonly AddinProject project;
+
+		public ExtensionNodeDefinitionElement (AddinProject project) : base (
+			"ExtensionNode",
+			"A type of node allowed in this extension point.",
+			new[] {
+				new SchemaElement ("Description", "Description of what this kind of node represents.")
+			},
 			new [] {
-				new SchemaElement (
-					"Import",
-					"A file or assembly to be included in the add-in.",
-					null,
-					new[] {
-						new SchemaAttribute (
-							"assembly",
-							"An assembly to be packaged with the add-in and automatically loaded.",
-							new[] { "file" }
-						),
-						new SchemaAttribute (
-							"file",
-							"A file to be packaged with the add-in.",
-							new[] { "assembly" }
-						)
-					}
-				),
-				new SchemaElement (
-					"ScanExclude",
-					"A path to exclude when scanning the add-in",
-					null,
-					new[] { new SchemaAttribute ("path", "The path to exclude") }
-				),
+				new SchemaAttribute ("name", "Name of the node type. When an element is added to an extension point, its name must match one of the declared node types."),
+				new SchemaAttribute ("type", "CLR type that implements this extension node type. It must be a subclass of Mono.Addins.ExtensionNode. If not specified, by default it is Mono.Addins.TypeExtensionNode.")
 			}
-		) {}
+		)
+		{
+			this.project = project;
+		}
 	}
 }

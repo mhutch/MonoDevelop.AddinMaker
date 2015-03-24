@@ -63,6 +63,11 @@
     <Compile Include="Editor\ManifestSchema\ExtensionSchemaElement.cs" />
     <Compile Include="Editor\ManifestSchema\ExtensionNodeSchemaElement.cs" />
     <Compile Include="Editor\ManifestSchema\RuntimeSchemaItem.cs" />
+    <Compile Include="Editor\ManifestSchema\DependenciesSchemaItem.cs" />
+    <Compile Include="Editor\ManifestSchema\ModuleSchemaItem.cs" />
+    <Compile Include="Editor\ManifestSchema\LocalizerSchemaItem.cs" />
+    <Compile Include="Editor\ManifestSchema\ExtensionNodeDefinitionElement.cs" />
+    <Compile Include="Editor\ManifestSchema\ExtensionPointElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
