@@ -9,6 +9,6 @@ using Mono.Addins.Description;
 )]
 
 [assembly:AddinName ("${ProjectName}")]
-[assembly:AddinCategory ("${ProjectName}")]
+[assembly:AddinCategory ("IDE extensions")]
 [assembly:AddinDescription ("${ProjectName}")]
 [assembly:AddinAuthor ("${AuthorName}")]
