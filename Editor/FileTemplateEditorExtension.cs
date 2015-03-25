@@ -36,10 +36,37 @@ namespace MonoDevelop.AddinMaker.Editor
 		protected override SchemaElement CreateSchema ()
 		{
 			return new SchemaElement (null, null, new[] {
-				new SchemaElement ("Template", "Root element for file templates", new[] {
-					new SchemaElement ("TemplateConfiguration", "Metadata for the template"),
-					new SchemaElement ("TemplateFiles", "File(s) to be created"),
-				})
+				new SchemaElement ("Template", "Root element for file templates",
+					new[] {
+						new SchemaElement ("TemplateConfiguration", "Metadata for the template", new[] {
+							//TODO: any way we can introspect completion for custom file template types?
+							new SchemaElement ("Type", "Custom template type. Must be subclass of MonoDevelop.Ide.Templates.FileTemplate."),
+							new SchemaElement ("_Name", "The name of the template, displayed in the New File dialog."),
+							new SchemaElement ("_Category", "The category under which to group this template in the New File dialog."),
+							new SchemaElement ("_Description", "The description for this template in the New File dialog"),
+							//TODO: language ID completion.
+							new SchemaElement ("LanguageName", "If specified, the template will only be displayed for projects targeting this language."),
+							//TODO: project type IDE completion. Don't think this is currently introspectable.
+							new SchemaElement ("ProjectType", "If specified, the template will only be displayed for projects of this type."),
+							//TODO: icon ID completion
+							new SchemaElement ("Icon", "ID of the template's icon."),
+							//File wizard codepath currently commented out
+							//new SchemaAttribute ("Wizard", ""),
+							new SchemaElement ("DefaultFilename", "The default filename, if the user does not specific one.", null, new[] {
+								new BoolSchemaAttribute ("IsFixed", "Whether the filename cannot be changed by the user")
+							}),
+						}),
+						//TODO: completion for files
+						new SchemaElement ("TemplateFiles", "Files and directories to be created as part of this template/"),
+						//TODO: completion for conditions
+						new SchemaElement ("Conditions", "Conditions that control when the template is displayed."),
+					},
+					new[] {
+						new SchemaAttribute ("Originator", "The originator of the template (optional, unused)."),
+						new SchemaAttribute ("Created", "The creation date of the template (optional, unused)."),
+						new SchemaAttribute ("LastModified", "The date the template was last modified (optional, unused)."),
+					}
+				)
 			});
 		}
 	}
