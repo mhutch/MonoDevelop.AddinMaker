@@ -48,7 +48,7 @@ namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 					null,
 					new [] {
 						new SchemaAttribute ("id", "Identifier of the message."),
-						new SchemaAttribute ("id", "Translation of the message.")
+						new SchemaAttribute ("str", "Translation of the message.")
 					}
 				)
 			},
