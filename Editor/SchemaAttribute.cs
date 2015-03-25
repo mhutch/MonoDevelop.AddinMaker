@@ -23,6 +23,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+using MonoDevelop.Ide.CodeCompletion;
+using MonoDevelop.Xml.Dom;
 
 namespace MonoDevelop.AddinMaker.Editor
 {
@@ -41,6 +43,23 @@ namespace MonoDevelop.AddinMaker.Editor
 			this.Name = name;
 			this.Description = description;
 			this.Exclude = exclude;
+		}
+
+		public virtual void GetAttributeValueCompletions (CompletionDataList list, IAttributedXObject attributedOb)
+		{
+		}
+	}
+
+	class BoolSchemaAttribute : SchemaAttribute
+	{
+		public BoolSchemaAttribute (string name, string description, string[] exclude = null) : base (name, description, exclude)
+		{
+		}
+
+		public override void GetAttributeValueCompletions (CompletionDataList list, IAttributedXObject attributedOb)
+		{
+			list.Add ("true");
+			list.Add ("false");
 		}
 	}
 }

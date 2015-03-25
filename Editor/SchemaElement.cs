@@ -91,6 +91,10 @@ namespace MonoDevelop.AddinMaker.Editor
 
 		public virtual void GetAttributeValueCompletions (CompletionDataList list, IAttributedXObject attributedOb, XAttribute att)
 		{
+			SchemaAttribute sca;
+			if (attributes != null && attributes.TryGetValue (att.Name.FullName, out sca)) {
+				sca.GetAttributeValueCompletions (list, attributedOb);
+			}
 		}
 
 		public virtual SchemaElement GetChild (XElement element)
