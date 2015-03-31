@@ -2,6 +2,7 @@
 using MonoDevelop.Components.Commands;
 using MonoDevelop.Core;
 using MonoDevelop.Ide.Gui.Components;
+using MonoDevelop.AddinMaker.AddinBrowser;
 
 namespace MonoDevelop.AddinMaker
 {
@@ -72,6 +73,15 @@ namespace MonoDevelop.AddinMaker
 			{
 				var addin = (AddinReference) CurrentNode.DataItem;
 				addin.OwnerProject.AddinReferences.Remove (addin);
+			}
+
+			public override void ActivateItem ()
+			{
+				var addin = (AddinReference) CurrentNode.DataItem;
+				var resolved = addin.OwnerProject.AddinRegistry.GetAddin (addin.Id);
+				if (resolved != null) {
+					AddinBrowserViewContent.Open (addin.OwnerProject.AddinRegistry, addin.Id);
+				}
 			}
 		}
 	}

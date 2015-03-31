@@ -68,12 +68,16 @@
     <Compile Include="Editor\ManifestSchema\LocalizerSchemaItem.cs" />
     <Compile Include="Editor\ManifestSchema\ExtensionNodeDefinitionElement.cs" />
     <Compile Include="Editor\ManifestSchema\ExtensionPointElement.cs" />
+    <Compile Include="AddinBrowser\AddinNavigationPoint.cs" />
+    <Compile Include="AddinBrowser\AddinBrowserWidget.cs" />
+    <Compile Include="AddinBrowser\AddinBrowserViewContent.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
     <Folder Include="Templates\" />
     <Folder Include="Templates\Properties\" />
     <Folder Include="Editor\" />
+    <Folder Include="AddinBrowser\" />
   </ItemGroup>
   <ItemGroup>
     <AddinFile Include="Templates\EmptyAddinProject.xpt.xml" />
