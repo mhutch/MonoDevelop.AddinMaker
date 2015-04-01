@@ -78,6 +78,16 @@
     <Compile Include="AddinBrowser\ExtensionNodeBuilder.cs" />
     <Compile Include="AddinBrowser\ExtensionFolderNodeBuilder.cs" />
     <Compile Include="AddinBrowser\AddinNodeBuilder.cs" />
+    <Compile Include="AddinBrowser\ModuleNodeBuilder.cs" />
+    <Compile Include="AddinBrowser\ModulesFolderNodeBuilder.cs" />
+    <Compile Include="AddinBrowser\AssembliesFolderNodeBuilder.cs" />
+    <Compile Include="AddinBrowser\FilesFolderNodeBuilder.cs" />
+    <Compile Include="AddinBrowser\AddinAssembly.cs" />
+    <Compile Include="AddinBrowser\AddinFile.cs" />
+    <Compile Include="AddinBrowser\AddinAssembliesFolder.cs" />
+    <Compile Include="AddinBrowser\AddinFilesFolder.cs" />
+    <Compile Include="AddinBrowser\AddinAssemblyNodeBuilder.cs" />
+    <Compile Include="AddinBrowser\AddinFileNodeBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

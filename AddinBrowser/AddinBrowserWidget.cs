@@ -32,6 +32,12 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 					new ExtensionPointFolderNodeBuilder (),
 					new DependencyFolderNodeBuilder (),
 					new DependencyNodeBuilder (),
+					new ModulesFolderNodeBuilder (),
+					new ModuleNodeBuilder (),
+					new AssembliesFolderNodeBuilder (),
+					new AddinAssemblyNodeBuilder (),
+					new FilesFolderNodeBuilder (),
+					new AddinFileNodeBuilder (),
 				},
 				new TreePadOption[0]
 			);

@@ -1,11 +1,10 @@
 using System;
 using Mono.Addins;
-using Mono.Addins.Description;
 using MonoDevelop.Ide.Gui.Components;
 
 namespace MonoDevelop.AddinMaker.AddinBrowser
 {
-	class AddinNodeBuilder : TypeNodeBuilder
+	class AddinNodeBuilder : ModuleNodeBuilder
 	{
 		public override Type NodeDataType {
 			get { return typeof(Addin); }
@@ -23,21 +22,19 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 			nodeInfo.Label = addin.Namespace + (string.IsNullOrEmpty (addin.Namespace)? "" : ".") +  addin.LocalId;
 		}
 
-		public override bool HasChildNodes (ITreeBuilder builder, object dataObject)
-		{
-			//there will always be dependencies unless it's root, in which case it should have extension points
-			return true;
-		}
-
 		public override void BuildChildNodes (ITreeBuilder treeBuilder, object dataObject)
 		{
 			var addin = (Addin)dataObject;
 
-			//TODO: support optional modules
-			var module = addin.Description.MainModule;
-			treeBuilder.AddChild (module.Dependencies);
-			treeBuilder.AddChild (module.Extensions);
-			treeBuilder.AddChild (addin.Description.ExtensionPoints);
+			if (addin.Description.OptionalModules.Count > 0) {
+				treeBuilder.AddChild (addin.Description.OptionalModules);
+			}
+
+			if (addin.Description.ExtensionPoints.Count > 0) {
+				treeBuilder.AddChild (addin.Description.ExtensionPoints);
+			}
+
+			base.BuildChildNodes (treeBuilder, addin.Description.MainModule);
 		}
 	}
 }
