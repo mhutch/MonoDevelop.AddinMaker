@@ -1,5 +1,6 @@
 using System;
 using MonoDevelop.Ide.Gui.Components;
+using MonoDevelop.Ide;
 
 namespace MonoDevelop.AddinMaker.AddinBrowser
 {
@@ -19,6 +20,20 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 		{
 			var dependency = (AddinFile)dataObject;
 			nodeInfo.Label = dependency.File;
+		}
+
+		public override Type CommandHandlerType {
+			get { return typeof(AddinFileNodeCommandHandler); }
+		}
+
+		class AddinFileNodeCommandHandler : NodeCommandHandler
+		{
+			public override void ActivateItem ()
+			{
+				var file = (AddinFile) CurrentNode.DataItem;
+				var path = System.IO.Path.Combine (file.Module.ParentAddinDescription.BasePath, file.File);
+				IdeApp.Workbench.OpenDocument (path, null, true);
+			}
 		}
 	}
 }

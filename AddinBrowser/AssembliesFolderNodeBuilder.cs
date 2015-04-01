@@ -23,13 +23,13 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 		public override bool HasChildNodes (ITreeBuilder builder, object dataObject)
 		{
 			var node = (AddinAssembliesFolder)dataObject;
-			return node.Assemblies.Count > 0;
+			return node.Module.Assemblies.Count > 0;
 		}
 
 		public override void BuildChildNodes (ITreeBuilder treeBuilder, object dataObject)
 		{
 			var node = (AddinAssembliesFolder)dataObject;
-			treeBuilder.AddChildren (node.Assemblies.OfType<string> ().Select (f => new AddinAssembly (f)));
+			treeBuilder.AddChildren (node.Module.Assemblies.OfType<string> ().Select (f => new AddinAssembly (node.Module, f)));
 		}
 	}
 }

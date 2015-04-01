@@ -1,14 +1,15 @@
 using System.Collections.Specialized;
+using Mono.Addins.Description;
 
 namespace MonoDevelop.AddinMaker.AddinBrowser
 {
 	class AddinAssembliesFolder
 	{
-		public StringCollection Assemblies { get; private set; }
+		public ModuleDescription Module { get; private set; }
 
-		public AddinAssembliesFolder (StringCollection assemblies)
+		public AddinAssembliesFolder (ModuleDescription module)
 		{
-			this.Assemblies = assemblies;
+			this.Module = module;
 		}
 	}
 }

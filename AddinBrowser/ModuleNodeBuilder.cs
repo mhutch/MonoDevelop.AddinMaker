@@ -63,11 +63,11 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 			}
 
 			if (module.DataFiles.Count > 0) {
-				treeBuilder.AddChild (new AddinFilesFolder (module.DataFiles));
+				treeBuilder.AddChild (new AddinFilesFolder (module));
 			}
 
 			if (module.Assemblies.Count > 0) {
-				treeBuilder.AddChild (new AddinAssembliesFolder (module.Assemblies));
+				treeBuilder.AddChild (new AddinAssembliesFolder (module));
 			}
 		}
 	}

@@ -1,14 +1,15 @@
 using System.Collections.Specialized;
+using Mono.Addins.Description;
 
 namespace MonoDevelop.AddinMaker.AddinBrowser
 {
 	class AddinFilesFolder
 	{
-		public StringCollection Files { get; private set; }
+		public ModuleDescription Module { get; private set; }
 
-		public AddinFilesFolder (StringCollection files)
+		public AddinFilesFolder (ModuleDescription module)
 		{
-			this.Files = files;
+			this.Module = module;
 		}
 	}
 }
