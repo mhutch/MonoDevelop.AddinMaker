@@ -71,5 +71,16 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 		public AddinRegistry Registry {
 			get; private set;
 		}
+
+		public bool SelectObject (object node)
+		{
+			var n = treeView.GetNodeAtObject (node, true);
+			if (n != null) {
+				n.ScrollToNode ();
+				n.Selected = true;
+				return true;
+			}
+			return false;
+		}
 	}
 }

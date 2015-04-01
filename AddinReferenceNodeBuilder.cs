@@ -80,7 +80,7 @@ namespace MonoDevelop.AddinMaker
 				var addin = (AddinReference) CurrentNode.DataItem;
 				var resolved = addin.OwnerProject.AddinRegistry.GetAddin (addin.Id);
 				if (resolved != null) {
-					AddinBrowserViewContent.Open (addin.OwnerProject.AddinRegistry, addin.Id);
+					AddinBrowserViewContent.Open (addin.OwnerProject.AddinRegistry, resolved);
 				}
 			}
 		}

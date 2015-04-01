@@ -23,17 +23,24 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 		}
 
 		//TODO: allow opening a specific addin and path
-		public static Document Open (AddinRegistry registry, string addinId = null)
+		public static Document Open (AddinRegistry registry, object selection = null)
 		{
 			foreach (var doc in IdeApp.Workbench.Documents) {
 				var content = doc.GetContent<AddinBrowserViewContent> ();
 				if (content != null && content.widget.Registry == registry) {
 					content.WorkbenchWindow.SelectWindow ();
+					if (selection != null) {
+						content.widget.SelectObject (selection);
+					}
 					return doc;
 				}
 			}
 
-			return IdeApp.Workbench.OpenDocument (new AddinBrowserViewContent (registry), true);
+			var newContent = new AddinBrowserViewContent (registry);
+			if (selection != null) {
+				newContent.widget.SelectObject (selection);
+			}
+			return IdeApp.Workbench.OpenDocument (newContent, true);
 		}
 
 		public override void Load (string fileName)
@@ -41,6 +48,7 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 			throw new NotSupportedException ();
 		}
 
+		/*
 		protected override void OnWorkbenchWindowChanged (EventArgs e)
 		{
 			base.OnWorkbenchWindowChanged (e);
@@ -50,6 +58,7 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 				widget.SetToolbar (toolbar);
 			}
 		}
+		*/
 
 		public NavigationPoint BuildNavigationPoint ()
 		{
