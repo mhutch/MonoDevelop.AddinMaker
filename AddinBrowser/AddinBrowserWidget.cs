@@ -5,7 +5,7 @@ using MonoDevelop.Ide.Gui.Components;
 
 namespace MonoDevelop.AddinMaker.AddinBrowser
 {
-	class AddinBrowserWidget : VBox
+	class AddinBrowserWidget : HPaned
 	{
 		ExtensibleTreeView treeView;
 
@@ -36,9 +36,26 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 				new TreePadOption[0]
 			);
 			treeView.Tree.Selection.Mode = SelectionMode.Single;
+			treeView.WidthRequest = 300;
 
-			PackStart (treeView, true, true, 0);
+			Pack1 (treeView, false, false);
+			SetDetail (null);
+
 			ShowAll ();
+		}
+
+		void SetDetail (Widget detail)
+		{
+			var child2 = Child2;
+			if (child2 != null) {
+				Remove (child2);
+			}
+
+			detail = detail ?? new Label ();
+			detail.WidthRequest = 300;
+			detail.Show ();
+
+			Pack2 (detail, true, false);
 		}
 
 		public void SetToolbar (DocumentToolbar toolbar)
