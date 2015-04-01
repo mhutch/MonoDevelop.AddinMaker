@@ -2,7 +2,6 @@ using Gtk;
 using Mono.Addins;
 using MonoDevelop.Ide.Gui;
 using MonoDevelop.Ide.Gui.Components;
-using System;
 
 namespace MonoDevelop.AddinMaker.AddinBrowser
 {
@@ -23,10 +22,16 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 
 		void Build ()
 		{
-			//TODO: make extensible
+			//TODO: make extensible?
 			treeView = new ExtensibleTreeView (
 				new NodeBuilder[] {
-					new AddinNodeBuilder ()
+					new AddinNodeBuilder (),
+					new ExtensionFolderNodeBuilder (),
+					new ExtensionNodeBuilder (),
+					new ExtensionPointNodeBuilder (),
+					new ExtensionPointFolderNodeBuilder (),
+					new DependencyFolderNodeBuilder (),
+					new DependencyNodeBuilder (),
 				},
 				new TreePadOption[0]
 			);
@@ -42,25 +47,6 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 
 		public AddinRegistry Registry {
 			get; private set;
-		}
-	}
-
-	class AddinNodeBuilder : TypeNodeBuilder
-	{
-		public override string GetNodeName (ITreeNavigator thisNode, object dataObject)
-		{
-			var item = (Addin)dataObject;
-			return item.Id;
-		}
-
-		public override Type NodeDataType {
-			get { return typeof(Addin); }
-		}
-
-		public override void BuildNode (ITreeBuilder treeBuilder, object dataObject, NodeInfo nodeInfo)
-		{
-			var item = (Addin)dataObject;
-			nodeInfo.Label = item.Namespace + (string.IsNullOrEmpty (item.Namespace)? "" : ".") +  item.LocalId;
 		}
 	}
 }

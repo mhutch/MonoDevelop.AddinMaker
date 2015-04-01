@@ -1,11 +1,11 @@
-using MonoDevelop.Ide.Navigation;
 using Mono.Addins;
+using MonoDevelop.Ide.Navigation;
 
 namespace MonoDevelop.AddinMaker.AddinBrowser
 {
 	class AddinNavigationPoint : NavigationPoint
 	{
-		AddinRegistry registry;
+		readonly AddinRegistry registry;
 
 		public AddinNavigationPoint (AddinRegistry registry)
 		{
