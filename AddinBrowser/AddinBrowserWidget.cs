@@ -1,53 +1,26 @@
 using Gtk;
 using Mono.Addins;
 using MonoDevelop.Ide.Gui;
-using MonoDevelop.Ide.Gui.Components;
 
 namespace MonoDevelop.AddinMaker.AddinBrowser
 {
 	class AddinBrowserWidget : HPaned
 	{
-		ExtensibleTreeView treeView;
+		public AddinTreeView TreeView { get; private set; }
 
 		public AddinBrowserWidget (AddinRegistry registry)
 		{
-			Registry = registry;
+			TreeView = new AddinTreeView (registry);
 
-			Build ();
+			TreeView.Tree.Selection.Mode = SelectionMode.Single;
+			TreeView.WidthRequest = 300;
 
-			foreach (var addin in registry.GetAddins ()) {
-				treeView.AddChild (addin);
-			}
-		}
-
-		void Build ()
-		{
-			//TODO: make extensible?
-			treeView = new ExtensibleTreeView (
-				new NodeBuilder[] {
-					new AddinNodeBuilder (),
-					new ExtensionFolderNodeBuilder (),
-					new ExtensionNodeBuilder (),
-					new ExtensionPointNodeBuilder (),
-					new ExtensionPointFolderNodeBuilder (),
-					new DependencyFolderNodeBuilder (),
-					new DependencyNodeBuilder (),
-					new ModulesFolderNodeBuilder (),
-					new ModuleNodeBuilder (),
-					new AssembliesFolderNodeBuilder (),
-					new AddinAssemblyNodeBuilder (),
-					new FilesFolderNodeBuilder (),
-					new AddinFileNodeBuilder (),
-				},
-				new TreePadOption[0]
-			);
-			treeView.Tree.Selection.Mode = SelectionMode.Single;
-			treeView.WidthRequest = 300;
-
-			Pack1 (treeView, false, false);
+			Pack1 (TreeView, false, false);
 			SetDetail (null);
 
 			ShowAll ();
+
+			TreeView.Update ();
 		}
 
 		void SetDetail (Widget detail)
@@ -66,21 +39,6 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 
 		public void SetToolbar (DocumentToolbar toolbar)
 		{
-		}
-
-		public AddinRegistry Registry {
-			get; private set;
-		}
-
-		public bool SelectObject (object node)
-		{
-			var n = treeView.GetNodeAtObject (node, true);
-			if (n != null) {
-				n.ScrollToNode ();
-				n.Selected = true;
-				return true;
-			}
-			return false;
 		}
 	}
 }

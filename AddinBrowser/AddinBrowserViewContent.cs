@@ -27,10 +27,10 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 		{
 			foreach (var doc in IdeApp.Workbench.Documents) {
 				var content = doc.GetContent<AddinBrowserViewContent> ();
-				if (content != null && content.widget.Registry == registry) {
+				if (content != null && content.widget.TreeView.Registry == registry) {
 					content.WorkbenchWindow.SelectWindow ();
 					if (selection != null) {
-						content.widget.SelectObject (selection);
+						content.widget.TreeView.SelectObject (selection);
 					}
 					return doc;
 				}
@@ -38,7 +38,7 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 
 			var newContent = new AddinBrowserViewContent (registry);
 			if (selection != null) {
-				newContent.widget.SelectObject (selection);
+				newContent.widget.TreeView.SelectObject (selection);
 			}
 			return IdeApp.Workbench.OpenDocument (newContent, true);
 		}
@@ -63,7 +63,7 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 		public NavigationPoint BuildNavigationPoint ()
 		{
 			//TODO: save the widget's actual selection
-			return new AddinNavigationPoint (widget.Registry);
+			return new AddinNavigationPoint (widget.TreeView.Registry);
 		}
 	}
 }

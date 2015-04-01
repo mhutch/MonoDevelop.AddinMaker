@@ -1,6 +1,7 @@
 using System;
 using Mono.Addins.Description;
 using MonoDevelop.Ide.Gui.Components;
+using System.Linq;
 
 namespace MonoDevelop.AddinMaker.AddinBrowser
 {
@@ -23,13 +24,15 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 		public override bool HasChildNodes (ITreeBuilder builder, object dataObject)
 		{
 			var dependencies = (DependencyCollection)dataObject;
-			return dependencies.Count > 0;
+
+			//TODO: assembly dependencies
+			return dependencies.OfType<AddinDependency> ().Any ();
 		}
 
 		public override void BuildChildNodes (ITreeBuilder treeBuilder, object dataObject)
 		{
 			var dependencies = (DependencyCollection)dataObject;
-			treeBuilder.AddChildren (dependencies);
+			treeBuilder.AddChildren (dependencies.OfType<AddinDependency> ());
 		}
 	}
 }

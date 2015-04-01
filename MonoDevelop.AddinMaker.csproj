@@ -73,7 +73,6 @@
     <Compile Include="AddinBrowser\AddinBrowserViewContent.cs" />
     <Compile Include="AddinBrowser\ExtensionPointNodeBuilder.cs" />
     <Compile Include="AddinBrowser\DependencyFolderNodeBuilder.cs" />
-    <Compile Include="AddinBrowser\DependencyNodeBuilder.cs" />
     <Compile Include="AddinBrowser\ExtensionPointFolderNodeBuilder.cs" />
     <Compile Include="AddinBrowser\ExtensionNodeBuilder.cs" />
     <Compile Include="AddinBrowser\ExtensionFolderNodeBuilder.cs" />
@@ -88,6 +87,8 @@
     <Compile Include="AddinBrowser\AddinFilesFolder.cs" />
     <Compile Include="AddinBrowser\AddinAssemblyNodeBuilder.cs" />
     <Compile Include="AddinBrowser\AddinFileNodeBuilder.cs" />
+    <Compile Include="AddinBrowser\AddinTreeView.cs" />
+    <Compile Include="AddinBrowser\AddinDependencyNodeBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
