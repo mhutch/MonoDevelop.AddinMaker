@@ -1,10 +1,11 @@
 using System;
 using Mono.Addins;
 using MonoDevelop.Ide.Gui.Components;
+using Gtk;
 
 namespace MonoDevelop.AddinMaker.AddinBrowser
 {
-	class AddinNodeBuilder : ModuleNodeBuilder
+	class AddinNodeBuilder : ModuleNodeBuilder, ITreeDetailBuilder
 	{
 		public override Type NodeDataType {
 			get { return typeof(Addin); }
@@ -35,6 +36,28 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 			}
 
 			base.BuildChildNodes (treeBuilder, addin.Description.MainModule);
+		}
+
+		public Widget GetDetailWidget (object dataObject)
+		{
+			return new AddinDetailWidget ((Addin)dataObject);
+		}
+	}
+
+	class AddinDetailWidget : VBox
+	{
+		public Addin Addin { get; private set; }
+
+		public AddinDetailWidget (Addin addin)
+		{
+			this.Addin = addin;
+
+			BorderWidth = 12;
+
+			var desc = Addin.Description;
+			PackStart (new Label { Markup = string.Format ("<big><tt>{0}</tt></big>\n{1}\n{2}", desc.AddinId, desc.Name, desc.Description)}, true, false, 0);
+
+			ShowAll ();
 		}
 	}
 }
