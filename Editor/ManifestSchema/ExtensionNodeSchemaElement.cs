@@ -28,7 +28,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ICSharpCode.NRefactory.Completion;
 using Mono.Addins.Description;
 using MonoDevelop.Ide.CodeCompletion;
 using MonoDevelop.Xml.Dom;
@@ -37,11 +36,11 @@ namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 {
 	class ExtensionNodeSchemaElement : SchemaElement
 	{
-		readonly AddinProject proj;
+		readonly AddinProjectFlavor proj;
 		readonly ExtensionNodeType info;
 		readonly ExtensionPoint extensionPoint;
 
-		public ExtensionNodeSchemaElement (AddinProject proj, ExtensionPoint extensionPoint, ExtensionNodeType info) : base (info.NodeName, info.Description)
+		public ExtensionNodeSchemaElement (AddinProjectFlavor proj, ExtensionPoint extensionPoint, ExtensionNodeType info) : base (info.NodeName, info.Description)
 		{
 			this.proj = proj;
 			this.extensionPoint = extensionPoint;
@@ -141,7 +140,7 @@ namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 
 		class NodeTypeAttributeCompletionData : CompletionData
 		{
-			NodeTypeAttribute att;
+			readonly NodeTypeAttribute att;
 			string markup;
 
 			public NodeTypeAttributeCompletionData (NodeTypeAttribute att)

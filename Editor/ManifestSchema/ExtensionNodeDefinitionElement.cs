@@ -29,9 +29,9 @@ namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 	//TODO: completion for the type attribute
 	class ExtensionNodeDefinitionElement : SchemaElement
 	{
-		readonly AddinProject project;
+		readonly AddinProjectFlavor project;
 
-		public ExtensionNodeDefinitionElement (AddinProject project) : base (
+		public ExtensionNodeDefinitionElement (AddinProjectFlavor project) : base (
 			"ExtensionNode",
 			"A type of node allowed in this extension point.",
 			new[] {

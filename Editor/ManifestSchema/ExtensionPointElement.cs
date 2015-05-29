@@ -28,7 +28,7 @@ namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 {
 	class ExtensionPointSchemaElement : SchemaElement
 	{
-		public ExtensionPointSchemaElement (AddinProject project) : base (
+		public ExtensionPointSchemaElement (AddinProjectFlavor project) : base (
 			"ExtensionPoint",
 			"Declares an extension point",
 			new [] {

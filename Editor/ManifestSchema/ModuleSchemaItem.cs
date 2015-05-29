@@ -28,7 +28,7 @@ namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 {
 	class ModuleSchemaItem : SchemaElement
 	{
-		public ModuleSchemaItem (AddinProject project) : base (
+		public ModuleSchemaItem (AddinProjectFlavor project) : base (
 			"Module",
 			"Declares an optional extension module",
 			new SchemaElement [] {

@@ -61,5 +61,8 @@
     </None>
     <None Include="MonoDevelop.Addins.nuspec" />
     <None Include="packages.config" />
+    <None Include="MonoDevelop.Addins.props">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

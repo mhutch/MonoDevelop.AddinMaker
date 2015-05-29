@@ -37,12 +37,12 @@ namespace MonoDevelop.AddinMaker.Editor
 	{
 		SchemaElement schema;
 
-		public override bool ExtendsEditor (MonoDevelop.Ide.Gui.Document doc, MonoDevelop.Ide.Gui.Content.IEditableTextBuffer editor)
+		public override bool IsValidInContext (MonoDevelop.Ide.Editor.DocumentContext context)
 		{
-			return base.ExtendsEditor (doc, editor) && doc.HasProject && doc.Project is AddinProject;
+			return base.IsValidInContext (context) && context.HasProject && context.Project.HasFlavor<AddinProjectFlavor> ();
 		}
 
-		public override void Initialize ()
+		protected override void Initialize ()
 		{
 			base.Initialize ();
 			schema = CreateSchema ();

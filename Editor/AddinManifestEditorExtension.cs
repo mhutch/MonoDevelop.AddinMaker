@@ -4,14 +4,14 @@ namespace MonoDevelop.AddinMaker.Editor
 {
 	class AddinManifestEditorExtension : SchemaBasedEditorExtension
 	{
-		public override bool ExtendsEditor (MonoDevelop.Ide.Gui.Document doc, MonoDevelop.Ide.Gui.Content.IEditableTextBuffer editor)
+		public override bool IsValidInContext (MonoDevelop.Ide.Editor.DocumentContext context)
 		{
-			return base.ExtendsEditor (doc, editor) && doc.HasProject && doc.Project is AddinProject;
+			return base.IsValidInContext (context) && context.HasProject && context.Project.HasFlavor<AddinProjectFlavor> ();
 		}
 
 		protected override SchemaElement CreateSchema ()
 		{
-			var project = (AddinProject)Document.Project;
+			var project = DocumentContext.Project.GetFlavor<AddinProjectFlavor> ();
 
 			var addinContents = new SchemaElement[] {
 				new RuntimeSchemaElement (),
@@ -38,7 +38,7 @@ namespace MonoDevelop.AddinMaker.Editor
 						new SchemaAttribute ("author", "Author of the add-in."),
 						new SchemaAttribute ("url", "Url of a web page with more information about the add-in."),
 						new SchemaAttribute ("defaultEnabled", "When set to 'false', the add-in won't be enabled until it is explicitly enabled by the user. The default is 'true'."),
-						//TODO: enable this if we ever support arbitraty addins
+						//TODO: enable this if we ever support arbitrary addins
 						//new SchemaAttribute ("isroot", "Must be true if this manifest belongs to an add-in root.")
 					}
 				),

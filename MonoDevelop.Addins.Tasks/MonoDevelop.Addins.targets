@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.ResolveMonoDevelopAddins" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.GetDefaultMonoDevelopLocations" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.GenerateDependencyAttributes" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
@@ -13,11 +13,6 @@
   <PropertyGroup>
     <MDProfileVersion Condition="'$(MDProfileVersion)' == ''">5.0</MDProfileVersion>
     <MDProfilePath Condition="'$(MDProfilePath)' == ''">$(MONODEVELOP_TEST_PROFILE)</MDProfilePath>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetFrameworkMoniker>.NETFramework,Version=v4.5</TargetFrameworkMoniker>
   </PropertyGroup>
 
   <!-- always reference the core addins and assemblies -->

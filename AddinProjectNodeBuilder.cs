@@ -8,7 +8,7 @@ namespace MonoDevelop.AddinMaker
 	{
 		public override bool CanBuildNode (Type dataType)
 		{
-			return typeof(AddinProject).IsAssignableFrom (dataType);
+			return typeof(AddinProjectFlavor).IsAssignableFrom (dataType);
 		}
 
 		public override Type CommandHandlerType {
@@ -22,13 +22,13 @@ namespace MonoDevelop.AddinMaker
 
 		public override void BuildChildNodes (ITreeBuilder treeBuilder, object dataObject)
 		{
-			var project = (AddinProject)dataObject;
+			var project = (AddinProjectFlavor)dataObject;
 			treeBuilder.AddChild (project.AddinReferences);
 		}
 
 		public override void OnNodeAdded (object dataObject)
 		{
-			var project = (AddinProject)dataObject;
+			var project = (AddinProjectFlavor)dataObject;
 			project.AddinReferenceAdded += OnReferencesChanged;
 			project.AddinReferenceRemoved += OnReferencesChanged;
 			base.OnNodeAdded (dataObject);
@@ -36,7 +36,7 @@ namespace MonoDevelop.AddinMaker
 
 		public override void OnNodeRemoved (object dataObject)
 		{
-			var project = (AddinProject)dataObject;
+			var project = (AddinProjectFlavor)dataObject;
 			project.AddinReferenceAdded -= OnReferencesChanged;
 			project.AddinReferenceRemoved -= OnReferencesChanged;
 			base.OnNodeRemoved (dataObject);

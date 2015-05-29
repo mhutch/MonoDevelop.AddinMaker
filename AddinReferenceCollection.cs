@@ -4,11 +4,11 @@ namespace MonoDevelop.AddinMaker
 {
 	class AddinReferenceCollection : ProjectItemCollection<AddinReference>
 	{
-		public AddinProject Project { get; private set; }
+		public AddinProjectFlavor ProjectFlavor { get; private set; }
 
-		internal AddinReferenceCollection (AddinProject project)
+		internal AddinReferenceCollection (AddinProjectFlavor project)
 		{
-			this.Project = project;
+			this.ProjectFlavor = project;
 		}
 	}
 }

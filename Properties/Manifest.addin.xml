@@ -22,16 +22,15 @@
 			file = "Templates/ProjectTemplate.xft.xml" />
 	</Extension>
 
-	<Extension path = "/MonoDevelop/ProjectModel/MSBuildItemTypes">
-		<DotNetProjectSubtype
+	<Extension path = "/MonoDevelop/ProjectModel/ProjectModelExtensions">
+		<ProjectFlavor
 			guid="{7DBEB09D-BB9F-4D92-A141-A009135475EF}"
-			type="MonoDevelop.AddinMaker.AddinProjectNeedsMigration"
+			type="MonoDevelop.AddinMaker.AddinProjectNeedsMigrationFlavor"
 			/>
-		<DotNetProjectSubtype
+		<ProjectFlavor
 			guid="{86F6BF2A-E449-4B3E-813B-9ACC37E5545F}"
-			type="MonoDevelop.AddinMaker.AddinProject"
-			useXBuild="true"
-			requireXbuild="true"
+			type="MonoDevelop.AddinMaker.AddinProjectFlavor"
+			alias="Addin"
 			/>
 	</Extension>
 
@@ -41,9 +40,6 @@
 		<NodeBuilder class = "MonoDevelop.AddinMaker.AddinReferenceNodeBuilder"/>
 	</Extension>
 
-	<Extension path = "/MonoDevelop/ProjectModel/ProjectBindings">
-		<ProjectBinding class = "MonoDevelop.AddinMaker.AddinProjectBinding" />
-	</Extension>
 	<Extension path = "/MonoDevelop/ProjectModel/SerializableClasses">
 		<DataType name="AddinReference" class = "MonoDevelop.AddinMaker.AddinReference" />
 	</Extension>

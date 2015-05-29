@@ -30,7 +30,7 @@ namespace MonoDevelop.AddinMaker
 
 		public override object GetParentObject (object dataObject)
 		{
-			return ((AddinReferenceCollection) dataObject).Project;
+			return ((AddinReferenceCollection) dataObject).ProjectFlavor;
 		}
 
 		public override Type CommandHandlerType
@@ -70,10 +70,10 @@ namespace MonoDevelop.AddinMaker
 				var arc = (AddinReferenceCollection) CurrentNode.DataItem;
 
 				var existingAddins = new HashSet<string> (
-					arc.Project.AddinReferences.Select (a => a.Id)
+					arc.ProjectFlavor.AddinReferences.Select (a => a.Id)
 				);
 
-				var allAddins = arc.Project.AddinRegistry.GetAddins ()
+				var allAddins = arc.ProjectFlavor.AddinRegistry.GetAddins ()
 					.Where (a => !existingAddins.Contains (AddinHelpers.GetUnversionedId (a)))
 					.ToArray ();
 
@@ -100,8 +100,8 @@ namespace MonoDevelop.AddinMaker
 					Id = AddinHelpers.GetUnversionedId (a)
 				}).ToList ();
 
-				arc.Project.AddinReferences.AddRange (references);
-				IdeApp.ProjectOperations.Save (arc.Project);
+				arc.ProjectFlavor.AddinReferences.AddRange (references);
+				IdeApp.ProjectOperations.SaveAsync (arc.ProjectFlavor.Project);
 			}
 
 			public override void ActivateItem ()

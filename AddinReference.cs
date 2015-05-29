@@ -12,6 +12,6 @@ namespace MonoDevelop.AddinMaker
 		[ItemProperty]
 		public string Version { get; set; }
 
-		public AddinProject OwnerProject { get; internal set; }
+		public AddinProjectFlavor OwnerProject { get; internal set; }
 	}
 }

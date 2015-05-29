@@ -35,9 +35,9 @@ namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 	//TODO: completion for extension points defined in this addin
 	class ExtensionSchemaElement : SchemaElement
 	{
-		readonly AddinProject project;
+		readonly AddinProjectFlavor project;
 
-		public ExtensionSchemaElement (AddinProject project) : base ("Extension", "Declares an extension")
+		public ExtensionSchemaElement (AddinProjectFlavor project) : base ("Extension", "Declares an extension")
 		{
 			this.project = project;
 		}

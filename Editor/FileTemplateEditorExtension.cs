@@ -28,9 +28,9 @@ namespace MonoDevelop.AddinMaker.Editor
 {
 	class FileTemplateEditorExtension : SchemaBasedEditorExtension
 	{
-		public override bool ExtendsEditor (MonoDevelop.Ide.Gui.Document doc, MonoDevelop.Ide.Gui.Content.IEditableTextBuffer editor)
+		public override bool IsValidInContext (MonoDevelop.Ide.Editor.DocumentContext context)
 		{
-			return base.ExtendsEditor (doc, editor) && doc.HasProject && doc.Project is AddinProject;
+			return base.IsValidInContext (context) && context.HasProject && context.Project.HasFlavor<AddinProjectFlavor> ();
 		}
 
 		protected override SchemaElement CreateSchema ()

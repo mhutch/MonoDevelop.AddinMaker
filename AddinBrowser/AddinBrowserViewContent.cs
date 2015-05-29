@@ -43,7 +43,7 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 			return IdeApp.Workbench.OpenDocument (newContent, true);
 		}
 
-		public override void Load (string fileName)
+		public override void Load (FileOpenInformation fileOpenInformation)
 		{
 			throw new NotSupportedException ();
 		}

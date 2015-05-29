@@ -19,7 +19,7 @@ namespace MonoDevelop.AddinMaker
 				yield return d;
 			}
 
-			var proj = (AddinProject)ParentItem;
+			var proj = ParentItem.GetFlavor<AddinProjectFlavor> ();
 
 			//TODO: keep in sync with targets. eventually resolve from MSBuild
 			var cv = proj.AddinRegistry.GetAddin ("MonoDevelop.Core").Description.CompatVersion;
