@@ -60,8 +60,6 @@
     <Compile Include="Editor\SchemaBasedEditorExtension.cs" />
     <Compile Include="Editor\SchemaAttribute.cs" />
     <Compile Include="Editor\SchemaElement.cs" />
-    <Compile Include="Editor\ManifestSchema\ExtensionSchemaElement.cs" />
-    <Compile Include="Editor\ManifestSchema\ExtensionNodeSchemaElement.cs" />
     <Compile Include="Editor\ManifestSchema\RuntimeSchemaItem.cs" />
     <Compile Include="Editor\ManifestSchema\DependenciesSchemaItem.cs" />
     <Compile Include="Editor\ManifestSchema\ModuleSchemaItem.cs" />
@@ -89,6 +87,9 @@
     <Compile Include="AddinBrowser\AddinFileNodeBuilder.cs" />
     <Compile Include="AddinBrowser\AddinTreeView.cs" />
     <Compile Include="AddinBrowser\AddinDependencyNodeBuilder.cs" />
+    <Compile Include="Editor\ManifestSchema\ExtensionNodeSetElement.cs" />
+    <Compile Include="Editor\ManifestSchema\ExtensionNodeElement.cs" />
+    <Compile Include="Editor\ManifestSchema\ExtensionElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

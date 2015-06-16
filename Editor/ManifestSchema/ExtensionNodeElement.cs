@@ -35,13 +35,13 @@ using MonoDevelop.Xml.Dom;
 
 namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 {
-	class ExtensionNodeSchemaElement : SchemaElement
+	class ExtensionNodeElement : SchemaElement
 	{
 		readonly AddinProject proj;
 		readonly ExtensionNodeType info;
 		readonly ExtensionPoint extensionPoint;
 
-		public ExtensionNodeSchemaElement (AddinProject proj, ExtensionPoint extensionPoint, ExtensionNodeType info) : base (info.NodeName, info.Description)
+		public ExtensionNodeElement (AddinProject proj, ExtensionPoint extensionPoint, ExtensionNodeType info) : base (info.NodeName, info.Description)
 		{
 			this.proj = proj;
 			this.extensionPoint = extensionPoint;
@@ -78,7 +78,7 @@ namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 		{
 			var node = info.GetAllowedNodeTypes ().FirstOrDefault (n => n.NodeName == element.Name.FullName);
 			if (node != null) {
-				return new ExtensionNodeSchemaElement (proj, extensionPoint, node);
+				return new ExtensionNodeElement (proj, extensionPoint, node);
 			}
 
 			return null;
@@ -91,13 +91,14 @@ namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 			}
 		}
 
-		IEnumerable<Extension> GetExtensions (string path)
+		internal static IEnumerable<Extension> GetExtensions (AddinProject project, ExtensionPoint extensionPoint)
 		{
+			//TODO: handle node sets
 			foreach (var addin in extensionPoint.ExtenderAddins) {
-				var modules = proj.AddinRegistry.GetAddin (addin).Description.AllModules;
+				var modules = project.AddinRegistry.GetAddin (addin).Description.AllModules;
 				foreach (ModuleDescription module in modules) {
 					foreach (Extension extension in module.Extensions) {
-						if (extension.Path == path)
+						if (extension.Path == extensionPoint.Path)
 							yield return extension;
 					}
 				}
@@ -110,7 +111,7 @@ namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 
 			if (name == "insertbefore" || name == "insertafter") {
 				//TODO: conditions, children
-				foreach (var ext in GetExtensions (extensionPoint.Path)) {
+				foreach (var ext in GetExtensions (proj, extensionPoint)) {
 					foreach (ExtensionNodeDescription node in ext.ExtensionNodes) {
 						if (!string.IsNullOrEmpty (node.Id)) {
 							list.Add (node.Id, null, "From " + node.ParentAddinDescription.AddinId);
