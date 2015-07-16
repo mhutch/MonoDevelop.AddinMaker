@@ -10,7 +10,7 @@
     <RootNamespace>MonoDevelop.AddinMaker</RootNamespace>
     <AssemblyName>MonoDevelop.AddinMaker</AssemblyName>
     <MDProfileVersion>6.0</MDProfileVersion>
-    <MDBinDir>C:\Users\Michael\git\monodevelop\main\build\bin</MDBinDir>
+    <MDBinDir>..\monodevelop\main\build\bin</MDBinDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
