@@ -28,7 +28,7 @@ namespace MonoDevelop.AddinMaker
 			[LocalizedDisplayName ("ID")]
 			[LocalizedDescription ("ID of the addin.")]
 			public string Id {
-				get { return addinReference.Id; }
+				get { return addinReference.Include; }
 			}
 
 			[LocalizedCategory ("Addin")]

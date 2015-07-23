@@ -29,17 +29,11 @@ namespace MonoDevelop.AddinMaker
 			get { return typeof (AddinReferenceCommandHandler); }
 		}
 
-		public override object GetParentObject (object dataObject)
-		{
-			var addin = (AddinReference)dataObject;
-			return addin.OwnerProject != null ? addin.OwnerProject.AddinReferences : null;
-		}
-
 		public override void BuildNode (ITreeBuilder treeBuilder, object dataObject, NodeInfo nodeInfo)
 		{
 			var addin = (AddinReference)dataObject;
 
-			nodeInfo.Label = GLib.Markup.EscapeText (addin.Id);
+			nodeInfo.Label = GLib.Markup.EscapeText (addin.Include);
 
 			//TODO: custom icon
 			nodeInfo.Icon = Context.GetIcon ("md-reference-package");
@@ -61,26 +55,29 @@ namespace MonoDevelop.AddinMaker
 				return true;
 			}
 
-			[CommandUpdateHandler (MonoDevelop.Ide.Commands.EditCommands.Delete)]
+			[CommandUpdateHandler (Ide.Commands.EditCommands.Delete)]
 			public void UpdateDelete (CommandInfo info)
 			{
 				info.Enabled = true;
 				info.Text = GettextCatalog.GetString ("Remove");
 			}
 
-			[CommandHandler (MonoDevelop.Ide.Commands.EditCommands.Delete)]
+			[CommandHandler (Ide.Commands.EditCommands.Delete)]
 			public override void DeleteItem ()
 			{
 				var addin = (AddinReference) CurrentNode.DataItem;
-				addin.OwnerProject.AddinReferences.Remove (addin);
+				var proj = addin.Project;
+				addin.Project.Items.Remove (addin);
+				Ide.IdeApp.ProjectOperations.SaveAsync (proj);
 			}
 
 			public override void ActivateItem ()
 			{
 				var addin = (AddinReference) CurrentNode.DataItem;
-				var resolved = addin.OwnerProject.AddinRegistry.GetAddin (addin.Id);
+				var registry = addin.Project.GetFlavor<AddinProjectFlavor> ().AddinRegistry;
+				var resolved = registry.GetAddin (addin.Include);
 				if (resolved != null) {
-					AddinBrowserViewContent.Open (addin.OwnerProject.AddinRegistry, resolved);
+					AddinBrowserViewContent.Open (registry, resolved);
 				}
 			}
 		}

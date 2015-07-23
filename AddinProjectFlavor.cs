@@ -20,9 +20,6 @@ namespace MonoDevelop.AddinMaker
 
 			//TODO: load the actual addin registry referenced from the project file
 			AddinRegistry = AddinManager.Registry;
-
-			AddinReferences = new AddinReferenceCollection (this);
-			Project.Items.Bind (AddinReferences);
 		}
 
 		protected override DotNetProjectFlags OnGetDotNetProjectFlags ()
@@ -42,65 +39,14 @@ namespace MonoDevelop.AddinMaker
 			return cfg;
 		}
 
-		protected override void OnItemsAdded (IEnumerable<ProjectItem> objs)
-		{
-			base.OnItemsAdded (objs);
-
-			var addinRefs = objs.OfType<AddinReference> ().ToList ();
-			if (addinRefs.Count == 0)
-				return;
-
-			var args = new AddinReferenceEventArgs ();
-			foreach (var item in addinRefs) {
-				item.OwnerProject = this;
-				args.AddInfo (this, item);
-			}
-			OnAddinReferenceAdded (args);
-		}
-
-		protected virtual void OnAddinReferenceAdded (AddinReferenceEventArgs args)
-		{
-			var evt = AddinReferenceAdded;
-			if (evt != null)
-				evt (this, args);
-		}
-
-		protected override void OnItemsRemoved (IEnumerable<ProjectItem> objs)
-		{
-			base.OnItemsRemoved (objs);
-
-			var addinRefs = objs.OfType<AddinReference> ().ToList ();
-			if (addinRefs.Count == 0)
-				return;
-
-			var args = new AddinReferenceEventArgs ();
-			foreach (var item in addinRefs) {
-				item.OwnerProject = null;
-				args.AddInfo (this, item);
-			}
-			OnAddinReferenceRemoved (args);
-		}
-
-		protected virtual void OnAddinReferenceRemoved (AddinReferenceEventArgs args)
-		{
-			var evt = AddinReferenceRemoved;
-			if (evt != null)
-				evt (this, args);
-		}
-
-		public AddinReferenceCollection AddinReferences { get; private set; }
-
 		public IEnumerable<Addin> GetReferencedAddins ()
 		{
 			yield return AddinRegistry.GetAddin ("MonoDevelop.Core");
 			yield return AddinRegistry.GetAddin ("MonoDevelop.Ide");
-			foreach (var ar in AddinReferences) {
-				yield return AddinRegistry.GetAddin (ar.Id);
+			foreach (var ar in Project.Items.OfType<AddinReference> ()) {
+				yield return AddinRegistry.GetAddin (ar.Include);
 			}
 		}
-
-		public event EventHandler<AddinReferenceEventArgs> AddinReferenceAdded;
-		public event EventHandler<AddinReferenceEventArgs> AddinReferenceRemoved;
 
 		public AddinRegistry AddinRegistry { get; private set; }
 

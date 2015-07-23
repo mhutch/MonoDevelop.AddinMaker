@@ -14,7 +14,7 @@ namespace MonoDevelop.AddinMaker
 	{
 		public override Type NodeDataType
 		{
-			get { return typeof (AddinReferenceCollection); }
+			get { return typeof (AddinReferenceFolder); }
 		}
 
 		public override string GetNodeName (ITreeNavigator thisNode, object dataObject)
@@ -30,7 +30,7 @@ namespace MonoDevelop.AddinMaker
 
 		public override object GetParentObject (object dataObject)
 		{
-			return ((AddinReferenceCollection) dataObject).ProjectFlavor;
+			return ((AddinReferenceFolder) dataObject).Project;
 		}
 
 		public override Type CommandHandlerType
@@ -48,12 +48,12 @@ namespace MonoDevelop.AddinMaker
 
 		public override bool HasChildNodes (ITreeBuilder builder, object dataObject)
 		{
-			return ((AddinReferenceCollection)dataObject).Count > 0;
+			return ((AddinReferenceFolder)dataObject).Project.Items.OfType<AddinReference> ().Any ();
 		}
 
 		public override void BuildChildNodes (ITreeBuilder treeBuilder, object dataObject)
 		{
-			foreach (var addin in (AddinReferenceCollection) dataObject)
+			foreach (var addin in ((AddinReferenceFolder)dataObject).Project.Items.OfType<AddinReference> ())
 				treeBuilder.AddChild (addin);
 		}
 
@@ -67,13 +67,13 @@ namespace MonoDevelop.AddinMaker
 			[CommandHandler(AddinCommands.AddAddinReference)]
 			public void AddAddinReference ()
 			{
-				var arc = (AddinReferenceCollection) CurrentNode.DataItem;
+				var arf = (AddinReferenceFolder) CurrentNode.DataItem;
 
 				var existingAddins = new HashSet<string> (
-					arc.ProjectFlavor.AddinReferences.Select (a => a.Id)
+					arf.Project.Items.OfType<AddinReference> ().Select (a => a.Include)
 				);
 
-				var allAddins = arc.ProjectFlavor.AddinRegistry.GetAddins ()
+				var allAddins = arf.Project.GetFlavor<AddinProjectFlavor> ().AddinRegistry.GetAddins ()
 					.Where (a => !existingAddins.Contains (AddinHelpers.GetUnversionedId (a)))
 					.ToArray ();
 
@@ -96,12 +96,10 @@ namespace MonoDevelop.AddinMaker
 
 				//HACK: we have to ToList() or the event handlers attached to the
 				//collection will all enumerate the list and get different copies
-				var references = selectedAddins.Select (a => new AddinReference {
-					Id = AddinHelpers.GetUnversionedId (a)
-				}).ToList ();
+				var references = selectedAddins.Select (a => new AddinReference (AddinHelpers.GetUnversionedId (a))).ToList ();
 
-				arc.ProjectFlavor.AddinReferences.AddRange (references);
-				IdeApp.ProjectOperations.SaveAsync (arc.ProjectFlavor.Project);
+				arf.Project.Items.AddRange (references);
+				IdeApp.ProjectOperations.SaveAsync (arf.Project);
 			}
 
 			public override void ActivateItem ()
