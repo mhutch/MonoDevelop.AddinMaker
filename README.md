@@ -15,11 +15,11 @@ The Addin Maker makes it easy to create and maintain MonoDevelop and Xamarin Stu
 
 Most users should install this from the MD/XS Addin Gallery. However, if you wish to contribute to the addin, you will need to build it from source. This may also be necessary if you wish to use it with some unreleased version of MonoDevelop or Xamarin Studio.
 
-Because loading the Addin Maker in MD/XS requires itself to be installed, scripts are provided to build and install it from the commandline. Simply run `Install.bat` (Windows) or `Install.sh` (Mac, Linux).
+Because loading the Addin Maker in MD/XS requires itself to be installed, scripts are provided to build and install it from the commandline. Simply run `Install.bat` (Windows) or `make install` (Mac, Linux).
 
 To build against a specific version, you can provide arguments, e.g.
 
-    ./Install.sh /p:MDBinDir=../monodevelop/main/build/bin /p:MDProfileVersion=6.0
+    make install ARGS="/p:MDBinDir=../monodevelop/main/build/bin /p:MDProfileVersion=6.0"
 
 ## Migrating Existing Projects
 

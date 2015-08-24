@@ -1,10 +1,10 @@
-CONFIG=Debug
+CONFIG?=Debug
 
 all:
-	xbuild /p:Configuration=${CONFIG}
+	xbuild /p:Configuration=${CONFIG} ${ARGS}
 
 clean:
-	xbuild /t:Clean
+	xbuild /t:Clean ${ARGS}
 
 install:
-	xbuild /p:InstallAddin=True /p:Configuration=${CONFIG}
+	xbuild /p:InstallAddin=True /p:Configuration=${CONFIG} ${ARGS}
