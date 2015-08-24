@@ -15,6 +15,14 @@
     <MDProfilePath Condition="'$(MDProfilePath)' == ''">$(MONODEVELOP_TEST_PROFILE)</MDProfilePath>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(InstallAddin)'=='True'">
+    <BuildDependsOn>$(BuildDependsOn);_CoreCreatePackage;_CoreInstallAddin</BuildDependsOn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(CreatePackage)'=='True'">
+    <BuildDependsOn>$(BuildDependsOn);_CoreCreatePackage</BuildDependsOn>
+  </PropertyGroup>
+
   <!-- always reference the core addins and assemblies -->
   <ItemGroup>
     <Reference Include="System" />
@@ -119,7 +127,7 @@
     </PropertyGroup>
   </Target>
 
-  <Target Name="CreatePackage" DependsOnTargets="Build">
+  <Target Name="_CoreCreatePackage">
     <CreatePackage
       ConfigDir="$(MDConfigDir)"
       AddinsDir="$(MDAddinsDir)"
@@ -139,10 +147,14 @@
     <Exec Command='$(_MDToolCommand) setup pack "-d:$(OutDir)." "$(TargetPath)"' />
   </Target>
 
-  <Target Name="InstallAddin" DependsOnTargets="CreatePackage">
+  <Target Name="_CoreInstallAddin">
     <!-- xbuild doesn't support StandardOutputImportance="Low" -->
     <Exec Command='$(_MDToolCommand) setup install -y "$(PackageFile)"' />
   </Target>
+
+  <Target Name="InstallAddin" DependsOnTargets="CreatePackage;_CoreInstallAddin" />
+
+  <Target Name="PackageAddin" DependsOnTargets="Build;_CoreCreatePackage" />
 
   <PropertyGroup>
     <BuildDependsOn>
