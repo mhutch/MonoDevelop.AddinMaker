@@ -29,6 +29,8 @@ using System.Linq;
 using MonoDevelop.Ide.CodeCompletion;
 using MonoDevelop.Xml.Dom;
 using MonoDevelop.Xml.Editor;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace MonoDevelop.AddinMaker.Editor
 {
@@ -67,8 +69,9 @@ namespace MonoDevelop.AddinMaker.Editor
 			return item;
 		}
 
-		protected override void GetElementCompletions (CompletionDataList list)
+		protected override Task<CompletionDataList> GetElementCompletions (CancellationToken token)
 		{
+			var list = new CompletionDataList();
 			AddMiscBeginTags (list);
 
 			XElement el;
@@ -76,31 +79,32 @@ namespace MonoDevelop.AddinMaker.Editor
 			if (item != null) {
 				item.GetElementCompletions (list, el);
 			}
+			return Task.FromResult (list);
 		}
 
-		protected override CompletionDataList GetAttributeCompletions (IAttributedXObject attributedOb, Dictionary<string, string> existingAtts)
+		protected override Task<CompletionDataList> GetAttributeCompletions (IAttributedXObject attributedOb, Dictionary<string, string> existingAtts, CancellationToken token)
 		{
 			XElement el;
 			var item = GetSchemaItem (GetCurrentPath (), out el);
+			var list = new CompletionDataList ();
+
 			if (item != null) {
-				var list = new CompletionDataList ();
 				item.GetAttributeCompletions (list, attributedOb, existingAtts);
-				return list;
 			}
-			return null;
+			return Task.FromResult (list);
 		}
 
-		protected override CompletionDataList GetAttributeValueCompletions (IAttributedXObject attributedOb, XAttribute att)
+		protected override Task<CompletionDataList> GetAttributeValueCompletions (IAttributedXObject attributedOb, XAttribute att, CancellationToken token)
 		{
 			XElement el;
 			var path = GetCurrentPath ();
 			var item = GetSchemaItem (path.Take (path.Count - 1), out el);
+			var list = new CompletionDataList ();
+
 			if (item != null) {
-				var list = new CompletionDataList ();
 				item.GetAttributeValueCompletions (list, attributedOb, att);
-				return list;
 			}
-			return null;
+			return Task.FromResult (list);
 		}
 	}
 }
