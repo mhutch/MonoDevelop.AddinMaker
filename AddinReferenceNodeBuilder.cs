@@ -1,6 +1,7 @@
 ﻿using System;
 using MonoDevelop.Components.Commands;
 using MonoDevelop.Core;
+using MonoDevelop.Ide;
 using MonoDevelop.Ide.Gui.Components;
 using MonoDevelop.AddinMaker.AddinBrowser;
 
@@ -72,7 +73,9 @@ namespace MonoDevelop.AddinMaker
 			public override void DeleteItem ()
 			{
 				var addin = (AddinReference) CurrentNode.DataItem;
-				addin.OwnerProject.AddinReferences.Remove (addin);
+				var project = addin.OwnerProject;
+				project.AddinReferences.Remove (addin);
+				IdeApp.ProjectOperations.Save (project);
 			}
 
 			public override void ActivateItem ()
