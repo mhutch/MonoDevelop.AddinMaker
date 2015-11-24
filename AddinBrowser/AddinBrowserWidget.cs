@@ -11,11 +11,12 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 		public AddinBrowserWidget (AddinRegistry registry)
 		{
 			TreeView = new AddinTreeView (registry);
+			var gtkTreeView = TreeView.GetNativeWidget<Gtk.Widget> ();
 
-			TreeView.Tree.Selection.Mode = SelectionMode.Single;
-			TreeView.WidthRequest = 300;
+			TreeView.AllowsMultipleSelection = false;
+			gtkTreeView.WidthRequest = 300;
 
-			Pack1 (TreeView, false, false);
+			Pack1 (gtkTreeView, false, false);
 			SetDetail (null);
 
 			ShowAll ();
