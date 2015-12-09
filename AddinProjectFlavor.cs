@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -14,12 +13,21 @@ namespace MonoDevelop.AddinMaker
 {
 	class AddinProjectFlavor : DotNetProjectExtension
 	{
+		AddinReferenceCollection addinReferences;
+
 		protected override void Initialize ()
 		{
 			base.Initialize ();
 
+			addinReferences = new AddinReferenceCollection (this);
+			Project.Items.Bind (addinReferences);
+
 			//TODO: load the actual addin registry referenced from the project file
 			AddinRegistry = AddinManager.Registry;
+		}
+
+		public AddinReferenceCollection AddinReferences {
+			get { return addinReferences; }
 		}
 
 		protected override DotNetProjectFlags OnGetDotNetProjectFlags ()

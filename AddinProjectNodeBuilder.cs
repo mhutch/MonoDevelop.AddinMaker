@@ -18,40 +18,14 @@ namespace MonoDevelop.AddinMaker
 
 		public override bool HasChildNodes (ITreeBuilder builder, object dataObject)
 		{
-			var project = ((DotNetProject)dataObject);
-			return project.HasFlavor<AddinProjectFlavor> ();
+			return ((DotNetProject)dataObject).HasFlavor<AddinProjectFlavor> ();
 		}
 
 		public override void BuildChildNodes (ITreeBuilder treeBuilder, object dataObject)
 		{
-			var project = ((DotNetProject)dataObject);
-			if (project.HasFlavor<AddinProjectFlavor> ()) {
-				treeBuilder.AddChild (new AddinReferenceFolder (project));
-			}
-		}
-
-		public override void OnNodeAdded (object dataObject)
-		{
-			var project = ((DotNetProject)dataObject);
-			project.ProjectItemAdded += OnReferencesChanged;
-			project.ProjectItemRemoved += OnReferencesChanged;
-			base.OnNodeAdded (dataObject);
-		}
-
-		public override void OnNodeRemoved (object dataObject)
-		{
-			var project = ((DotNetProject)dataObject);
-			project.ProjectItemAdded -= OnReferencesChanged;
-			project.ProjectItemRemoved -= OnReferencesChanged;
-			base.OnNodeRemoved (dataObject);
-		}
-
-		void OnReferencesChanged (object sender, ProjectItemEventArgs e)
-		{
-			foreach (var project in e.Select (x => (Project)x.SolutionItem).Distinct ()) {
-				ITreeBuilder builder = Context.GetTreeBuilder (project);
-				if (builder != null)
-					builder.UpdateChildren ();
+			var project = ((DotNetProject)dataObject).AsFlavor<AddinProjectFlavor> ();
+			if (project != null) {
+				treeBuilder.AddChild (project.AddinReferences);
 			}
 		}
 

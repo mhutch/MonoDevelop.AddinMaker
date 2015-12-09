@@ -7,14 +7,15 @@ using MonoDevelop.Core;
 using MonoDevelop.Ide;
 using MonoDevelop.Ide.Gui;
 using MonoDevelop.Ide.Gui.Components;
+using MonoDevelop.Projects;
 
 namespace MonoDevelop.AddinMaker
 {
-	class AddinReferenceFolderNodeBuilder : TypeNodeBuilder
+	class AddinReferencesNodeBuilder : TypeNodeBuilder
 	{
 		public override Type NodeDataType
 		{
-			get { return typeof (AddinReferenceFolder); }
+			get { return typeof (AddinReferenceCollection); }
 		}
 
 		public override string GetNodeName (ITreeNavigator thisNode, object dataObject)
@@ -26,11 +27,6 @@ namespace MonoDevelop.AddinMaker
 			get {
 				return "/MonoDevelop/AddinMaker/ContextMenu/ProjectPad/AddinReferenceFolder";
 			}
-		}
-
-		public override object GetParentObject (object dataObject)
-		{
-			return ((AddinReferenceFolder) dataObject).Project;
 		}
 
 		public override Type CommandHandlerType
@@ -48,14 +44,48 @@ namespace MonoDevelop.AddinMaker
 
 		public override bool HasChildNodes (ITreeBuilder builder, object dataObject)
 		{
-			return ((AddinReferenceFolder)dataObject).Project.Items.OfType<AddinReference> ().Any ();
+			return ((AddinReferenceCollection)dataObject).Count > 0;
 		}
 
 		public override void BuildChildNodes (ITreeBuilder treeBuilder, object dataObject)
 		{
-			foreach (var addin in ((AddinReferenceFolder)dataObject).Project.Items.OfType<AddinReference> ())
+			foreach (var addin in ((AddinReferenceCollection)dataObject))
 				treeBuilder.AddChild (addin);
 		}
+
+		public override void OnNodeAdded (object dataObject)
+		{
+			var project = ((AddinReferenceCollection)dataObject).Parent.Project;
+			project.ProjectItemAdded += OnReferencesChanged;
+			project.ProjectItemRemoved += OnReferencesChanged;
+			base.OnNodeAdded (dataObject);
+		}
+
+		public override void OnNodeRemoved (object dataObject)
+		{
+			var project = ((AddinReferenceCollection)dataObject).Parent.Project;
+			project.ProjectItemAdded -= OnReferencesChanged;
+			project.ProjectItemRemoved -= OnReferencesChanged;
+			base.OnNodeRemoved (dataObject);
+		}
+
+		void OnReferencesChanged (object sender, ProjectItemEventArgs e)
+		{
+			foreach (var project in e.Select (x => x.SolutionItem).Distinct ()) {
+				var dnp = project as DotNetProject;
+				if (dnp == null)
+					continue;
+				
+				var addinFlavor = dnp.AsFlavor<AddinProjectFlavor> ();
+				if (addinFlavor == null)
+					continue;
+				
+				ITreeBuilder builder = Context.GetTreeBuilder (addinFlavor.AddinReferences);
+				if (builder != null)
+					builder.UpdateChildren ();
+			}
+		}
+
 
 		public override int CompareObjects (ITreeNavigator thisNode, ITreeNavigator otherNode)
 		{
@@ -67,13 +97,13 @@ namespace MonoDevelop.AddinMaker
 			[CommandHandler(AddinCommands.AddAddinReference)]
 			public void AddAddinReference ()
 			{
-				var arf = (AddinReferenceFolder) CurrentNode.DataItem;
+				var addins = (AddinReferenceCollection) CurrentNode.DataItem;
 
 				var existingAddins = new HashSet<string> (
-					arf.Project.Items.OfType<AddinReference> ().Select (a => a.Include)
+					addins.Select (a => a.Include)
 				);
 
-				var allAddins = arf.Project.GetFlavor<AddinProjectFlavor> ().AddinRegistry.GetAddins ()
+				var allAddins = addins.Parent.AddinRegistry.GetAddins ()
 					.Where (a => !existingAddins.Contains (AddinHelpers.GetUnversionedId (a)))
 					.ToArray ();
 
@@ -98,8 +128,8 @@ namespace MonoDevelop.AddinMaker
 				//collection will all enumerate the list and get different copies
 				var references = selectedAddins.Select (a => new AddinReference (AddinHelpers.GetUnversionedId (a))).ToList ();
 
-				arf.Project.Items.AddRange (references);
-				IdeApp.ProjectOperations.SaveAsync (arf.Project);
+				addins.AddRange (references);
+				IdeApp.ProjectOperations.SaveAsync (addins.Parent.Project);
 			}
 
 			public override void ActivateItem ()

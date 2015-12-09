@@ -12,21 +12,11 @@ namespace MonoDevelop.AddinMaker
 
 		public AddinReference (string id)
 		{
-			this.Include = id;
+			Include = id;
 		}
 
 		AddinReference ()
 		{
-		}
-	}
-
-	class AddinReferenceFolder
-	{
-		public DotNetProject Project { get; }
-
-		public AddinReferenceFolder (DotNetProject project)
-		{
-			this.Project = project;
 		}
 	}
 }

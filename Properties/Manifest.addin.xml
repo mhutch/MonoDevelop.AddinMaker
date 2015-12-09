@@ -36,7 +36,7 @@
 
 	<Extension path = "/MonoDevelop/Ide/Pads/ProjectPad">
 		<NodeBuilder class = "MonoDevelop.AddinMaker.AddinProjectNodeBuilder"/>
-		<NodeBuilder class = "MonoDevelop.AddinMaker.AddinReferenceFolderNodeBuilder"/>
+		<NodeBuilder class = "MonoDevelop.AddinMaker.AddinReferencesNodeBuilder"/>
 		<NodeBuilder class = "MonoDevelop.AddinMaker.AddinReferenceNodeBuilder"/>
 	</Extension>
 
