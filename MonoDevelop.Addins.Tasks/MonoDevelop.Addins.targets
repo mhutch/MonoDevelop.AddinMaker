@@ -99,7 +99,7 @@
       <_MDToolCommand Condition="'$(OS)'=='Unix'">mono "$(MDToolExe)"</_MDToolCommand>
     </PropertyGroup>
 
-    <Error Text = "Bin directory not found: $(BinDir)" Condition="!Exists('$(MDToolExe)')" />
+    <Error Text = "Bin directory not found: $(MDBinDir)" Condition="!Exists('$(MDToolExe)')" />
 
     <PropertyGroup>  
       <AssemblySearchPaths>$(MDBinDir);$(AssemblySearchPaths)</AssemblySearchPaths>
