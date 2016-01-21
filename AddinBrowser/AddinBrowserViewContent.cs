@@ -5,10 +5,11 @@ using MonoDevelop.Ide;
 using MonoDevelop.Ide.Gui;
 using MonoDevelop.Ide.Gui.Content;
 using MonoDevelop.Ide.Navigation;
+using System.Threading.Tasks;
 
 namespace MonoDevelop.AddinMaker.AddinBrowser
 {
-	class AddinBrowserViewContent : AbstractViewContent, INavigable
+	class AddinBrowserViewContent : ViewContent, INavigable
 	{
 		readonly AddinBrowserWidget widget;
 
@@ -18,7 +19,7 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 			widget = new AddinBrowserWidget (registry);
 		}
 
-		public override Widget Control {
+		public override MonoDevelop.Components.Control Control {
 			get { return widget; }
 		}
 
@@ -43,7 +44,7 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 			return IdeApp.Workbench.OpenDocument (newContent, true);
 		}
 
-		public override void Load (FileOpenInformation fileOpenInformation)
+		public override Task Load (FileOpenInformation fileOpenInformation)
 		{
 			throw new NotSupportedException ();
 		}

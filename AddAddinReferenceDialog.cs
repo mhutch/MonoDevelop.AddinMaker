@@ -9,7 +9,7 @@ using MonoDevelop.Core;
 namespace MonoDevelop.AddinMaker
 {
 	//TODO: add a filter entry
-	class AddAddinReferenceDialog : Dialog
+	class AddAddinReferenceDialog : Gtk.Dialog
 	{
 		readonly Button addButton = new Button (Stock.Add);
 		readonly TreeView treeView = new TreeView ();
