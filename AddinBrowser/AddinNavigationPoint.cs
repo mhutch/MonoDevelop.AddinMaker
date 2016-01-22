@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Mono.Addins;
 using MonoDevelop.Ide.Navigation;
 
@@ -16,9 +17,9 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 			get { return "Addin Browser"; }
 		}
 
-		public override MonoDevelop.Ide.Gui.Document ShowDocument ()
+		public override Task<MonoDevelop.Ide.Gui.Document> ShowDocument ()
 		{
-			return AddinBrowserViewContent.Open (registry);
+			return Task.FromResult (AddinBrowserViewContent.Open (registry));
 		}
 	}
 }
