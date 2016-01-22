@@ -33,11 +33,11 @@ using MonoDevelop.Xml.Dom;
 namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 {
 	//TODO: completion for extension points defined in this addin
-	class ExtensionSchemaElement : SchemaElement
+	class ExtensionElement : SchemaElement
 	{
 		readonly AddinProjectFlavor project;
 
-		public ExtensionSchemaElement (AddinProjectFlavor project) : base ("Extension", "Declares an extension")
+		public ExtensionElement (AddinProjectFlavor project) : base ("Extension", "Declares an extension")
 		{
 			this.project = project;
 		}
@@ -49,17 +49,62 @@ namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 			}
 		}
 
+		//TODO: get these from the module, not the project
+		IEnumerable<Mono.Addins.Addin> GetReferencedAddins ()
+		{
+			return project.GetReferencedAddins ();
+		}
+
 		public override void GetAttributeValueCompletions (CompletionDataList list, IAttributedXObject attributedOb, XAttribute att)
 		{
 			if (att.Name.FullName != "path") {
 				return;
 			}
 
-			foreach (var addin in project.GetReferencedAddins ()) {
+			foreach (var addin in GetReferencedAddins ()) {
 				foreach (ExtensionPoint ep in addin.Description.ExtensionPoints) {
-					list.Add (ep.Path, null, ep.Description);
+					list.Add (ep.Path, null, ep.Name + "\n" + ep.Description);
 				}
 			}
+		}
+
+		public ICompletionDataList GetPathCompletions (string subPath)
+		{
+			var paths = new HashSet<string> ();
+			var cp = new CompletionDataList ();
+			var addins = GetReferencedAddins ().ToList ();
+			foreach (var addin in addins) {
+				foreach (ExtensionPoint ep in addin.Description.ExtensionPoints) {
+					if (ep.Path.StartsWith (subPath, System.StringComparison.Ordinal)) {
+						string spath = ep.Path.Substring (subPath.Length);
+						int i = spath.IndexOf ('/');
+						if (i != -1)
+							spath = spath.Substring (0, i);
+						if (paths.Add (spath)) {
+							if (i == -1)
+								cp.Add (spath, null, ep.Name + "\n" + ep.Description);
+							else
+								cp.Add (spath);
+						}
+					}
+					if (ep.Path == subPath.TrimEnd ('/')) {
+						var extensions = ExtensionNodeElement.GetExtensions (project, ep).ToList ();
+						foreach (ExtensionNodeType nodeType in ep.NodeSet.GetAllowedNodeTypes ()) {
+							var allowedChildren = nodeType.GetAllowedNodeTypes ();
+							if (allowedChildren.Count == 0)
+								continue;
+							foreach (var ext in extensions) {
+								foreach (ExtensionNodeDescription node in ext.ExtensionNodes) {
+									if (node.GetNodeType () == nodeType && !string.IsNullOrEmpty (node.Id)) {
+										cp.Add (node.Id);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			return cp;
 		}
 
 		ExtensionPoint GetExtensionPoint (XElement element)
@@ -109,7 +154,7 @@ namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 
 			var node = ep.NodeSet.GetAllowedNodeTypes ().FirstOrDefault (n => n.NodeName == element.Name.FullName);
 			if (node != null) {
-				return new ExtensionNodeSchemaElement (project, ep, node);
+				return new ExtensionNodeElement (project, ep, node);
 			}
 
 			return null;

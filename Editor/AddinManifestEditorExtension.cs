@@ -1,4 +1,10 @@
 ﻿using MonoDevelop.AddinMaker.Editor.ManifestSchema;
+using MonoDevelop.Ide.CodeCompletion;
+using MonoDevelop.Xml.Dom;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
 
 namespace MonoDevelop.AddinMaker.Editor
 {
@@ -17,7 +23,7 @@ namespace MonoDevelop.AddinMaker.Editor
 				new RuntimeSchemaElement (),
 				new DependenciesSchemaElement (),
 				new LocalizerSchemaElement (),
-				new ExtensionSchemaElement (project),
+				new ExtensionElement (project),
 				new ExtensionPointSchemaElement (project),
 				new SchemaElement ("ExtensionNodeSet", "Declares an extension node set"),
 				new SchemaElement ("ConditionType", "Declares a global condition type"),
@@ -44,6 +50,43 @@ namespace MonoDevelop.AddinMaker.Editor
 				),
 				new SchemaElement ("ExtensionModel", "Root element for add-in and add-in root descriptions", addinContents)
 			});
+		}
+
+		public override Task<ICompletionDataList> HandleCodeCompletionAsync (CodeCompletionContext completionContext, char completionChar, CancellationToken token = default(CancellationToken))
+		{
+			var pathCompletion = HandlePathCompletion ();
+			if (pathCompletion != null) {
+				return Task.FromResult (pathCompletion);
+			}
+
+			return base.HandleCodeCompletionAsync (completionContext, completionChar, token);
+		}
+
+		ICompletionDataList HandlePathCompletion ()
+		{
+			var valueState = Tracker.Engine.CurrentState as MonoDevelop.Xml.Parser.XmlAttributeValueState;
+
+			if (valueState != null) {
+				var att = Tracker.Engine.Nodes.OfType<XAttribute> ().FirstOrDefault ();
+
+				if (att != null && att.IsNamed && att.Name.FullName == "path") {
+					// completionChar may be a space even if the current char isn't, when ctrl-space is fired t
+					int currentPosition = Editor.CaretOffset;
+					if (currentPosition > 0) {
+						var start = currentPosition - Tracker.Engine.CurrentStateLength;
+						string s = Editor.GetTextAt (start, currentPosition - start);
+						if (s.EndsWith ("/", System.StringComparison.Ordinal)) {
+							var item = GetSchemaItem ();
+							var ext = item as ExtensionElement;
+							if (ext != null) {
+								return ext.GetPathCompletions (s);
+							}
+						}
+					}
+				}
+			}
+
+			return null;
 		}
 	}
 }

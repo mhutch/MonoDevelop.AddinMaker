@@ -34,6 +34,7 @@ namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 			new [] {
 				new SchemaElement ("Description", "Long description of the extension point."),
 				new ExtensionNodeDefinitionElement (project),
+				new ExtensionNodeSetElement (project),
 			},
 			new[] {
 				new SchemaAttribute ("path", "Path of the extension point."),

@@ -4,9 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDevelop.AddinMaker", "MonoDevelop.AddinMaker.csproj", "{10ED7C7D-CD4D-4003-90D6-B36678232B6A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{AC367EC2-202F-4FB4-A461-5B95827C5DFF} = {AC367EC2-202F-4FB4-A461-5B95827C5DFF}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDevelop.Addins.Tasks", "MonoDevelop.Addins.Tasks\MonoDevelop.Addins.Tasks.csproj", "{AC367EC2-202F-4FB4-A461-5B95827C5DFF}"
 EndProject

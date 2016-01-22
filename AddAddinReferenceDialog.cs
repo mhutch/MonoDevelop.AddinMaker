@@ -57,7 +57,7 @@ namespace MonoDevelop.AddinMaker
 			};
 			VBox.PackStart (sw);
 
-			foreach (var addin in allAddins.OrderBy (a => a.Name)) {
+			foreach (var addin in allAddins.OrderBy (a => a.Id)) {
 				store.AppendValues (addin, false);
 			}
 

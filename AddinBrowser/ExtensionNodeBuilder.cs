@@ -1,10 +1,11 @@
 using System;
 using Mono.Addins.Description;
 using MonoDevelop.Ide.Gui.Components;
+using Gtk;
 
 namespace MonoDevelop.AddinMaker.AddinBrowser
 {
-	class ExtensionNodeBuilder : TypeNodeBuilder
+	class ExtensionNodeBuilder : TypeNodeBuilder, ITreeDetailBuilder
 	{
 		public override Type NodeDataType {
 			get { return typeof(Extension); }
@@ -20,6 +21,27 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 		{
 			var extension = (Extension)dataObject;
 			nodeInfo.Label = extension.Path;
+		}
+
+		public Widget GetDetailWidget (object dataObject)
+		{
+			return new ExtensionDetailWidget ((Extension)dataObject);
+		}
+	}
+
+	class ExtensionDetailWidget : VBox
+	{
+		public Extension Extension { get; private set; }
+
+		public ExtensionDetailWidget (Extension ext)
+		{
+			this.Extension = ext;
+
+			BorderWidth = 12;
+
+			PackStart (new Label { Markup = string.Format ("<big><tt>{0}</tt></big>", ext.Path)}, true, false, 0);
+
+			ShowAll ();
 		}
 	}
 }

@@ -36,7 +36,7 @@ namespace MonoDevelop.AddinMaker.Editor.ManifestSchema
 				//TODO: filter out the addins already extended by the parent
 				new DependenciesSchemaElement (),
 				//TODO: extensions in a module should able to extend the dependencies of the module
-				new ExtensionSchemaElement (project),
+				new ExtensionElement (project),
 			}
 		) {}
 	}

@@ -52,21 +52,28 @@ namespace MonoDevelop.AddinMaker.Editor
 
 		protected abstract SchemaElement CreateSchema ();
 
-		SchemaElement GetSchemaItem (IEnumerable<XObject> path, out XElement el)
+		protected SchemaElement GetSchemaItem (IEnumerable<XObject> path, out XElement el)
 		{
 			el = null;
 			SchemaElement item = schema;
 			foreach (var val in path) {
 				el = val as XElement;
-				if (el == null) {
-					return null;
-				}
+				if (el == null)
+					break;
 				item = item.GetChild (el);
-				if (item == null) {
-					return null;
-				}
 			}
 			return item;
+		}
+
+		protected SchemaElement GetSchemaItem (out XElement el)
+		{
+			return GetSchemaItem (GetCurrentPath (), out el);
+		}
+
+		protected SchemaElement GetSchemaItem ()
+		{
+			XElement el;
+			return GetSchemaItem (GetCurrentPath (), out el);
 		}
 
 		protected override Task<CompletionDataList> GetElementCompletions (CancellationToken token)
@@ -75,7 +82,7 @@ namespace MonoDevelop.AddinMaker.Editor
 			AddMiscBeginTags (list);
 
 			XElement el;
-			var item = GetSchemaItem (GetCurrentPath (), out el);
+			var item = GetSchemaItem (out el);
 			if (item != null) {
 				item.GetElementCompletions (list, el);
 			}
