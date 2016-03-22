@@ -48,6 +48,9 @@
     <Reference Include="ICSharpCode.NRefactory.CSharp">
         <Private>False</Private>
     </Reference>
+    <Reference Include="System.Collections.Immutable">
+        <Private>False</Private>
+    </Reference>
     <Reference Include="gtk-sharp">
         <Private>False</Private>
     </Reference>
