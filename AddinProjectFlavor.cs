@@ -73,6 +73,11 @@ namespace MonoDevelop.AddinMaker
 			return true;
 		}
 
+		protected override ProjectFeatures OnGetSupportedFeatures ()
+		{
+			return base.OnGetSupportedFeatures () | ProjectFeatures.Execute;
+		}
+
 		protected override IList<string> OnGetCommonBuildActions ()
 		{
 			var list = new List<string> (base.OnGetCommonBuildActions ());
