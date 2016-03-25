@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>MonoDevelop.Addins</id>
-        <version>0.3.0</version>
+        <version>0.3.1</version>
         <title>MonoDevelop Addins Build Support</title>
         <authors>Michael Hutchinson</authors>
         <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
@@ -10,7 +10,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>MSBuild targets for building Xamarin Studio / MonoDevelop addins.</description>
         <summary>Used by Xamarin Studio / MonoDevelop addin projects created by the Addin Maker addin.</summary>
-	<releaseNotes>Adds InstallAddin and CreatePackage properties to enable packaging/installing at build time or from sln build.  Fixes installation of addins on Mac/Linux. Works around a Mono.Addins bug that created corrupt mpacks. Adds initial support for upcoming 6.0 "Roslyn" release.</releaseNotes>
+	<releaseNotes>Better default assembly references.</releaseNotes>
     </metadata>
     <files>
         <file src="bin/Debug/Mono.Addins.dll" target="build/net40/Mono.Addins.dll" />
