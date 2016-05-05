@@ -49,11 +49,11 @@
     <Compile Include="Platform.cs" />
     <Compile Include="GetDefaultMonoDevelopLocations.cs" />
     <Compile Include="ResolveMonoDevelopAddins.cs" />
-    <Compile Include="GenerateDependencyAttributes.cs" />
     <Compile Include="CreatePackage.cs" />
     <Compile Include="AddinTask.cs" />
     <Compile Include="LogProgressStatus.cs" />
     <Compile Include="CollectOutputFiles.cs" />
+    <Compile Include="GenerateManifest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

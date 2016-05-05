@@ -11,17 +11,13 @@ namespace MonoDevelop.Addins.Tasks
 	public class CollectOutputFiles : Task
 	{
 		[Required]
-		public string ManifestFile { get; set; }
-
-		[Required]
-		public ITaskItem[] AddinFiles { get; set; }
+		public ITaskItem [] AddinFiles { get; set; }
 
 		[Output]
-		public ITaskItem[] AddinFilesWithLinkMetadata { get; set; }
+		public ITaskItem [] AddinFilesWithLinkMetadata { get; set; }
 
 		public override bool Execute ()
 		{
-			var names = new List<string> ();
 			var items = new List<ITaskItem> ();
 
 			foreach (var file in AddinFiles) {
@@ -30,36 +26,9 @@ namespace MonoDevelop.Addins.Tasks
 				var item = new TaskItem (path);
 				item.SetMetadata ("Link", link);
 				items.Add (item);
-				names.Add (link);
 			}
 
 			AddinFilesWithLinkMetadata = items.ToArray ();
-
-			names.Sort (StringComparer.Ordinal);
-
-			var doc = new XDocument (
-				new XElement ("ExtensionModel",
-					new XElement ("Runtime",
-						names.Select (n => new XElement ("Import", new XAttribute ("file", n.Replace ('\\', '/'))))
-					)
-				)
-			);
-
-			//Save to memory stream so we get UTF-8 preamble. StringWriter does UTF-16 preamble.
-			var ms = new MemoryStream ();
-			doc.Save (ms);
-
-			ms.Position = 0;
-			var txt = new StreamReader (ms).ReadToEnd ();
-
-			if (File.Exists (ManifestFile)) {
-				var existing = File.ReadAllText (ManifestFile);
-				if (existing == txt) {
-					return true;
-				}
-			}
-
-			File.WriteAllText (ManifestFile, txt);
 
 			return true;
 		}

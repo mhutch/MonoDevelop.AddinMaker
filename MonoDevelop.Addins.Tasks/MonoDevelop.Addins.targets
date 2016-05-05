@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.ResolveMonoDevelopAddins" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.GetDefaultMonoDevelopLocations" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
-  <UsingTask TaskName="MonoDevelop.Addins.Tasks.GenerateDependencyAttributes" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
+  <UsingTask TaskName="MonoDevelop.Addins.Tasks.GenerateManifest" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.CollectOutputFiles" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.CreatePackage" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <!--
@@ -130,42 +130,46 @@
   <Target Name="PackageAddin" DependsOnTargets="Build;_CoreCreatePackage" />
 
   <PropertyGroup>
-    <BuildDependsOn>
-      _MDCollectGeneratedCode;
-      $(BuildDependsOn)
-    </BuildDependsOn>
+    <PrepareResourcesDependsOn>
+      _MDCollectOutputFiles;
+      _MDGenerateManifest;
+      $(PrepareResourcesDependsOn)
+    </PrepareResourcesDependsOn>
+    <PrepareForRunDependsOn>
+      _MDCopyOutputFiles;
+      $(PrepareForRunDependsOn)
+    </PrepareForRunDependsOn>
   </PropertyGroup>
 
   <PropertyGroup>
-    <_MDAddinDepsFile>$(IntermediateOutputPath)MonoDevelop-Addin-Deps.g$(DefaultLanguageSourceExtension)</_MDAddinDepsFile>
-    <_MDAddinFilesManifest>$(IntermediateOutputPath)_AddinFiles.addin.xml</_MDAddinFilesManifest>
+    <_MDAddinFilesManifest>$(IntermediateOutputPath)_Manifest.addin.xml</_MDAddinFilesManifest>
   </PropertyGroup>
 
-  <Target Name="_MDCollectGeneratedCode" DependsOnTargets="_MDGenerateDependencyAttributes;_MDGenerateFilesManifest">
-    <ItemGroup>
-      <Compile Include="$(_MDAddinDepsFile)" />
-      <EmbeddedResource Include="$(_MDAddinFilesManifest)">
-        <LogicalName>_AddinFiles.addin.xml</LogicalName>
-      </EmbeddedResource>
-      <FileWrites Include="$(_MDAddinDepsFile);$(_MDAddinFilesManifest)" />
-    </ItemGroup>
-  </Target>
-
-  <Target Name="_MDGenerateDependencyAttributes" Inputs="$(MSBuildProjectFile);@(_MDResolvedAddins->'%(AddinFile)')" Outputs="$(_MDAddinDepsFile)" DependsOnTargets="_MDResolveAddinReferences">
-    <GenerateDependencyAttributes
-      AddinReferences="@(_MDResolvedAddins)"
-      Filename="$(_MDAddinDepsFile)"
-      Language="$(Language)"
-    />
-  </Target>
-
-  <Target Name="_MDGenerateFilesManifest">
-    <CollectOutputFiles ManifestFile="$(_MDAddinFilesManifest)" AddinFiles="@(AddinFile)">
+  <Target Name="_MDCollectOutputFiles">
+    <CollectOutputFiles
+        AddinFiles="@(AddinFile)">
       <Output TaskParameter="AddinFilesWithLinkMetadata" ItemName ="_AddinFilesWithLinkMetadata" />
     </CollectOutputFiles>
-    <Copy SkipUnchangedFiles="True" SourceFiles="@(_AddinFilesWithLinkMetadata)" DestinationFiles="@(_AddinFilesWithLinkMetadata->'$(OutputPath)%(Link)')" />
     <ItemGroup>
       <FileWrites Include="@(_AddinFilesWithLinkMetadata->'$(OutputPath)%(Link)')" />
+      <FileWrites Include="$(_MDAddinFilesManifest)" />
+      <EmbeddedResource Include="$(_MDAddinFilesManifest)">
+        <LogicalName>_Manifest.addin.xml</LogicalName>
+      </EmbeddedResource>
     </ItemGroup>
+  </Target>
+
+  <Target Name="_MDCopyOutputFiles" Inputs="@(_AddinFilesWithLinkMetadata)" Outputs="@(_AddinFilesWithLinkMetadata->'$(OutputPath)%(Link)')">
+    <Copy
+      SkipUnchangedFiles="True"
+      SourceFiles="@(_AddinFilesWithLinkMetadata)"
+      DestinationFiles="@(_AddinFilesWithLinkMetadata->'$(OutputPath)%(Link)')" />
+  </Target>
+
+  <Target Name="_MDGenerateManifest" Inputs="$(MSBuildAllProjects);@(_MDResolvedAddins->'%(AddinFile)')" Outputs="$(_MDAddinFilesManifest)">
+    <GenerateManifest
+      ManifestFile="$(_MDAddinFilesManifest)"
+      AddinFilesWithLinkMetadata="@(_AddinFilesWithLinkMetadata)"
+      AddinDependencies="@(_MDResolvedAddins)" />
   </Target>
 </Project>
