@@ -45,30 +45,49 @@ namespace MonoDevelop.Addins.Tasks
 		public ITaskItem [] AddinDependencies { get; set; }
 
 		[Required]
+		public ITaskItem [] ReferenceCopyLocalPaths { get; set; }
+
+		[Required]
 		public ITaskItem [] AddinFilesWithLinkMetadata { get; set; }
 		//@(_MDResolvedAddins->'%(AddinFile)')
 
 		public override bool Execute ()
 		{
-			var doc = new XDocument (
-				new XElement ("ExtensionModel",
-					new XElement ("Runtime",
-						AddinFilesWithLinkMetadata.Select (n =>
-							new XElement ("Import",
-								new XAttribute ("file", n.GetMetadata ("Link").Replace ('\\', '/'))
-							)
-						)
-					),
-					new XElement ("Dependencies",
-						AddinDependencies.Select (d =>
-							new XElement ("Addin",
-								new XAttribute ("id", "::" + d.ItemSpec),
-								new XAttribute ("version", d.GetMetadata ("version"))
-							)
-						)
+			var runtime = new XElement ("Runtime");
+			var dependencies = new XElement ("Dependencies");
+
+			foreach (var a in AddinFilesWithLinkMetadata) {
+				runtime.Add (new XElement ("Import",
+					new XAttribute ("file", a.GetMetadata ("Link").Replace ('\\', '/'))
+				));
+			}
+
+			foreach (var r in ReferenceCopyLocalPaths) {
+				var p = Path.GetFileName (r.ItemSpec);
+				if (!p.EndsWith (".dll", StringComparison.OrdinalIgnoreCase)) {
+					continue;
+				}
+
+				var subdir = r.GetMetadata ("DestinationSubDirectory");
+				if (!string.IsNullOrEmpty (subdir)) {
+					p = Path.Combine (subdir, p).Replace ('\\', '/');
+				}
+
+				runtime.Add (new XElement ("Import",
+					new XAttribute ("assembly", p)
+				));
+			}
+
+			foreach (var d in AddinDependencies) {
+				dependencies.Add (new XElement ("Addin",
+					new XAttribute ("id", "::" + d.ItemSpec),
+						new XAttribute ("version", d.GetMetadata ("version"))
 					)
-				)
-			);
+				);
+			}
+
+
+			var doc = new XDocument (new XElement ("ExtensionModel", runtime, dependencies));
 
 			var settings = new XmlWriterSettings {
 				Encoding = Encoding.UTF8,

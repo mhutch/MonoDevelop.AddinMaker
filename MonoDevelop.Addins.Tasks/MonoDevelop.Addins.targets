@@ -169,6 +169,7 @@
   <Target Name="_MDGenerateManifest" Inputs="$(MSBuildAllProjects);@(_MDResolvedAddins->'%(AddinFile)')" Outputs="$(_MDAddinFilesManifest)">
     <GenerateManifest
       ManifestFile="$(_MDAddinFilesManifest)"
+      ReferenceCopyLocalPaths="@(ReferenceCopyLocalPaths)"
       AddinFilesWithLinkMetadata="@(_AddinFilesWithLinkMetadata)"
       AddinDependencies="@(_MDResolvedAddins)" />
   </Target>
