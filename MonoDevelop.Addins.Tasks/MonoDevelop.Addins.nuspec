@@ -2,9 +2,9 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>MonoDevelop.Addins</id>
-        <version>0.3.1</version>
+        <version>0.3.2</version>
         <title>MonoDevelop Addins Build Support</title>
-        <authors>Michael Hutchinson</authors>
+        <authors>Mikayla Hutchinson</authors>
         <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
         <projectUrl>https://github.com/mhutch/MonoDevelop.AddinMaker</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
