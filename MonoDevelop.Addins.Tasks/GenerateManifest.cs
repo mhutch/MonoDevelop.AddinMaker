@@ -49,7 +49,6 @@ namespace MonoDevelop.Addins.Tasks
 
 		[Required]
 		public ITaskItem [] AddinFilesWithLinkMetadata { get; set; }
-		//@(_MDResolvedAddins->'%(AddinFile)')
 
 		public override bool Execute ()
 		{
