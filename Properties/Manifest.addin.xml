@@ -9,8 +9,10 @@
 	</ExtensionPoint>
 
 	<Extension path = "/MonoDevelop/Ide/ProjectTemplates">
-		<ProjectTemplate id   = "EmptyAddinProject"
-		                 file = "Templates/EmptyAddinProject.xpt.xml" />
+		<ProjectTemplate id   = "EmptyAddinProjectCSharp"
+		                 file = "Templates/EmptyAddinProject.cs.xpt.xml" />
+		<ProjectTemplate id   = "EmptyAddinProjectFSharp"
+		                 file = "Templates/EmptyAddinProject.fs.xpt.xml" />
 	</Extension>
 
 	<Extension path = "/MonoDevelop/Ide/FileTemplates">
