@@ -2,9 +2,10 @@
 <Template>
 	<TemplateConfiguration>
 		<_Name>Xamarin Studio Addin</_Name>
-		<_Category>C#/Xamarin Studio</_Category>
-		<LanguageName>C#</LanguageName>
+		<_Category>F#/Xamarin Studio</_Category>
+		<LanguageName>F#</LanguageName>
 		<_Description>Creates a Xamarin Studio / MonoDevelop addin.</_Description>
+		<GroupId>xamarin-studio-addin</GroupId>
 	</TemplateConfiguration>
 
 	<Actions>
@@ -20,13 +21,13 @@
 			<References>
 			</References>
 			<Packages>
-				<Package ID="MonoDevelop.Addins" Version="0.2.3" />
+				<Package ID="MonoDevelop.Addins" Version="0.3.3" />
 			</Packages>
 			<Files>
-				<FileTemplateReference TemplateID="CSharpAssemblyInfo" />
 				<Directory name="Properties">
+					<FileTemplateReference TemplateID="FSharpAssemblyInfo" name="AssemblyInfo.fs" />
 					<File name="Manifest.addin.xml" src="Properties/Manifest.addin.xml" BuildAction="EmbeddedResource" />
-					<File name="AddinInfo.cs" src="Properties/AddinInfo.cs" />
+					<File name="AddinInfo.fs" src="Properties/AddinInfo.fs" />
 				</Directory>
 			</Files>
 		</Project>

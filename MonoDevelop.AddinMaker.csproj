@@ -104,9 +104,11 @@
     <Folder Include="AddinBrowser\" />
   </ItemGroup>
   <ItemGroup>
-    <AddinFile Include="Templates\EmptyAddinProject.xpt.xml" />
+    <AddinFile Include="Templates\EmptyAddinProject.cs.xpt.xml" />
+    <AddinFile Include="Templates\EmptyAddinProject.fs.xpt.xml" />
     <AddinFile Include="Templates\Properties\Manifest.addin.xml" />
     <AddinFile Include="Templates\Properties\AddinInfo.cs" />
+    <AddinFile Include="Templates\Properties\AddinInfo.fs" />
     <AddinFile Include="Templates\FileTemplate.xft.xml" />
     <AddinFile Include="Templates\ProjectTemplate.xft.xml" />
     <AddinFile Include="Templates\FileTemplate.xml" />
