@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+		<id>MonoDevelop.Addins.GuiUnit</id>
+		<version>0.1</version>
+		<authors>Charlie Poole and Xamarin Inc</authors>
+		<licenseUrl>https://github.com/mono/guiunit/blob/master/LICENSE.txt</licenseUrl>
+		<projectUrl>https://github.org/mono/guiunit</projectUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<summary>GuiUnit is the unit testing framework used for MonoDevelop addins</summary>
+		<description>GuiUnit is a lightweight unit testing framework based on NUnitLite that is able to run thes
+tests in the mainloop of a GUI toolkit. It used for testing MonoDevelop addins.</description>
+		<copyright>Copyright (c) 2004-2012 Charlie Poole, copyright (c) 2013-2016 Xamarin Inc</copyright>
+		<language>en-US</language>
+	</metadata>
+	<files>
+		<file src="guiunit/LICENSE.txt" />
+		<file src="guiunit/GuiUnit.exe"  target="lib/net45" />
+	</files>
+</package>
