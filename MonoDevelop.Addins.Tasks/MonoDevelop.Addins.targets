@@ -5,6 +5,16 @@
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.GenerateManifest" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.CollectOutputFiles" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.CreatePackage" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
+
+  <PropertyGroup Condition="'$(IsLibrary)' != 'True'">
+    <IsLibrary>False</IsLibrary>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(IsLibrary)' == 'True'">
+    <InstallAddin>False</InstallAddin>
+    <CreatePackage>False</CreatePackage>
+  </PropertyGroup>
+
   <!--
   TODO:
   * the Addin Maker addin should set MDBinDir so it can target custom MD version
@@ -137,7 +147,7 @@
 
   <Target Name="PackageAddin" DependsOnTargets="Build;_CoreCreatePackage" />
 
-  <PropertyGroup>
+  <PropertyGroup Condition="'$(IsLibrary)' != 'True'">
     <PrepareResourcesDependsOn>
       _MDCollectOutputFiles;
       _MDGenerateManifest;
