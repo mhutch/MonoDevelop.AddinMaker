@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MDProfileVersion>6.0</MDProfileVersion>
+    <AdjacentBinDir>$(MSBuildThisFileDirectory)..\monodevelop\main\build\bin</AdjacentBinDir>
+    <MDBinDir Condition="Exists('$(AdjacentBinDir)')">$(AdjacentBinDir)</MDBinDir>
+    <AddinMakerPropsPath>$(MSBuildThisFileDirectory)MonoDevelop.Addins.Tasks\MonoDevelop.Addins.props</AddinMakerPropsPath>
+  </PropertyGroup>
+  <Import Project="$(AddinMakerPropsPath)" Condition="Exists('$(AddinMakerPropsPath)')" />
+</Project>

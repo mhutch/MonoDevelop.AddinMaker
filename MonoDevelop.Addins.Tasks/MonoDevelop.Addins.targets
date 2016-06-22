@@ -6,13 +6,8 @@
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.CollectOutputFiles" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.CreatePackage" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
 
-  <PropertyGroup Condition="'$(IsLibrary)' != 'True'">
-    <IsLibrary>False</IsLibrary>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(IsLibrary)' == 'True'">
-    <InstallAddin>False</InstallAddin>
-    <CreatePackage>False</CreatePackage>
+  <PropertyGroup Condition="'$(IsAddin)' != 'False'">
+    <IsAddin>True</IsAddin>
   </PropertyGroup>
 
   <!--
@@ -25,11 +20,11 @@
     <MDProfilePath Condition="'$(MDProfilePath)' == ''">$(MONODEVELOP_TEST_PROFILE)</MDProfilePath>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(InstallAddin)'=='True'">
+  <PropertyGroup Condition="'$(InstallAddin)'=='True' And '$(IsAddin)'=='True'">
     <BuildDependsOn>$(BuildDependsOn);_CoreCreatePackage;_CoreInstallAddin</BuildDependsOn>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(CreatePackage)'=='True'">
+  <PropertyGroup Condition="'$(CreatePackage)'=='True' And '$(IsAddin)'=='True'">
     <BuildDependsOn>$(BuildDependsOn);_CoreCreatePackage</BuildDependsOn>
   </PropertyGroup>
 
@@ -147,7 +142,7 @@
 
   <Target Name="PackageAddin" DependsOnTargets="Build;_CoreCreatePackage" />
 
-  <PropertyGroup Condition="'$(IsLibrary)' != 'True'">
+  <PropertyGroup Condition="'$(IsAddin)' == 'True'">
     <PrepareResourcesDependsOn>
       _MDCollectOutputFiles;
       _MDGenerateManifest;
@@ -192,8 +187,9 @@
       AddinDependencies="@(_MDResolvedAddins)" />
   </Target>
 
-  <PropertyGroup Condition="'$(IsLibrary)' == 'True'">
-    <TestRunnerCommand>$(MDToolExe)</TestRunnerCommand>
+  <!-- when running in XS, the global property provider provides a valid mdbindir -->
+  <PropertyGroup Condition="'$(IsAddin)' != 'True'">
+    <TestRunnerCommand>$(MDBinDir)\mdtool.exe</TestRunnerCommand>
     <TestRunnerArgs>run-md-tests</TestRunnerArgs>
   </PropertyGroup>
 </Project>
