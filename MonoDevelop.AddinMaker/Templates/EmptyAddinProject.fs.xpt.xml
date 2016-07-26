@@ -21,7 +21,7 @@
 			<References>
 			</References>
 			<Packages>
-				<Package ID="MonoDevelop.Addins" Version="0.3.3" />
+				<Package ID="MonoDevelop.Addins" Version="0.3.4" />
 			</Packages>
 			<Files>
 				<Directory name="Properties">
