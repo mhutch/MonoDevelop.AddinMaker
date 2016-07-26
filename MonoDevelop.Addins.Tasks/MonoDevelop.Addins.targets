@@ -10,10 +10,6 @@
     <IsAddin>True</IsAddin>
   </PropertyGroup>
 
-  <!--
-  TODO:
-  * support downloading missing dependencies
-  -->
   <PropertyGroup>
     <MDProfileVersion Condition="'$(MDProfileVersion)' == ''">6.0</MDProfileVersion>
     <MDProfilePath Condition="'$(MDProfilePath)' == ''">$(MONODEVELOP_TEST_PROFILE)</MDProfilePath>
