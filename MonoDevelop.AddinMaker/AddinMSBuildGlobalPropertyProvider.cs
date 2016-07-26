@@ -32,8 +32,6 @@ using Mono.Addins;
 
 namespace MonoDevelop.AddinMaker
 {
-	#if MD_6_0
-
 	[Extension ("/MonoDevelop/ProjectModel/MSBuildGlobalPropertyProviders")]
 	class AddinMSBuildGlobalPropertyProvider : IMSBuildGlobalPropertyProvider
 	{
@@ -52,6 +50,4 @@ namespace MonoDevelop.AddinMaker
 			});
 		}
 	}
-
-	#endif
 }

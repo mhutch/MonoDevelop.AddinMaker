@@ -12,7 +12,6 @@
 
   <!--
   TODO:
-  * the Addin Maker addin should set MDBinDir so it can target custom MD version
   * support downloading missing dependencies
   -->
   <PropertyGroup>
