@@ -16,6 +16,7 @@
         <file src="bin/Debug/Mono.Addins.dll" target="build/net40/Mono.Addins.dll" />
         <file src="bin/Debug/ICSharpCode.SharpZipLib.dll" target="build/net40/ICSharpCode.SharpZipLib.dll" />
         <file src="bin/Debug/Mono.Addins.Setup.dll" target="build/net40/Mono.Addins.Setup.dll" />
+        <file src="bin/Debug/MonoDevelop.Addins.props" target="build/net40/MonoDevelop.Addins.props" />
         <file src="bin/Debug/MonoDevelop.Addins.targets" target="build/net40/MonoDevelop.Addins.targets" />
         <file src="bin/Debug/MonoDevelop.Addins.Tasks.dll" target="build/net40/MonoDevelop.Addins.Tasks.dll" />
     </files>
