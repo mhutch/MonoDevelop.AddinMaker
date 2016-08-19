@@ -2,6 +2,8 @@
 
 The Addin Maker makes it easy to create and maintain MonoDevelop and Xamarin Studio addins.
 
+For information on building addins with Addin Maker, please see [this guide](https://developer.xamarin.com/guides/cross-platform/xamarin-studio/customizing-ide/extending_xamarin_studio_with_addins/).
+
 ## Features
 
 * Full support for creating, building, running and debugging addins from within MD/XS.
