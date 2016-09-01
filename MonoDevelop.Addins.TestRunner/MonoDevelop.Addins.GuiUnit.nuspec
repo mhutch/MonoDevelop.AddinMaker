@@ -2,7 +2,7 @@
 <package xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 		<id>MonoDevelop.Addins.GuiUnit</id>
-		<version>0.1.1</version>
+		<version>$version$</version>
 		<authors>Charlie Poole and Xamarin Inc</authors>
 		<licenseUrl>https://github.com/mono/guiunit/blob/master/LICENSE.txt</licenseUrl>
 		<projectUrl>https://github.org/mono/guiunit</projectUrl>
