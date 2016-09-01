@@ -1,6 +1,6 @@
 #bin/sh
 
-REVISION=ad28ae12928cce579ae2f9450291dd7648dad76b
+REVISION=2670780396856f043ab5cea9ab856641f56de5ae
 
 pushd ../../guiunit
 git reset --hard $REVISION || exit 1
