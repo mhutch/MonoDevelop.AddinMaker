@@ -19,7 +19,7 @@ namespace MonoDevelop.Addins.Tasks
 
 		public void SetMessage (string msg)
 		{
-			log.LogMessage (MessageImportance.Normal, msg);
+			log.LogMessage (MessageImportance.Low, msg);
 		}
 
 		public void SetProgress (double progress)

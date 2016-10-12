@@ -41,7 +41,8 @@ namespace MonoDevelop.Addins.Tasks
 				DatabaseDir
 			);
 
-			Registry.Update (new LogProgressStatus (Log, 0));
+			Log.LogMessage (MessageImportance.Normal, "Updating addin database at {0}", DatabaseDir);
+			Registry.Update (new LogProgressStatus (Log, 2));
 
 			return !Log.HasLoggedErrors;
 		}
