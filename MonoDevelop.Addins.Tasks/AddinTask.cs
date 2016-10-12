@@ -34,6 +34,11 @@ namespace MonoDevelop.Addins.Tasks
 			if (string.IsNullOrEmpty (BinDir))
 				Log.LogError ("BinDir must be specified");
 
+			ConfigDir = Path.GetFullPath (ConfigDir);
+			BinDir = Path.GetFullPath (BinDir);
+			AddinsDir = Path.GetFullPath (AddinsDir);
+			DatabaseDir = Path.GetFullPath (DatabaseDir);
+
 			Registry = new AddinRegistry (
 				ConfigDir,
 				BinDir,
