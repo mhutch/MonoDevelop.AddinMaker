@@ -133,7 +133,7 @@
     <Exec Command='$(_MDToolCommand) setup install -y "$(PackageFile)"' />
   </Target>
 
-  <Target Name="InstallAddin" DependsOnTargets="CreatePackage;_CoreInstallAddin" />
+  <Target Name="InstallAddin" DependsOnTargets="PackageAddin;_CoreInstallAddin" />
 
   <Target Name="PackageAddin" DependsOnTargets="Build;_CoreCreatePackage" />
 
