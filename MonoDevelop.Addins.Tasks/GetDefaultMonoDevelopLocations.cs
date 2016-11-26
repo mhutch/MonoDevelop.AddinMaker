@@ -27,15 +27,25 @@ namespace MonoDevelop.Addins.Tasks
 
 			string profileID = ProfileName;
 
-			if (string.IsNullOrEmpty (profileID)) {
-				if (Platform.IsWindows || Platform.IsMac) {
-					profileID = "XamarinStudio";
-				} else {
-					profileID = "MonoDevelop";
+			if (string.Equals (ProfileVersion, "6.0", StringComparison.Ordinal)) {
+				if (string.IsNullOrEmpty (profileID)) {
+					if (Platform.IsWindows || Platform.IsMac) {
+						profileID = "XamarinStudio";
+					} else {
+						profileID = "MonoDevelop";
+					}
 				}
+				profileID = profileID + "-" + ProfileVersion;
+			} else {
+				if (string.IsNullOrEmpty (profileID)) {
+					if (Platform.IsMac) {
+						profileID = "VisualStudio";
+					} else {
+						profileID = "MonoDevelop";
+					}
+				}
+				profileID = Path.Combine (profileID, ProfileVersion);
 			}
-
-			profileID = profileID + "-" + ProfileVersion;
 
 			if (!string.IsNullOrEmpty (ProfilePath)) {
 				ConfigDir = Path.Combine (ProfilePath, profileID, "Config");

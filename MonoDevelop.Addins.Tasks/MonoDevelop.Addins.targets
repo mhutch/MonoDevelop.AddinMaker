@@ -75,7 +75,8 @@
     <Message Text = "MDBinDir:      $(MDBinDir)" />
 
     <PropertyGroup>
-      <MDToolExe>$(MDBinDir)\mdtool.exe</MDToolExe>
+      <MDToolExe Condition="Exists('$($(MDBinDir)\vstool.exe)')">$(MDBinDir)\vstool.exe</MDToolExe>
+      <MDToolExe Condition="'$(MDToolExe)'==''">$(MDBinDir)\mdtool.exe</MDToolExe>
       <_MDToolCommand>"$(MDToolExe)"</_MDToolCommand>
       <_MDToolCommand Condition="'$(OS)'=='Unix'">mono "$(MDToolExe)"</_MDToolCommand>
     </PropertyGroup>
