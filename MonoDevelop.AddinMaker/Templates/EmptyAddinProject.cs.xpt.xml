@@ -21,7 +21,7 @@
 			<References>
 			</References>
 			<Packages>
-				<Package ID="MonoDevelop.Addins" Version="0.3.7" />
+				<Package ID="MonoDevelop.Addins" Version="0.3.8" />
 			</Packages>
 			<Files>
 				<FileTemplateReference TemplateID="CSharpAssemblyInfo" />

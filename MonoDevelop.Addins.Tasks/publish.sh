@@ -8,4 +8,4 @@ nuget > /dev/null || curl https://api.nuget.org/downloads/nuget.exe -o nuget.exe
 
 rm *.nupkg
 nuget pack *.nuspec
-nuget push *.nupkg
+nuget push *.nupkg -Source https://www.nuget.org/api/v2/package
