@@ -128,13 +128,29 @@
   </Target>
 
   <Target Name="_CoreCreatePackage">
+    <PropertyGroup>
+      <HasCustomAddinOutputPath Condition=" '$(AddinOutputPath)' !='' ">true</HasCustomAddinOutputPath>
+      <AddinOutDir Condition=" '$(AddinOutDir)' == '' ">$(AddinOutputPath)</AddinOutDir>
+      <AddinOutDir Condition=" '$(AddinOutDir)' == '' ">$(OutDir)</AddinOutDir>
+      <AddinOutDir Condition="'$(AddinOutDir)' != '' and !HasTrailingSlash('$(AddinOutDir)')">$(AddinOutDir)\</AddinOutDir>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <_AddinOutDirItem Include="$(AddinOutDir)" />
+    </ItemGroup>
+
+    <PropertyGroup>
+      <AddinTargetPath Condition=" '$(AddinTargetPath)' == '' and '$(HasCustomAddinOutputPath)' == 'true'">@(_AddinOutDirItem->'%(FullPath)\$(TargetFileName)')</AddinTargetPath>
+      <AddinTargetPath Condition=" '$(AddinTargetPath)' == ''">$(TargetPath)</AddinTargetPath>
+    </PropertyGroup>
+
     <CreatePackage
       ConfigDir="$(MDConfigDir)"
       AddinsDir="$(MDAddinsDir)"
       DatabaseDir="$(MDDatabaseDir)"
       BinDir="$(MDBinDir)"
-      OutputDir="$(OutDir)"
-      AddinFile="$(TargetPath)">
+      OutputDir="$(AddinOutDir)"
+      AddinFile="$(AddinTargetPath)">
           <Output TaskParameter="PackageFile" PropertyName="PackageFile" />
       </CreatePackage>
     <!-- HACK: re-pack the addin since files packed directly by Mono.Addins can't
@@ -144,7 +160,7 @@
     to do with a using a registry that was built from an sh environemnt?
     -->
     <Exec Command='$(_MDToolCommand) setup rgb' />
-    <Exec Command='$(_MDToolCommand) setup pack "-d:$(OutDir)." "$(TargetPath)"' />
+    <Exec Command='$(_MDToolCommand) setup pack "-d:$(AddinOutDir)." "$(AddinTargetPath)"' />
   </Target>
 
   <Target Name="_CoreInstallAddin">

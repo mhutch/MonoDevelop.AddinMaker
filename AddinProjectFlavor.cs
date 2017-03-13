@@ -63,9 +63,18 @@ namespace MonoDevelop.AddinMaker
 			var cmd = (DotNetExecutionCommand) base.OnCreateExecutionCommand (configSel, configuration);
 			cmd.Command = Assembly.GetEntryAssembly ().Location;
 			cmd.Arguments = "--no-redirect";
-			cmd.EnvironmentVariables["MONODEVELOP_DEV_ADDINS"] = Project.GetOutputFileName (configSel).ParentDirectory;
+			cmd.EnvironmentVariables["MONODEVELOP_DEV_ADDINS"] = GetAddinOutputDirectory (configSel, configuration);
 			cmd.EnvironmentVariables ["MONODEVELOP_CONSOLE_LOG_LEVEL"] = "All";
 			return cmd;
+		}
+
+		string GetAddinOutputDirectory (ConfigurationSelector configSel, DotNetProjectConfiguration configuration)
+		{
+			FilePath outputPath = configuration.EvaluatedProperties.GetPathValue ("AddinOutputPath");
+			if (outputPath.IsNotNull)
+				return outputPath;
+
+			return Project.GetOutputFileName (configSel).ParentDirectory;
 		}
 
 		protected override bool OnGetCanExecute (ExecutionContext context, ConfigurationSelector configuration)
