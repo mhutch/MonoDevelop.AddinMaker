@@ -52,14 +52,14 @@ namespace MonoDevelop.AddinMaker.Editor
 			});
 		}
 
-		public override Task<ICompletionDataList> HandleCodeCompletionAsync (CodeCompletionContext completionContext, char completionChar, CancellationToken token = default(CancellationToken))
+		public override Task<ICompletionDataList> HandleCodeCompletionAsync (CodeCompletionContext completionContext, CompletionTriggerInfo triggerInfo, CancellationToken token = default (CancellationToken))
 		{
 			var pathCompletion = HandlePathCompletion ();
 			if (pathCompletion != null) {
 				return Task.FromResult (pathCompletion);
 			}
 
-			return base.HandleCodeCompletionAsync (completionContext, completionChar, token);
+			return base.HandleCodeCompletionAsync (completionContext, triggerInfo, token);
 		}
 
 		ICompletionDataList HandlePathCompletion ()
