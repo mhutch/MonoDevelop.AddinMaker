@@ -37,7 +37,7 @@ namespace MonoDevelop.AddinMaker
 
 		protected override bool OnGetSupportsFramework (TargetFramework framework)
 		{
-			return framework.Id == TargetFrameworkMoniker.NET_4_5;
+			return framework.Id.Identifier == TargetFrameworkMoniker.NET_4_5.Identifier;
 		}
 
 		protected override SolutionItemConfiguration OnCreateConfiguration (string name, ConfigurationKind kind)
