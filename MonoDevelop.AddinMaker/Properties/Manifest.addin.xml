@@ -8,6 +8,12 @@
 		<ExtensionNodeSet id="MonoDevelop.Components.Commands.ItemSet"/>
 	</ExtensionPoint>
 
+	<Extension path="/MonoDevelop/Ide/ProjectTemplateCategories/other">
+		<Category id="monodevelop" name="MonoDevelop">
+			<Category id="general" name="General" />
+		</Category>
+	</Extension>
+
 	<Extension path = "/MonoDevelop/Ide/ProjectTemplates">
 		<ProjectTemplate id   = "EmptyAddinProjectCSharp"
 		                 file = "Templates/EmptyAddinProject.cs.xpt.xml" />

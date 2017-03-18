@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <Template>
 	<TemplateConfiguration>
-		<_Name>Xamarin Studio Addin</_Name>
-		<_Category>F#/Xamarin Studio</_Category>
+		<_Name>Empty Addin</_Name>
+		<_Category>other/monodevelop/general</_Category>
 		<LanguageName>F#</LanguageName>
-		<_Description>Creates a Xamarin Studio / MonoDevelop addin.</_Description>
+		<_Description>Creates a Visual Studio for Mac / MonoDevelop addin.</_Description>
 		<GroupId>xamarin-studio-addin</GroupId>
 	</TemplateConfiguration>
 
