@@ -8,12 +8,20 @@ using MonoDevelop.Core;
 using MonoDevelop.Core.Assemblies;
 using MonoDevelop.Core.Execution;
 using MonoDevelop.Projects;
+using MonoDevelop.Core.Serialization;
 
 namespace MonoDevelop.AddinMaker
 {
 	class AddinProjectFlavor : DotNetProjectExtension
 	{
+		[ItemProperty("IsAddin", DefaultValue=true)]
+		bool isAddin = true;
+
 		AddinReferenceCollection addinReferences;
+
+		public bool IsAddin {
+			get { return isAddin; }
+		}
 
 		protected override void Initialize ()
 		{
@@ -83,6 +91,15 @@ namespace MonoDevelop.AddinMaker
 			var list = new List<string> (base.OnGetCommonBuildActions ());
 			list.Add ("AddinFile");
 			return list;
+		}
+
+		protected override void OnInitializeFromTemplate (ProjectCreateInformation projectCreateInfo, System.Xml.XmlElement template)
+		{
+			base.OnInitializeFromTemplate (projectCreateInfo, template);
+			var isAddinAttribute = template.GetAttribute ("IsAddin");
+			if (!string.IsNullOrEmpty (isAddinAttribute)) {
+				isAddin = bool.Parse (isAddinAttribute);
+			}
 		}
 	}
 

@@ -19,6 +19,8 @@
 		                 file = "Templates/EmptyAddinProject.cs.xpt.xml" />
 		<ProjectTemplate id   = "EmptyAddinProjectFSharp"
 		                 file = "Templates/EmptyAddinProject.fs.xpt.xml" />
+		<ProjectTemplate id   = "AddinTestProjectCSharp"
+		                 file = "Templates/AddinTestProject.cs.xpt.xml" />
 	</Extension>
 
 	<Extension path = "/MonoDevelop/Ide/FileTemplates">

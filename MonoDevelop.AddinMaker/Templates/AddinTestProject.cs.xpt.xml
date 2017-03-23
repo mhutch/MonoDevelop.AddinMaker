@@ -1,15 +1,13 @@
 <?xml version="1.0"?>
 <Template>
 	<TemplateConfiguration>
-		<_Name>Xamarin Studio Addin</_Name>
-		<_Category>C#/Xamarin Studio</_Category>
+		<_Name>Addin Tests</_Name>
+		<_Category>other/monodevelop/general</_Category>
 		<LanguageName>C#</LanguageName>
-		<_Description>Creates a Xamarin Studio / MonoDevelop addin.</_Description>
-		<GroupId>xamarin-studio-addin</GroupId>
+		<_Description>Creates a unit test project for a MonoDevelop addin.</_Description>
 	</TemplateConfiguration>
 
 	<Actions>
-		<Open filename = "Properties/Manifest.addin.xml"/>
 	</Actions>
 
 	<Combine name = "${ProjectName}" directory = ".">
@@ -18,17 +16,14 @@
 		</Options>
 
 		<Project name = "${ProjectName}" directory = "." type = "Addin">
-			<References>
-			</References>
+			<Options IsAddin="False" />
+			<References />
 			<Packages>
 				<Package ID="MonoDevelop.Addins" Version="0.3.10" />
+				<Package ID="MonoDevelop.Addins.GuiUnit" Version="0.1.1" />
 			</Packages>
 			<Files>
 				<FileTemplateReference TemplateID="CSharpAssemblyInfo" />
-				<Directory name="Properties">
-					<File name="Manifest.addin.xml" src="Properties/Manifest.addin.xml" BuildAction="EmbeddedResource" />
-					<File name="AddinInfo.cs" src="Properties/AddinInfo.cs" />
-				</Directory>
 			</Files>
 		</Project>
 	</Combine>
