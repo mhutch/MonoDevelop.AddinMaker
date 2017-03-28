@@ -20,7 +20,7 @@ exit /b 1
 set "CONFIG=Release"
 set "PLATFORM=Any CPU"
 
-"%MSBUILD_EXE%" /target:Restore %* || goto :error
+"%MSBUILD_EXE%" /target:Restore "/p:Configuration=%CONFIG%" "/p:Platform=%PLATFORM%" %* || goto :error
 "%MSBUILD_EXE%" /m "/p:Configuration=%CONFIG%" "/p:Platform=%PLATFORM%" /p:InstallAddin=True %* || goto :error
 
 goto :exit
