@@ -8,7 +8,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>MonoDevelop.AddinMaker.Tests</RootNamespace>
     <AssemblyName>MonoDevelop.AddinMaker.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <IsAddin>False</IsAddin>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

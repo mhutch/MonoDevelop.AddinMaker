@@ -1,5 +1,7 @@
 ﻿<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-<PropertyGroup>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-</PropertyGroup>
+  <!-- TODO can we determine this from the target MD instance early enough for the project system to use it? -->
+  <PropertyGroup>
+    <_AddinMakerFramework>v4.6.1</_AddinMakerFramework>
+    <TargetFrameworkVersion>$(_AddinMakerFramework)</TargetFrameworkVersion>
+  </PropertyGroup>
 </Project>

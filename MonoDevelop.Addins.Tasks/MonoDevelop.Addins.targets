@@ -74,6 +74,8 @@
     <Message Text = "MDAddinsDir:   $(MDAddinsDir)" />
     <Message Text = "MDBinDir:      $(MDBinDir)" />
 
+    <Error Text = "Please remove TargetFrameworkVersion from your project file" Condition="'$(_AddinMakerFramework)'!='$(TargetFrameworkVersion)'"/>
+
     <PropertyGroup>
       <MDToolExe Condition="Exists('$(MDBinDir)\vstool.exe')">$(MDBinDir)\vstool.exe</MDToolExe>
       <MDToolExe Condition="'$(MDToolExe)'==''">$(MDBinDir)\mdtool.exe</MDToolExe>
