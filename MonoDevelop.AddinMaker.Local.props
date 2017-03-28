@@ -6,5 +6,5 @@
     <MDBinDir Condition="Exists('$(AdjacentBinDir)')">$(AdjacentBinDir)</MDBinDir>
     <AddinMakerPropsPath>$(MSBuildThisFileDirectory)MonoDevelop.Addins.Tasks\MonoDevelop.Addins.props</AddinMakerPropsPath>
   </PropertyGroup>
-  <Import Project="$(AddinMakerPropsPath)" Condition="Exists('$(AddinMakerPropsPath)')" />
+  <Import Project="$(AddinMakerPropsPath)" />
 </Project>
