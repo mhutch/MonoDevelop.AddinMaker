@@ -32,17 +32,10 @@
     <Reference Include="Microsoft.Build.Utilities.v4.0" />
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Build.Tasks.v4.0" />
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
-    <Reference Include="Mono.Addins">
-      <HintPath>..\packages\Mono.Addins.1.3.3\lib\net40\Mono.Addins.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Addins.Setup">
-      <HintPath>..\packages\Mono.Addins.Setup.1.3.3\lib\net40\Mono.Addins.Setup.dll</HintPath>
-    </Reference>
+    <PackageReference Include="Mono.Addins" Version="1.3.3" />
+    <PackageReference Include="Mono.Addins.Setup" Version="1.3.3" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,7 +54,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="MonoDevelop.Addins.nuspec" />
-    <None Include="packages.config" />
     <None Include="MonoDevelop.Addins.props">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
