@@ -29,10 +29,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <PackageReference Include="MonoDevelop.Addins.GuiUnit" Version="0.1.1" />
+    <Reference Include="GuiUnit">
+      <HintPath>..\packages\MonoDevelop.Addins.GuiUnit.0.1.0\lib\net45\GuiUnit.exe</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Test.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoDevelop.AddinMaker\MonoDevelop.AddinMaker.csproj">
