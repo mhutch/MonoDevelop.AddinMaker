@@ -3,5 +3,5 @@
   <PropertyGroup>
     <AddinMakerTargets>$(MSBuildThisFileDirectory)MonoDevelop.Addins.Tasks\bin\$(Configuration)\MonoDevelop.Addins.targets</AddinMakerTargets>
   </PropertyGroup>
-  <Import Project="$(AddinMakerTargets)" />
+  <Import Project="$(AddinMakerTargets)" Condition="Exists('$(AddinMakerTargets)')"/>
 </Project>
