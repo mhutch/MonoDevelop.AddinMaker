@@ -1,15 +1,15 @@
 CONFIG?=Debug
 
 all: restore
-	xbuild /p:Configuration=${CONFIG} ${ARGS}
+	msbuild /p:Configuration=${CONFIG} ${ARGS}
 
 clean:
-	xbuild /t:Clean ${ARGS}
+	msbuild /t:Clean ${ARGS}
 
 install: restore
-	xbuild /p:InstallAddin=True /p:Configuration=${CONFIG} ${ARGS}
+	msbuild /p:InstallAddin=True /p:Configuration=${CONFIG} ${ARGS}
 
 restore:
-	nuget restore
+	msbuild /t:Restore /p:Configuration=${CONFIG} ${ARGS}
 
 .PHONY: all clean install restore
