@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <MDProfileVersion Condition="'$(MDProfileVersion)' == ''">6.0</MDProfileVersion>
+    <MDProfileVersion Condition="'$(MDProfileVersion)' == ''">7.0</MDProfileVersion>
     <MDProfilePath Condition="'$(MDProfilePath)' == ''">$(MONODEVELOP_TEST_PROFILE)</MDProfilePath>
   </PropertyGroup>
 

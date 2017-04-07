@@ -27,7 +27,9 @@ namespace MonoDevelop.Addins.Tasks
 
 			string profileID = ProfileName;
 
-			if (string.Equals (ProfileVersion, "6.0", StringComparison.Ordinal)) {
+			var isPreV7 = string.Equals (ProfileVersion, "6.0", StringComparison.Ordinal);
+
+			if (isPreV7) {
 				if (string.IsNullOrEmpty (profileID)) {
 					if (Platform.IsWindows || Platform.IsMac) {
 						profileID = "XamarinStudio";
@@ -85,16 +87,20 @@ namespace MonoDevelop.Addins.Tasks
 					"Xamarin Studio", "bin"
 				);
 			} else if (Platform.IsMac) {
-				BinDir = "/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/bin";
+				string appName = isPreV7? "Xamarin Studio" : "Visual Studio";
+				BinDir = $"/Applications/{appName}.app/Contents/Resources/lib/monodevelop/bin";
 				//fall back to old pre-Yosemite location
 				if (!Directory.Exists (BinDir)) {
-					BinDir = "/Applications/Xamarin Studio.app/Contents/MacOS/lib/monodevelop/bin";
+					BinDir = $"/Applications/{appName}.app/Contents/MacOS/lib/monodevelop/bin";
 				}
 			} else {
 				BinDir = "/usr/lib/monodevelop/bin";
 			}
 
-			//TODO: check locations are valid
+			//TODO: check all locations are valid
+			if (!File.Exists (Path.Combine (BinDir, "MonoDevelop.Ide.dll"))) {
+				Log.LogError ("MonoDevelop location not found");
+			}
 			return true;
 		}
 
