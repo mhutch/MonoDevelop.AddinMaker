@@ -12,7 +12,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDevelop.Addins.Tasks", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDevelop.AddinMaker.Tests", "MonoDevelop.AddinMaker.Tests\MonoDevelop.AddinMaker.Tests.csproj", "{0D2E42EE-4670-48D2-A3FA-0832B630D7F1}"
 EndProject
->>>>>>> Unit tests work!
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
