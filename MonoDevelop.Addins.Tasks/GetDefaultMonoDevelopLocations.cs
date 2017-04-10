@@ -97,10 +97,6 @@ namespace MonoDevelop.Addins.Tasks
 				BinDir = "/usr/lib/monodevelop/bin";
 			}
 
-			//TODO: check all locations are valid
-			if (!File.Exists (Path.Combine (BinDir, "MonoDevelop.Ide.dll"))) {
-				Log.LogError ("MonoDevelop location not found");
-			}
 			return true;
 		}
 
