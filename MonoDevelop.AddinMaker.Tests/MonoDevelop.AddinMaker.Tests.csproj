@@ -29,9 +29,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="GuiUnit">
-      <HintPath>..\packages\MonoDevelop.Addins.GuiUnit.0.1.0\lib\net45\GuiUnit.exe</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Test.cs" />
@@ -44,6 +41,7 @@
       <Project>{10ED7C7D-CD4D-4003-90D6-B36678232B6A}</Project>
       <Name>MonoDevelop.AddinMaker</Name>
     </ProjectReference>
+    <PackageReference Include="MonoDevelop.Addins.GuiUnit" Version="0.1.1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\MonoDevelop.AddinMaker.Local.targets" />
