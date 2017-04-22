@@ -34,9 +34,6 @@
     <Compile Include="Test.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\MonoDevelop.AddinMaker\MonoDevelop.AddinMaker.csproj">
       <Project>{10ED7C7D-CD4D-4003-90D6-B36678232B6A}</Project>
       <Name>MonoDevelop.AddinMaker</Name>
