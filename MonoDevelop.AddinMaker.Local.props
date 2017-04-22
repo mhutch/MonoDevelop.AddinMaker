@@ -3,7 +3,7 @@
   <PropertyGroup>
     <MDProfileVersion>7.0</MDProfileVersion>
     <AdjacentBinDir>$(MSBuildThisFileDirectory)..\monodevelop\main\build\bin</AdjacentBinDir>
-    <MDBinDir Condition="Exists('$(AdjacentBinDir)')">$(AdjacentBinDir)</MDBinDir>
+    <MDBinDir Condition="'$(Configuration)'=='Debug' And Exists('$(AdjacentBinDir)')">$(AdjacentBinDir)</MDBinDir>
     <AddinMakerPropsPath>$(MSBuildThisFileDirectory)MonoDevelop.Addins.Tasks\MonoDevelop.Addins.props</AddinMakerPropsPath>
   </PropertyGroup>
   <Import Project="$(AddinMakerPropsPath)" />
