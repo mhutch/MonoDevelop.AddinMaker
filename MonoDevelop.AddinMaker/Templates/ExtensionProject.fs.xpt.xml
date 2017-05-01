@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <Template>
 	<TemplateConfiguration>
-		<_Name>Extension</_Name>
+		<_Name>IDE Extension</_Name>
 		<_Category>other/monodevelop/general</_Category>
 		<LanguageName>F#</LanguageName>
 		<_Description>Creates a Visual Studio for Mac / MonoDevelop extension.</_Description>
