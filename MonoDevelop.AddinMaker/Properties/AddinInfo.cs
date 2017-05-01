@@ -10,6 +10,6 @@ using Mono.Addins.Description;
 )]
 
 [assembly:AddinName ("Addin Maker")]
-[assembly:AddinCategory ("Addin Development")]
-[assembly:AddinDescription ("Makes it easy to create and edit addins")]
+[assembly:AddinCategory ("Extension Development")]
+[assembly:AddinDescription ("Makes it easy to create and edit IDE extensions")]
 [assembly:AddinAuthor ("Mikayla Hutchinson")]
