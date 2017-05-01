@@ -1,10 +1,10 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <Template>
 	<TemplateConfiguration>
-		<_Name>Empty Addin</_Name>
+		<_Name>Extension</_Name>
 		<_Category>other/monodevelop/general</_Category>
-		<LanguageName>F#</LanguageName>
-		<_Description>Creates a Visual Studio for Mac / MonoDevelop addin.</_Description>
+		<LanguageName>C#</LanguageName>
+		<_Description>Creates a Visual Studio for Mac / MonoDevelop extension.</_Description>
 		<GroupId>xamarin-studio-addin</GroupId>
 	</TemplateConfiguration>
 
@@ -24,10 +24,10 @@
 				<Package ID="MonoDevelop.Addins" Version="0.3.14" />
 			</Packages>
 			<Files>
+				<FileTemplateReference TemplateID="CSharpAssemblyInfo" />
 				<Directory name="Properties">
-					<FileTemplateReference TemplateID="FSharpAssemblyInfo" name="AssemblyInfo.fs" />
 					<File name="Manifest.addin.xml" src="Properties/Manifest.addin.xml" BuildAction="EmbeddedResource" />
-					<File name="AddinInfo.fs" src="Properties/AddinInfo.fs" />
+					<File name="AddinInfo.cs" src="Properties/AddinInfo.cs" />
 				</Directory>
 			</Files>
 		</Project>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ExtensionModel>
 	<ExtensionPoint path = "/MonoDevelop/AddinMaker/ContextMenu/ProjectPad/AddinReferenceFolder">
 		<ExtensionNodeSet id="MonoDevelop.Components.Commands.ItemSet"/>
@@ -9,18 +9,18 @@
 	</ExtensionPoint>
 
 	<Extension path="/MonoDevelop/Ide/ProjectTemplateCategories/other">
-		<Category id="monodevelop" name="MonoDevelop">
+		<Category id="monodevelop" name="IDE Extensions">
 			<Category id="general" name="General" />
 		</Category>
 	</Extension>
 
 	<Extension path = "/MonoDevelop/Ide/ProjectTemplates">
-		<ProjectTemplate id   = "EmptyAddinProjectCSharp"
-		                 file = "Templates/EmptyAddinProject.cs.xpt.xml" />
-		<ProjectTemplate id   = "EmptyAddinProjectFSharp"
-		                 file = "Templates/EmptyAddinProject.fs.xpt.xml" />
-		<ProjectTemplate id   = "AddinTestProjectCSharp"
-		                 file = "Templates/AddinTestProject.cs.xpt.xml" />
+		<ProjectTemplate id   = "ExtensionProjectCSharp"
+		                 file = "Templates/ExtensionProject.cs.xpt.xml" />
+		<ProjectTemplate id   = "ExtensionProjectFSharp"
+		                 file = "Templates/ExtensionProject.fs.xpt.xml" />
+		<ProjectTemplate id   = "ExtensionTestProjectCSharp"
+		                 file = "Templates/ExtensionTestProject.cs.xpt.xml" />
 	</Extension>
 
 	<Extension path = "/MonoDevelop/Ide/FileTemplates">

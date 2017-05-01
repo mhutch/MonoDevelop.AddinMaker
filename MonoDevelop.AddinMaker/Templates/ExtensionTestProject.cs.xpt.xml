@@ -1,10 +1,10 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <Template>
 	<TemplateConfiguration>
-		<_Name>Addin Tests</_Name>
+		<_Name>Extension Tests</_Name>
 		<_Category>other/monodevelop/general</_Category>
 		<LanguageName>C#</LanguageName>
-		<_Description>Creates a unit test project for a MonoDevelop addin.</_Description>
+		<_Description>Creates a unit test project for Visual Studio for Mac / MonoDevelop extension.</_Description>
 	</TemplateConfiguration>
 
 	<Actions>

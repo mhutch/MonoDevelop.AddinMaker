@@ -100,8 +100,8 @@
     <Folder Include="AddinBrowser\" />
   </ItemGroup>
   <ItemGroup>
-    <AddinFile Include="Templates\EmptyAddinProject.cs.xpt.xml" />
-    <AddinFile Include="Templates\EmptyAddinProject.fs.xpt.xml" />
+    <AddinFile Include="Templates\ExtensionProject.cs.xpt.xml" />
+    <AddinFile Include="Templates\ExtensionProject.fs.xpt.xml" />
     <AddinFile Include="Templates\Properties\Manifest.addin.xml" />
     <AddinFile Include="Templates\Properties\AddinInfo.cs" />
     <AddinFile Include="Templates\Properties\AddinInfo.fs" />
@@ -109,7 +109,7 @@
     <AddinFile Include="Templates\ProjectTemplate.xft.xml" />
     <AddinFile Include="Templates\FileTemplate.xml" />
     <AddinFile Include="Templates\ProjectTemplate.xml" />
-    <AddinFile Include="Templates\AddinTestProject.cs.xpt.xml" />
+    <AddinFile Include="Templates\ExtensionTestProject.cs.xpt.xml" />
   </ItemGroup>
   <ItemGroup>
     <AddinReference Include="MonoDevelop.DesignerSupport" />
