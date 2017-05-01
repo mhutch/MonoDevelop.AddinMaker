@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -48,10 +48,10 @@ namespace MonoDevelop.AddinMaker
 			return framework.Id.Identifier == TargetFrameworkMoniker.NET_4_5.Identifier;
 		}
 
-		protected override SolutionItemConfiguration OnCreateConfiguration (string name, ConfigurationKind kind)
+		protected override SolutionItemConfiguration OnCreateConfiguration (string id, ConfigurationKind kind)
 		{
-			var cfg = new AddinProjectConfiguration (name);
-			cfg.CopyFrom (base.OnCreateConfiguration (name, kind));
+			var cfg = new AddinProjectConfiguration (id);
+			cfg.CopyFrom (base.OnCreateConfiguration (id, kind));
 			return cfg;
 		}
 
@@ -66,9 +66,9 @@ namespace MonoDevelop.AddinMaker
 
 		public AddinRegistry AddinRegistry { get; private set; }
 
-		protected override ExecutionCommand OnCreateExecutionCommand (ConfigurationSelector configSel, DotNetProjectConfiguration configuration)
+		protected override ExecutionCommand OnCreateExecutionCommand (ConfigurationSelector configSel, DotNetProjectConfiguration configuration, ProjectRunConfiguration runConfiguration)
 		{
-			var cmd = (DotNetExecutionCommand) base.OnCreateExecutionCommand (configSel, configuration);
+			var cmd = (DotNetExecutionCommand) base.OnCreateExecutionCommand (configSel, configuration, runConfiguration);
 			cmd.Command = Assembly.GetEntryAssembly ().Location;
 			cmd.Arguments = "--no-redirect";
 			cmd.EnvironmentVariables["MONODEVELOP_DEV_ADDINS"] = Project.GetOutputFileName (configSel).ParentDirectory;
@@ -76,20 +76,25 @@ namespace MonoDevelop.AddinMaker
 			return cmd;
 		}
 
-		protected override bool OnGetCanExecute (ExecutionContext context, ConfigurationSelector configuration)
+		protected override bool OnGetCanExecute (ExecutionContext context, ConfigurationSelector configuration, SolutionItemRunConfiguration runConfiguration)
 		{
-			return true;
+			return IsAddin;
 		}
 
 		protected override ProjectFeatures OnGetSupportedFeatures ()
 		{
-			return base.OnGetSupportedFeatures () | ProjectFeatures.Execute;
+			var features = base.OnGetSupportedFeatures ();
+			if (IsAddin) {
+				features |= ProjectFeatures.Execute;
+			}
+			return features;
 		}
 
 		protected override IList<string> OnGetCommonBuildActions ()
 		{
-			var list = new List<string> (base.OnGetCommonBuildActions ());
-			list.Add ("AddinFile");
+			var list = new List<string> (base.OnGetCommonBuildActions ()) {
+				"AddinFile"
+			};
 			return list;
 		}
 
