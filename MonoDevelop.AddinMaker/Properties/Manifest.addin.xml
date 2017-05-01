@@ -21,6 +21,8 @@
 		                 file = "Templates/ExtensionProject.fs.xpt.xml" />
 		<ProjectTemplate id   = "ExtensionTestProjectCSharp"
 		                 file = "Templates/ExtensionTestProject.cs.xpt.xml" />
+		<ProjectTemplate id   = "ExtensionLibraryProjectCSharp"
+		                 file = "Templates/ExtensionLibraryProject.cs.xpt.xml" />
 	</Extension>
 
 	<Extension path = "/MonoDevelop/Ide/FileTemplates">

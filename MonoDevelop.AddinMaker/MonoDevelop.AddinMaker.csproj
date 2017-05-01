@@ -110,6 +110,7 @@
     <AddinFile Include="Templates\FileTemplate.xml" />
     <AddinFile Include="Templates\ProjectTemplate.xml" />
     <AddinFile Include="Templates\ExtensionTestProject.cs.xpt.xml" />
+    <AddinFile Include="Templates\ExtensionLibraryProject.cs.xpt.xml" />
   </ItemGroup>
   <ItemGroup>
     <AddinReference Include="MonoDevelop.DesignerSupport" />
