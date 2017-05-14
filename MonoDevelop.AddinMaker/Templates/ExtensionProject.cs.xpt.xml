@@ -27,7 +27,7 @@
 				<FileTemplateReference TemplateID="CSharpAssemblyInfo" />
 				<Directory name="Properties">
 					<File name="Manifest.addin.xml" src="Properties/Manifest.addin.xml" BuildAction="EmbeddedResource" />
-					<File name="AddinInfo.cs" src="Properties/AddinInfo.cs" />
+					<File name="AddinInfo.cs" src="Properties/AddinInfo.cs" AddStandardHeader="True" />
 				</Directory>
 			</Files>
 		</Project>
