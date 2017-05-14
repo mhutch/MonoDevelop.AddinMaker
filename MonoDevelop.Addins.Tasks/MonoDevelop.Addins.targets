@@ -2,6 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.ResolveMonoDevelopAddins" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.GetDefaultMonoDevelopLocations" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
+  <UsingTask TaskName="MonoDevelop.Addins.Tasks.GetMonoDevelopTargetFramework" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.GenerateManifest" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.CollectOutputFiles" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.CreatePackage" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
@@ -55,15 +56,7 @@
     </Reference>
   </ItemGroup>
 
-  <PropertyGroup>
-    <!-- FIXME logically this should be ResolveReferencesDependsOn but XS currently uses ResolveAssemblyReferences -->
-    <ResolveAssemblyReferencesDependsOn>
-      _MDResolveAddinReferences;
-      $(ResolveAssemblyReferencesDependsOn)
-    </ResolveAssemblyReferencesDependsOn>
-  </PropertyGroup>
-
-  <Target Name="ResolveMonoDevelopLocations">
+  <Target Name="ResolveMonoDevelopLocations" BeforeTargets="GetReferenceAssemblyPaths">
     <GetDefaultMonoDevelopLocations ProfileVersion="$(MDProfileVersion)" ProfilePath="$(MDProfilePath)" ReferencePath="$(ReferencePath)">
       <Output TaskParameter="ConfigDir"   PropertyName="MDConfigDir"   Condition="'$(MDConfigDir)' == ''"    />
       <Output TaskParameter="AddinsDir"   PropertyName="MDAddinsDir"   Condition="'$(MDAddinsDir)' == ''"    />
@@ -73,8 +66,6 @@
     <Message Text = "MDConfigDir:   $(MDConfigDir)" />
     <Message Text = "MDAddinsDir:   $(MDAddinsDir)" />
     <Message Text = "MDBinDir:      $(MDBinDir)" />
-
-    <Error Text = "Please remove TargetFrameworkVersion from your project file" Condition="'$(_AddinMakerFramework)'!='$(TargetFrameworkVersion)'"/>
 
     <PropertyGroup>
       <MDToolExe Condition="Exists('$(MDBinDir)\vstool.exe')">$(MDBinDir)\vstool.exe</MDToolExe>
@@ -91,9 +82,27 @@
       <MDConfigDir Condition="'$(MDConfigDir)'==''">$(IntermediateOutputPath)mdam\config</MDConfigDir>
       <MDAddinsDir Condition="'$(MDAddinsDir)'==''">$(IntermediateOutputPath)mdam\addins</MDAddinsDir>
     </PropertyGroup>
+
+    <GetMonoDevelopTargetFramework MDBinDir="$(MDBinDir)">
+      <Output TaskParameter="MDTargetFrameworkMoniker"   PropertyName="MDTargetFrameworkMoniker" />
+      <Output TaskParameter="MDTargetFrameworkVersion"   PropertyName="MDTargetFrameworkVersion" />
+	</GetMonoDevelopTargetFramework>
+
+    <Message Text = "MDTargetFrameworkVersion:   $(MDTargetFrameworkVersion)" />
+
+    <Warning
+		Text = "Overriding your project's target framework '$(TargetFrameworkVersion)' with target MonoDevelop's framework '$(MDTargetFrameworkVersion)'."
+		Condition="'$(MDTargetFrameworkVersion)'!='$(TargetFrameworkVersion)'"/>
+
+    <PropertyGroup>
+		<TargetFrameworkMoniker>$(MDTargetFrameworkMoniker)</TargetFrameworkMoniker>
+		<TargetFrameworkVersion>$(MDTargetFrameworkVersion)</TargetFrameworkVersion>
+    </PropertyGroup>
+
   </Target>
-  
-  <Target Name="_MDResolveAddinReferences" DependsOnTargets="ResolveMonoDevelopLocations">
+
+  <!-- FIXME logically this should before ResolveReferences but MD currently uses ResolveAssemblyReferences -->
+  <Target Name="_MDResolveAddinReferences" DependsOnTargets="ResolveMonoDevelopLocations" BeforeTargets="ResolveAssemblyReferences">
     <ResolveMonoDevelopAddins
       ConfigDir="$(MDConfigDir)"
       AddinsDir="$(MDAddinsDir)"

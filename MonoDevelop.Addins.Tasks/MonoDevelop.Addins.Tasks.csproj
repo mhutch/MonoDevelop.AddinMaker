@@ -61,6 +61,7 @@
     <Compile Include="LogProgressStatus.cs" />
     <Compile Include="CollectOutputFiles.cs" />
     <Compile Include="GenerateManifest.cs" />
+    <Compile Include="GetMonoDevelopTargetFramework.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MonoDevelop.Addins.targets" CopyToOutputDirectory="PreserveNewest" />

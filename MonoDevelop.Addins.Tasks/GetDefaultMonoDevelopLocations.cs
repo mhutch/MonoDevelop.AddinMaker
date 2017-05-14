@@ -87,7 +87,7 @@ namespace MonoDevelop.Addins.Tasks
 					"Xamarin Studio", "bin"
 				);
 			} else if (Platform.IsMac) {
-				string appName = isPreV7? "Xamarin Studio" : "Visual Studio";
+				string appName = isPreV7 ? "Xamarin Studio" : "Visual Studio";
 				BinDir = $"/Applications/{appName}.app/Contents/Resources/lib/monodevelop/bin";
 				//fall back to old pre-Yosemite location
 				if (!Directory.Exists (BinDir)) {
