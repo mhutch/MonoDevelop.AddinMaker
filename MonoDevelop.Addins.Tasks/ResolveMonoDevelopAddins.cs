@@ -47,15 +47,20 @@ namespace MonoDevelop.Addins.Tasks
 					continue;
 				}
 
-				var expectedVersion = addinName.GetMetadata ("Version");
-				if (!string.IsNullOrEmpty (expectedVersion) && !addin.SupportsVersion (expectedVersion)) {
-					Log.LogError ("Addin '{0}' does not satisfy specified version '{1}", addinName, expectedVersion);
-					success = false;
-					continue;
+				var overrideVersion = addinName.GetMetadata ("Version");
+				if (string.IsNullOrEmpty (overrideVersion)) {
+					overrideVersion = null;
+				}
+
+				if (overrideVersion != null && !addin.SupportsVersion (overrideVersion)) {
+					Log.LogWarning (
+						"Addin '{0}' version '{1}' does not appear to be compatible with version override '{2}'",
+						addinName, addin.Version, overrideVersion
+					);
 				}
 
 				var item = new TaskItem (addinName);
-				item.SetMetadata ("Version", addin.Version);
+				item.SetMetadata ("Version", overrideVersion ?? addin.Version);
 				item.SetMetadata ("AddinFile", addin.AddinFile);
 				resolvedAddins.Add (item);
 
