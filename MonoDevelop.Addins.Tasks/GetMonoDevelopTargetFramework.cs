@@ -36,7 +36,7 @@ namespace MonoDevelop.Addins.Tasks
 
 			AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += resolver;
 			try {
-				MDTargetFrameworkMoniker = asm.GetCustomAttribute<TargetFrameworkAttribute> ()?.FrameworkName;
+				MDTargetFrameworkMoniker =  GetTargetFramework (asm);
 			} finally {
 				AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve -= resolver;
 			}
@@ -47,6 +47,16 @@ namespace MonoDevelop.Addins.Tasks
 			}
 			MDTargetFrameworkVersion = version;
 			return true;
+		}
+
+		string GetTargetFramework (Assembly asm)
+		{
+			foreach (var data in asm.GetCustomAttributesData ()) {
+				if (data.AttributeType.FullName == typeof (TargetFrameworkAttribute).FullName) {
+					 return (string)data.ConstructorArguments [0].Value;
+				}
+			}
+			throw new InvalidOperationException ($"Assembly {asm.CodeBase} does not have a TargetFrameworkAttribute");
 		}
 
 		//Based on MonoDevelop's TargetFrameworkMoniker class
