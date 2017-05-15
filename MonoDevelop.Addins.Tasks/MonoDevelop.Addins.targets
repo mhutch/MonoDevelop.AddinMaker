@@ -29,8 +29,13 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
-    <AddinReference Include="MonoDevelop.Core"/>
-    <AddinReference Include="MonoDevelop.Ide" />
+    <AddinReference Include="MonoDevelop.Core">
+      <!-- this allows overriding the automatically computed dependency version -->
+      <Version>$(MDCoreVersion)</Version>
+    </AddinReference>
+    <AddinReference Include="MonoDevelop.Ide">
+      <Version>$(MDCoreVersion)</Version>
+    </AddinReference>
     <!-- we depend on GTK# and friends but it's not in bin -->
     <Reference Include="gtk-sharp">
       <Private>False</Private>
