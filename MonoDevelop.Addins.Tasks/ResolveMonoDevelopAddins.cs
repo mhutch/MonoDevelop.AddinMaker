@@ -6,6 +6,7 @@ using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 using Mono.Addins;
 using System.Reflection;
+using Mono.Addins.Description;
 
 namespace MonoDevelop.Addins.Tasks
 {
@@ -19,6 +20,8 @@ namespace MonoDevelop.Addins.Tasks
 
 		[Output]
 		public ITaskItem[] ResolvedAddins { get; set; }
+
+		public string CoreVersionOverride { get; set; }
 
 		[Output]
 		public string VersionDefines { get; set; }
@@ -47,20 +50,45 @@ namespace MonoDevelop.Addins.Tasks
 					continue;
 				}
 
-				var overrideVersion = addinName.GetMetadata ("Version");
-				if (string.IsNullOrEmpty (overrideVersion)) {
-					overrideVersion = null;
+				string version = null;
+
+				var versionMetadata = addinName.GetMetadata ("Version");
+				if (!string.IsNullOrEmpty (versionMetadata)) {
+					version = versionMetadata;
+					Log.LogMessage (MessageImportance.Normal, "Overriding '{0}' reference version with '{1}'", addinName, version);
+					if (version != null && !addin.SupportsVersion (version)) {
+						Log.LogWarning (
+							"Addin '{0}' version '{1}' does not appear to be compatible with version override '{2}'",
+							addinName, addin.Version, version
+						);
+					}
+				} else if (!string.IsNullOrEmpty (CoreVersionOverride)) {
+					if (addin.Namespace == "MonoDevelop" && addin.LocalId == "Core") {
+						if (!string.IsNullOrEmpty (CoreVersionOverride)) {
+							version = CoreVersionOverride;
+							Log.LogMessage (MessageImportance.Normal, "Overriding '{0}' reference version with '{1}'", addinName.ItemSpec, version);
+						}
+					} else {
+						var coreDep = GetCoreDependencyVersion (addin);
+						if (coreDep == null) {
+							Log.LogError ("Could not resolve core dependency version for '{0}'", addinName.ItemSpec);
+							success = false;
+							continue;
+						}
+						if (coreDep == addin.Version) {
+							version = CoreVersionOverride;
+							Log.LogMessage (MessageImportance.Normal, "Overriding '{0}' reference version with '{1}'", addinName.ItemSpec, version);
+						}
+					}
 				}
 
-				if (overrideVersion != null && !addin.SupportsVersion (overrideVersion)) {
-					Log.LogWarning (
-						"Addin '{0}' version '{1}' does not appear to be compatible with version override '{2}'",
-						addinName, addin.Version, overrideVersion
-					);
+				if (version == null) {
+					version = addin.Version;
+					Log.LogMessage (MessageImportance.Normal, "Resolved '{0}' reference to version '{1}'", addinName.ItemSpec, version);
 				}
 
 				var item = new TaskItem (addinName);
-				item.SetMetadata ("Version", overrideVersion ?? addin.Version);
+				item.SetMetadata ("Version", version);
 				item.SetMetadata ("AddinFile", addin.AddinFile);
 				resolvedAddins.Add (item);
 
@@ -101,6 +129,16 @@ namespace MonoDevelop.Addins.Tasks
 			ResolvedAddins = resolvedAddins.ToArray ();
 
 			return success;
+		}
+
+		string GetCoreDependencyVersion (Addin addin)
+		{
+			foreach (AddinDependency dep in addin.Description.MainModule.Dependencies) {
+				if (Addin.GetFullId (addin.Namespace, dep.AddinId, null) == "MonoDevelop.Core"){
+					return dep.Version;
+				}
+			}
+			return null;
 		}
 
 		void CollectCoreReferences (string addinAssembly, Dictionary<string,string> coreReferences)
