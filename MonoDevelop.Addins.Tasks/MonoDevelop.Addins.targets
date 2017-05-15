@@ -24,6 +24,10 @@
     <BuildDependsOn>$(BuildDependsOn);_CoreCreatePackage</BuildDependsOn>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(RunTests)'=='True' And '$(IsAddin)'!='True'">
+    <BuildDependsOn>$(BuildDependsOn);RunTests</BuildDependsOn>
+  </PropertyGroup>
+
   <!-- always reference the core addins and assemblies -->
   <ItemGroup>
     <Reference Include="System" />
@@ -187,9 +191,14 @@
       AddinDependencies="@(_MDResolvedAddins)" />
   </Target>
 
-  <!-- when running in XS, the global property provider provides a valid mdbindir -->
+  <!-- when running in MD, the global property provider provides a valid MDBinDir -->
   <PropertyGroup Condition="'$(IsAddin)' != 'True'">
-    <TestRunnerCommand>$(MDBinDir)\mdtool.exe</TestRunnerCommand>
+    <TestRunnerCommand Condition="Exists('$(MDBinDir)\vstool.exe')">$(MDBinDir)\vstool.exe</TestRunnerCommand>
+    <TestRunnerCommand Condition="'$(TestRunnerCommand)'==''">$(MDBinDir)\mdtool.exe</TestRunnerCommand>
     <TestRunnerArgs>run-md-tests</TestRunnerArgs>
   </PropertyGroup>
+
+  <Target Name="RunTests" DependsOnTargets="ResolveMonoDevelopLocations">
+    <Exec Command="$(_MDToolCommand) $(TestRunnerArgs) &quot;$(TargetPath)&quot;" />
+  </Target>
 </Project>
