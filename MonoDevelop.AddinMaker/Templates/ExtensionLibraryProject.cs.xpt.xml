@@ -15,7 +15,7 @@
 			<Options IsAddin="False" />
 			<References />
 			<Packages>
-				<Package ID="MonoDevelop.Addins" Version="0.3.15" />
+				<Package ID="MonoDevelop.Addins" Version="0.3.16" />
 			</Packages>
 			<Files>
 				<FileTemplateReference TemplateID="CSharpAssemblyInfo" />
