@@ -23,4 +23,4 @@ Because loading AddinMaker requires itself to be installed, scripts are provided
 
 To build against a specific version, you can provide arguments, e.g.
 
-    make install ARGS="/p:MDBinDir=../monodevelop/main/build/bin /p:MDProfileVersion=6.0"
+    make install ARGS="/p:MDBinDir=../monodevelop/main/build/bin /p:MDProfileVersion=7.0"
