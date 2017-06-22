@@ -43,10 +43,7 @@
     <Compile Include="AddinProjectConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\AddinInfo.cs" />
-    <Compile Include="AddinProjectNodeBuilder.cs" />
     <Compile Include="AddinReferencePropertyProvider.cs" />
-    <Compile Include="AddinReferenceNodeBuilder.cs" />
-    <Compile Include="AddinReferencesNodeBuilder.cs" />
     <Compile Include="AddinReference.cs" />
     <Compile Include="AddinCommands.cs" />
     <Compile Include="AddAddinReferenceDialog.cs" />
@@ -91,13 +88,9 @@
     <Compile Include="Editor\ManifestSchema\ExtensionNodeSetElement.cs" />
     <Compile Include="Editor\ManifestSchema\ExtensionNodeElement.cs" />
     <Compile Include="Editor\ManifestSchema\ExtensionElement.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-    <Folder Include="Templates\" />
-    <Folder Include="Templates\Properties\" />
-    <Folder Include="Editor\" />
-    <Folder Include="AddinBrowser\" />
+    <Compile Include="NodeBuilders\AddinReferenceNodeBuilder.cs" />
+    <Compile Include="NodeBuilders\AddinReferencesNodeBuilder.cs" />
+    <Compile Include="NodeBuilders\AddinProjectNodeBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <AddinFile Include="Templates\ExtensionProject.cs.xpt.xml" />

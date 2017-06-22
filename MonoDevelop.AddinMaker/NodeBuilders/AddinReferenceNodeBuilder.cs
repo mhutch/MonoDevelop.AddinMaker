@@ -4,6 +4,7 @@ using MonoDevelop.Core;
 using MonoDevelop.Ide;
 using MonoDevelop.Ide.Gui.Components;
 using MonoDevelop.AddinMaker.AddinBrowser;
+using MonoDevelop.Projects;
 
 namespace MonoDevelop.AddinMaker
 {
@@ -46,7 +47,21 @@ namespace MonoDevelop.AddinMaker
 
 		public override bool HasChildNodes (ITreeBuilder builder, object dataObject)
 		{
-			return false;
+			return true;
+		}
+
+		public override void BuildChildNodes (ITreeBuilder treeBuilder, object dataObject)
+		{
+			var addin = (AddinReference)dataObject;
+			var dnp = (DotNetProject)addin.Project;
+			foreach (var asm in dnp.References) {
+				Console.WriteLine (asm);
+			}
+			var refs = dnp.GetReferencedAssemblies (IdeApp.Workspace.ActiveConfiguration);
+			foreach (var r in refs.Result) {
+				Console.WriteLine (r.FilePath);
+			}
+			base.BuildChildNodes (treeBuilder, dataObject);
 		}
 
 		class AddinReferenceCommandHandler : NodeCommandHandler
