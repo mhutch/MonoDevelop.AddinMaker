@@ -48,7 +48,7 @@
     <Reference Include="System.Xml" />
     <PackageReference Include="Mono.Addins" Version="1.3.5" PrivateAssets="all" />
     <PackageReference Include="Mono.Addins.Setup" Version="1.3.5" PrivateAssets="all" />
-    <PackageReference Include="NuGet.Build.Packaging" Version="0.1.276" />
+    <PackageReference Include="NuGet.Build.Packaging" Version="0.1.323" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,13 +66,5 @@
     <None Include="MonoDevelop.Addins.targets" CopyToOutputDirectory="PreserveNewest" />
     <None Include="MonoDevelop.Addins.props" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-  <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents" DependsOnTargets="AllProjectOutputGroups" Returns="@(PackageFile)">
-    <ItemGroup>
-      <!-- work around NuGetizer not including private assets from dependencies --> 
-      <PackageFile Include="$(OutputPath)ICSharpCode.SharpZipLib.dll" PackagePath="build\net45\ICSharpCode.SharpZipLib.dll" />
-      <PackageFile Include="$(OutputPath)Mono.Addins.dll" PackagePath="build\net45\Mono.Addins.dll" />
-      <PackageFile Include="$(OutputPath)Mono.Addins.Setup.dll" PackagePath="build\net45\Mono.Addins.Setup.dll" />
-    </ItemGroup>
-  </Target>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
