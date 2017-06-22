@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using System.Runtime.Versioning;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
+using Mono.Cecil;
 
 namespace MonoDevelop.Addins.Tasks
 {
@@ -26,19 +26,8 @@ namespace MonoDevelop.Addins.Tasks
 				return false;
 			}
 
-			var asm = Assembly.ReflectionOnlyLoadFrom (mdCoreDll);
-			ResolveEventHandler resolver = (sender, args) => {
-				string refPath = Path.Combine (MDBinDir, new AssemblyName (args.Name).Name + ".dll");
-				if (File.Exists (refPath))
-					return Assembly.ReflectionOnlyLoadFrom (refPath);
-				return null;
-			};
-
-			AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += resolver;
-			try {
-				MDTargetFrameworkMoniker =  GetTargetFramework (asm);
-			} finally {
-				AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve -= resolver;
+			using (var asm = Mono.Cecil.AssemblyDefinition.ReadAssembly (mdCoreDll)) {
+				MDTargetFrameworkMoniker = GetTargetFramework (asm);
 			}
 
 			if (!ParseTargetFrameworkMoniker (MDTargetFrameworkMoniker, out string identifier, out string version, out string profile)) {
@@ -49,14 +38,14 @@ namespace MonoDevelop.Addins.Tasks
 			return true;
 		}
 
-		string GetTargetFramework (Assembly asm)
+		string GetTargetFramework (AssemblyDefinition asm)
 		{
-			foreach (var data in asm.GetCustomAttributesData ()) {
-				if (data.AttributeType.FullName == typeof (TargetFrameworkAttribute).FullName) {
-					 return (string)data.ConstructorArguments [0].Value;
+			foreach (var att in asm.MainModule.GetCustomAttributes ()) {
+				if (att.AttributeType.FullName == typeof (TargetFrameworkAttribute).FullName) {
+					 return (string)att.ConstructorArguments [0].Value;
 				}
 			}
-			throw new InvalidOperationException ($"Assembly {asm.CodeBase} does not have a TargetFrameworkAttribute");
+			throw new InvalidOperationException ($"Assembly {asm.MainModule.FileName} does not have a TargetFrameworkAttribute");
 		}
 
 		//Based on MonoDevelop's TargetFrameworkMoniker class

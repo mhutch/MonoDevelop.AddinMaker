@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 using Mono.Addins;
+using Mono.Addins.Database;
 
 namespace MonoDevelop.Addins.Tasks
 {
@@ -46,6 +48,8 @@ namespace MonoDevelop.Addins.Tasks
 				DatabaseDir
 			);
 
+			Registry.RegisterExtension (new CecilReflectorExtension ());
+
 			Log.LogMessage (MessageImportance.Normal, "Updating addin database at {0}", DatabaseDir);
 			Registry.Update (new LogProgressStatus (Log, 2));
 
@@ -53,6 +57,27 @@ namespace MonoDevelop.Addins.Tasks
 		}
 
 		protected AddinRegistry Registry { get; private set; }
+	}
+
+	class CecilReflectorExtension : AddinFileSystemExtension
+	{
+		//force it to use the cecil reflector. rhe SR one breaks easily under MSBuild
+		public override IAssemblyReflector GetReflectorForFile (IAssemblyLocator locator, string path)
+		{
+			string asmFile = Path.Combine (Path.GetDirectoryName (GetType ().Assembly.Location), "Mono.Addins.CecilReflector.dll");
+			Assembly asm = Assembly.LoadFrom (asmFile);
+			Type t = asm.GetType ("Mono.Addins.CecilReflector.Reflector");
+			var reflector = (IAssemblyReflector)Activator.CreateInstance (t);
+			reflector.Initialize (locator);
+			return reflector;
+		}
+
+		//mono.addins uses an appdomain even when using the cecil reflector
+		//but that breaks us because the appdomain's base directory is the msbuild
+		//bindir so it can't load the assembly. force it to run inproc instead.
+		public override bool RequiresIsolation {
+			get { return false; }
+		}
 	}
 }
 
