@@ -19,7 +19,7 @@
 			<Options IsAddin="False" />
 			<References />
 			<Packages>
-				<Package ID="MonoDevelop.Addins" Version="0.3.16" />
+				<Package ID="MonoDevelop.Addins" Version="0.3.17" />
 				<Package ID="MonoDevelop.Addins.GuiUnit" Version="0.1.1" />
 			</Packages>
 			<Files>
