@@ -1,4 +1,6 @@
-﻿* Extension tree explorer
+﻿## Extension
+
+* Extension tree explorer
 * Addin manifest editing
   * Completion
   	* Nested extension paths
@@ -13,8 +15,15 @@
 * Publishing wizard
 * Templates/wizards for common extensions
 
-Build
+## Build
+
 * Download addin references from the gallery at build time
-* Allow setting minimum XS version instead of using current
-* Allow setting addin ref version instead of using current
 * Build against versioned "XS SDK" instead of XS itself
+
+## Tests
+
+* Test the NuGet works
+* Test resources
+* Test dependency version overrides
+* Test dlls are resolved from dependencies
+* Test versioned dependencies
