@@ -5,7 +5,7 @@ all: restore
 	msbuild ${SLNFILE} /p:Configuration=${CONFIG} ${ARGS}
 
 clean:
-	msbuild ${SLNFILE} /t:Clean ${ARGS}
+	msbuild ${SLNFILE} /p:Configuration=${CONFIG} /t:Clean ${ARGS}
 
 install: restore
 	msbuild ${SLNFILE} /p:InstallAddin=True /p:Configuration=${CONFIG} ${ARGS}
