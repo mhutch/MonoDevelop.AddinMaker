@@ -98,4 +98,12 @@
 			<File pattern="*.xpt.xml" />
 		</MimeType>
 	</Extension>
+
+	<Extension path="/MonoDevelop/Ide/TemplateImages">
+		<Image id="md-extension-template" resource="MonoDevelop.AddinMaker.images.project-addin-template.png" />
+	</Extension>
+
+	<Extension path="/MonoDevelop/Core/StockIcons">
+		<StockIcon stockid="md-extension-template" resource="MonoDevelop.AddinMaker.images.project-addin-32.png" size="Dnd" />
+	</Extension>
 </ExtensionModel>

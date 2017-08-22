@@ -5,6 +5,8 @@
 		<_Category>other/monodevelop/general</_Category>
 		<LanguageName>C#</LanguageName>
 		<_Description>Creates a library project that can reference Visual Studio for Mac / MonoDevelop assemblies but is not itself an extension.</_Description>
+		<Icon>md-extension-template</Icon>
+		<Image id="md-extension-template" />
 	</TemplateConfiguration>
 
 	<Actions>

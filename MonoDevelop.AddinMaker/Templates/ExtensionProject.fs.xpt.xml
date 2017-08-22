@@ -5,7 +5,9 @@
 		<_Category>other/monodevelop/general</_Category>
 		<LanguageName>F#</LanguageName>
 		<_Description>Creates a Visual Studio for Mac / MonoDevelop extension.</_Description>
-		<GroupId>xamarin-studio-addin</GroupId>
+		<GroupId>monodevelop-extension</GroupId>
+		<Icon>md-extension-template</Icon>
+		<Image id="md-extension-template" />
 	</TemplateConfiguration>
 
 	<Actions>
