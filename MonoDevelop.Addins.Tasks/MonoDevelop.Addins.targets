@@ -28,6 +28,10 @@
     <BuildDependsOn>$(BuildDependsOn);RunTests</BuildDependsOn>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectCapability Include="AddinMaker" />
+  </ItemGroup>
+
   <!-- always reference the core addins and assemblies -->
   <ItemGroup>
     <Reference Include="System" />

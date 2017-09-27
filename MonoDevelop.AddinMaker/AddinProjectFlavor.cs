@@ -12,6 +12,7 @@ using MonoDevelop.Core.Serialization;
 
 namespace MonoDevelop.AddinMaker
 {
+	[ExportProjectModelExtension, AppliesTo ("AddinMaker")]
 	class AddinProjectFlavor : DotNetProjectExtension
 	{
 		[ItemProperty("IsAddin", DefaultValue=true)]
