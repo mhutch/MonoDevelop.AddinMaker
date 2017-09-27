@@ -11,7 +11,6 @@
 * Project template editing
 * Filter in addin reference editor
 * Targeting alternate MD/XS installation
-* Refresh code completion when addin reference added
 * Publishing wizard
 * Templates/wizards for common extensions
 
