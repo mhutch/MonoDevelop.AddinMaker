@@ -105,24 +105,20 @@
     <Compile Include="NodeBuilders\AddinProjectNodeBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AddinFile Include="Templates\ExtensionProject.cs.xpt.xml" />
-    <AddinFile Include="Templates\ExtensionProject.fs.xpt.xml" />
-    <AddinFile Include="Templates\Properties\Manifest.addin.xml" />
-    <AddinFile Include="Templates\Properties\AddinInfo.cs" />
-    <AddinFile Include="Templates\Properties\AddinInfo.fs" />
-    <AddinFile Include="Templates\FileTemplate.xft.xml" />
-    <AddinFile Include="Templates\ProjectTemplate.xft.xml" />
-    <AddinFile Include="Templates\FileTemplate.xml" />
-    <AddinFile Include="Templates\ProjectTemplate.xml" />
-    <AddinFile Include="Templates\ExtensionTestProject.cs.xpt.xml" />
-    <AddinFile Include="Templates\ExtensionLibraryProject.cs.xpt.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <AddinReference Include="MonoDevelop.DesignerSupport" />
     <AddinReference Include="MonoDevelop.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="images\" />
+    <AddinFile Include="..\MonoDevelop.Extensions.ProjectTemplates\bin\MonoDevelop.Extensions.ProjectTemplates.nupkg">
+      <Link>Templates\MonoDevelop.Extensions.ProjectTemplates.nupkg</Link>
+    </AddinFile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MonoDevelop.Extensions.ProjectTemplates\MonoDevelop.Extensions.ProjectTemplates.csproj">
+      <Project>{68DF9DED-F6E9-4228-B929-7D566F1AB24A}</Project>
+      <Name>MonoDevelop.Extensions.ProjectTemplates</Name>
+      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\MonoDevelop.AddinMaker.Local.targets" />

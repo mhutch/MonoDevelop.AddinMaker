@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>Project templates for MonoDevelop extensions</Description>
+    <PackageId>MonoDevelop.Extensions.ProjectTemplates</PackageId>
+    <PackageVersion>0.1.0</PackageVersion>
+    <Authors>Mikayla Hutchinson</Authors>
+    <TargetFramework>net461</TargetFramework>
+    <EnableDefaultItems>False</EnableDefaultItems>
+	<PackOnBuild>true</PackOnBuild>
+	<PackageTargetPath>bin\$(PackageId).nupkg</PackageTargetPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.0" PrivateAssets="All" />
+    <PackageFile Include="content\**\*" PackagePath="%(RelativeDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>

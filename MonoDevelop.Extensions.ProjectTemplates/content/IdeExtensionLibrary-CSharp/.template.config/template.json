@@ -1,0 +1,15 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "Mikayla Hutchinson",
+    "classifications": [ "IDE Extensions", "MonoDevelop" ],
+    "name": "IDE Extension Library",
+    "identity": "MonoDevelop.Extension.Library.CSharp",
+    "groupIdentity":"MonoDevelop.Extension.Library",
+    "shortName": "ide-extension-library",
+    "tags": {
+      "language": "C#",
+      "type":"project"
+    },
+    "sourceName": "IdeExtensionLibrary",
+    "preferNameDirectory": true
+  }

@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
-<Template>
-	<TemplateConfiguration>
-		<_Name>${Name}</_Name>
-	</TemplateConfiguration>
-
-	<TemplateFiles>
-	</TemplateFiles>
-</Template>

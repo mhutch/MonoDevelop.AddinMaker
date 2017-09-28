@@ -1,0 +1,15 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "Mikayla Hutchinson",
+    "classifications": [ "IDE Extensions", "MonoDevelop" ],
+    "name": "IDE Extension Tests",
+    "identity": "MonoDevelop.Extension.Tests.CSharp",
+    "groupIdentity":"MonoDevelop.Extension.Tests",
+    "shortName": "ide-extension-tests",
+    "tags": {
+      "language": "C#",
+      "type":"project"
+    },
+    "sourceName": "IdeExtensionTests",
+    "preferNameDirectory": true
+  }
