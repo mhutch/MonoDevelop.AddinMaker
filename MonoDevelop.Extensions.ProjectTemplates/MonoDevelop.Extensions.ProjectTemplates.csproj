@@ -12,6 +12,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NuGet.Build.Packaging" Version="0.2.0" PrivateAssets="All" />
-    <PackageFile Include="content\**\*" PackagePath="%(RelativeDir)%(Filename)%(Extension)" />
+    <PackageFile Include="content\**\*" Exclude="content\**\.DS_Store" PackagePath="%(RelativeDir)%(Filename)%(Extension)" />
   </ItemGroup>
 </Project>
