@@ -3,4 +3,9 @@
   <PropertyGroup>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
   </PropertyGroup>
+
+  <ItemGroup Condition="'$(EnableDefaultItems)'=='True'">
+    <EmbeddedResource Include="**\*.addin.xml" Condition="'$(EnableDefaultEmbeddedResourceItems)'=='True'" />
+    <None Remove="**\*.addin.xml" Condition="'$(EnableDefaultNoneItems)'=='True'" />
+  </ItemGroup>
 </Project>
