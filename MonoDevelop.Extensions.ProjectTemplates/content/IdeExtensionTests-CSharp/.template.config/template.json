@@ -11,5 +11,8 @@
       "type":"project"
     },
     "sourceName": "IdeExtensionTests",
-    "preferNameDirectory": true
+    "preferNameDirectory": true,
+    "primaryOutputs": [
+      { "path": "IdeExtensionTests.csproj" }
+    ]
   }

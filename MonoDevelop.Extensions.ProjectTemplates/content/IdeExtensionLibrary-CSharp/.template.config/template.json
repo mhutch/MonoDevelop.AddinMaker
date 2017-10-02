@@ -11,5 +11,8 @@
       "type":"project"
     },
     "sourceName": "IdeExtensionLibrary",
-    "preferNameDirectory": true
+    "preferNameDirectory": true,
+    "primaryOutputs": [
+      { "path": "IdeExtensionLibrary.csproj" }
+    ]
   }
