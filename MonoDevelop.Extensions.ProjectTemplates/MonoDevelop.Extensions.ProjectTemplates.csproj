@@ -7,11 +7,12 @@
     <Authors>Mikayla Hutchinson</Authors>
     <TargetFramework>net461</TargetFramework>
     <EnableDefaultItems>False</EnableDefaultItems>
-	<PackOnBuild>true</PackOnBuild>
-	<PackageTargetPath>bin\$(PackageId).nupkg</PackageTargetPath>
+    <PackOnBuild>true</PackOnBuild>
+    <PackageTargetPath>bin\$(PackageId).nupkg</PackageTargetPath>
+    <IncludeOutputsInPackage>false</IncludeOutputsInPackage>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NuGet.Build.Packaging" Version="0.2.0" PrivateAssets="All" />
-    <PackageFile Include="content\**\*" Exclude="content\**\.DS_Store" PackagePath="%(RelativeDir)%(Filename)%(Extension)" />
+    <PackageFile Include="content\**\*" Exclude="content\**\.DS_Store;content\**\bin;content\**\obj" PackagePath="%(RelativeDir)%(Filename)%(Extension)" />
   </ItemGroup>
 </Project>
