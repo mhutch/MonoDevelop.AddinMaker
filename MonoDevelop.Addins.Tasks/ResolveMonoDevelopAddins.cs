@@ -143,19 +143,19 @@ namespace MonoDevelop.Addins.Tasks
 
 		void CollectCoreReferences (string addinAssembly, Dictionary<string,string> coreReferences)
 		{
-			var asm = Assembly.ReflectionOnlyLoadFrom (addinAssembly);
-			var referenced = asm.GetReferencedAssemblies ();
-			foreach (var r in referenced) {
-				if (coreReferences.ContainsKey (r.Name))
-					continue;
-				var p = Path.Combine (BinDir, r.Name + ".dll");
-				if (File.Exists (p)) {
+			using (var asm = Mono.Cecil.AssemblyDefinition.ReadAssembly (addinAssembly)) {
+				foreach (var r in asm.MainModule.AssemblyReferences) {
+					if (coreReferences.ContainsKey (r.Name))
+						continue;
+					var p = Path.Combine (BinDir, r.Name + ".dll");
+					if (!File.Exists (p)) {
+						continue;
+					}
+
 					var fullPath = Path.GetFullPath (p);
 					coreReferences.Add (r.Name, fullPath);
 					Log.LogMessage (MessageImportance.Low, "Added transitive reference '{0}'", r);
 					CollectCoreReferences (fullPath, coreReferences);
-				} else {
-					coreReferences.Add (r.Name, null);
 				}
 			}
 		}
