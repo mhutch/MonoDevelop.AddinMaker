@@ -3,7 +3,6 @@
     <TargetFramework>net461</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Manifest.addin.xml" />
     <PackageReference Include="MonoDevelop.Addins" Version="0.4.0" />
   </ItemGroup>
 </Project>
