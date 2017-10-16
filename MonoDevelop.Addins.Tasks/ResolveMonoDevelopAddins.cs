@@ -149,7 +149,12 @@ namespace MonoDevelop.Addins.Tasks
 						continue;
 					var p = Path.Combine (BinDir, r.Name + ".dll");
 					if (!File.Exists (p)) {
-						continue;
+						p = Path.Combine (Path.GetDirectoryName (addinAssembly), r.Name + ".dll");
+						if (!File.Exists (p)) {
+							coreReferences.Add (r.Name, null);
+							continue;
+						}
+
 					}
 
 					var fullPath = Path.GetFullPath (p);
