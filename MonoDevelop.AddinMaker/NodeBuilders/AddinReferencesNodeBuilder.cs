@@ -86,10 +86,15 @@ namespace MonoDevelop.AddinMaker
 			}
 		}
 
-
+		//ensure this is immediately after the references folder
 		public override int CompareObjects (ITreeNavigator thisNode, ITreeNavigator otherNode)
 		{
-			return (otherNode.DataItem is MonoDevelop.Projects.ProjectReferenceCollection) ? 1 : -1;
+			return (otherNode.DataItem is ProjectReferenceCollection) ? 1 : -1;
+		}
+
+		public override int GetSortIndex (ITreeNavigator node)
+		{
+			return -200;
 		}
 
 		class AddinReferenceFolderCommandHandler : NodeCommandHandler
