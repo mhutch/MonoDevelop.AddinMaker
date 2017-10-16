@@ -120,7 +120,7 @@ namespace MonoDevelop.AddinMaker
 
 				if (allAddins.Length  == 0) {
 					MessageService.ShowMessage (
-						GettextCatalog.GetString ("You have already referenced all available addins")
+						GettextCatalog.GetString ("You have already referenced all available extensions")
 					);
 					return;
 				}

@@ -25,7 +25,7 @@ namespace MonoDevelop.AddinMaker
 			if (allAddins == null || allAddins.Length == 0)
 				throw new ArgumentException ();
 
-			Title = GettextCatalog.GetString ("Add Addin Reference");
+			Title = GettextCatalog.GetString ("Add Extension Reference");
 			DestroyWithParent = true;
 			Modal = true;
 			HasSeparator = false;
