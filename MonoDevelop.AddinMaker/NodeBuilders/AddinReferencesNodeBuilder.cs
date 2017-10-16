@@ -36,7 +36,13 @@ namespace MonoDevelop.AddinMaker
 
 		public override void BuildNode (ITreeBuilder treeBuilder, object dataObject, NodeInfo nodeInfo)
 		{
-			nodeInfo.Label = GettextCatalog.GetString ("Addin References");
+			var project = ((AddinReferenceCollection)dataObject).Parent.Project;
+			var isSdkStyleProject = project.MSBuildProject.Sdk != null;
+			if (isSdkStyleProject) {
+				nodeInfo.Label = GettextCatalog.GetString ("Extensions");
+			} else {
+				nodeInfo.Label = GettextCatalog.GetString ("Extension References");
+			}
 			//TODO: better icons
 			nodeInfo.Icon = Context.GetIcon (Stock.OpenReferenceFolder);
 			nodeInfo.ClosedIcon = Context.GetIcon (Stock.ClosedReferenceFolder);

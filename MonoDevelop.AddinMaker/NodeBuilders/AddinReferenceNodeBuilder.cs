@@ -58,6 +58,7 @@ namespace MonoDevelop.AddinMaker
 				Console.WriteLine (asm);
 			}
 			var refs = dnp.GetReferencedAssemblies (IdeApp.Workspace.ActiveConfiguration);
+			//FIXME: remove blocking call
 			foreach (var r in refs.Result) {
 				Console.WriteLine (r.FilePath);
 			}
