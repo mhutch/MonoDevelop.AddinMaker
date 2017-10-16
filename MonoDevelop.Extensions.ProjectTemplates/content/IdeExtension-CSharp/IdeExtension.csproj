@@ -3,6 +3,6 @@
     <TargetFramework>net461</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MonoDevelop.Addins" Version="0.4.0" />
+    <PackageReference Include="MonoDevelop.Addins" Version="0.4.1" />
   </ItemGroup>
 </Project>
