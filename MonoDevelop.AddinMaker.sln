@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDevelop.AddinMaker", "MonoDevelop.AddinMaker\MonoDevelop.AddinMaker.csproj", "{10ED7C7D-CD4D-4003-90D6-B36678232B6A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDevelop.Addins.Tasks", "MonoDevelop.Addins.Tasks\MonoDevelop.Addins.Tasks.csproj", "{AC367EC2-202F-4FB4-A461-5B95827C5DFF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDevelop.AddinMaker.Tests", "MonoDevelop.AddinMaker.Tests\MonoDevelop.AddinMaker.Tests.csproj", "{0D2E42EE-4670-48D2-A3FA-0832B630D7F1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDevelop.Extensions.ProjectTemplates", "MonoDevelop.Extensions.ProjectTemplates\MonoDevelop.Extensions.ProjectTemplates.csproj", "{68DF9DED-F6E9-4228-B929-7D566F1AB24A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDevelop.AddinMaker", "MonoDevelop.AddinMaker\MonoDevelop.AddinMaker.csproj", "{99D17E8C-472E-47B6-8620-C5D8EDC0FCF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{10ED7C7D-CD4D-4003-90D6-B36678232B6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{10ED7C7D-CD4D-4003-90D6-B36678232B6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{10ED7C7D-CD4D-4003-90D6-B36678232B6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{10ED7C7D-CD4D-4003-90D6-B36678232B6A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AC367EC2-202F-4FB4-A461-5B95827C5DFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AC367EC2-202F-4FB4-A461-5B95827C5DFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC367EC2-202F-4FB4-A461-5B95827C5DFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{68DF9DED-F6E9-4228-B929-7D566F1AB24A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68DF9DED-F6E9-4228-B929-7D566F1AB24A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68DF9DED-F6E9-4228-B929-7D566F1AB24A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99D17E8C-472E-47B6-8620-C5D8EDC0FCF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99D17E8C-472E-47B6-8620-C5D8EDC0FCF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99D17E8C-472E-47B6-8620-C5D8EDC0FCF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99D17E8C-472E-47B6-8620-C5D8EDC0FCF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
@@ -61,10 +61,12 @@ Global
 		$3.SpaceAfterMethodCallName = True
 		$3.SpaceBeforeOpenSquareBracket = True
 		$0.TextStylePolicy = $4
-		$4.TabsToSpaces = False
-		$4.inheritsSet = VisualStudio
-		$4.inheritsScope = text/plain
-		$4.scope = text/plain
+		$4.TabsToSpaces = True
+		$4.scope = application/x-msbuild
+		$4.TabWidth = 2
+		$4.NoTabsAfterNonTabs = True
+		$0.XmlFormattingPolicy = $5
+		$5.scope = application/x-msbuild
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
