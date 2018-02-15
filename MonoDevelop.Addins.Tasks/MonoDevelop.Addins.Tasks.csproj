@@ -11,8 +11,6 @@
     <Description>MSBuild targets for building Visual Studio for Mac / Xamarin Studio / MonoDevelop addins.</Description>
     <PackageReleaseNotes>Improved support for VS for Mac. Fixed issue referencing addins build on other platforms.</PackageReleaseNotes>
     <PrimaryOutputPackageFileKind>Build</PrimaryOutputPackageFileKind>
-    <!-- work around NuGetizer not including none/copytooutput by default assets -->
-    <IncludeNoneInPackage>true</IncludeNoneInPackage>
     <PackOnBuild Condition="$(Configuration)=='Release'">True</PackOnBuild>
   </PropertyGroup>
   <ItemGroup>
@@ -25,8 +23,9 @@
     <PackageReference Include="NuGet.Build.Packaging" Version="0.2.2" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="MonoDevelop.Addins.targets" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="MonoDevelop.Addins.props" CopyToOutputDirectory="PreserveNewest" />
+    <!-- PackagePath works around NuGetizer not packing None+CopyToOutputDirectory by default -->
+    <None Include="MonoDevelop.Addins.targets" CopyToOutputDirectory="PreserveNewest" Pack="True" />
+    <None Include="MonoDevelop.Addins.props" CopyToOutputDirectory="PreserveNewest" Pack="True" />
   </ItemGroup>
   <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents" DependsOnTargets="AllProjectOutputGroups" Returns="@(PackageFile)">
     <ItemGroup>
