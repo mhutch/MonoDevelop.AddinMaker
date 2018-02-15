@@ -216,4 +216,14 @@
   <Target Name="RunTests" DependsOnTargets="ResolveMonoDevelopLocations">
     <Exec Command="$(_MDToolCommand) $(TestRunnerArgs) &quot;$(TargetPath)&quot;" />
   </Target>
+
+  <!--
+  SDK Style projects no longer resolve from the GAC, but that's currently the only
+  way to resolve GTK#, so add it back into the search path
+  -->
+  <Target Name="AddGacPath" BeforeTargets="ResolveAssemblyReferences" Condition="'$(NETCoreSdkBundledVersionsProps)'!=''">
+    <PropertyGroup>
+      <AssemblySearchPaths>$(AssemblySearchPaths);{Gac}</AssemblySearchPaths>
+    </PropertyGroup>
+  </Target>
 </Project>
