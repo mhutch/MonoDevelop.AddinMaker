@@ -49,9 +49,6 @@
 		<FileTemplate
 			id = "AddinFileTemplate"
 			file = "Templates/FileTemplate.xft.xml" />
-		<FileTemplate
-			id = "AddinProjectTemplate"
-			file = "Templates/ProjectTemplate.xft.xml" />
 	</Extension>
 
 	<Extension path = "/MonoDevelop/ProjectModel/ProjectModelExtensions">
