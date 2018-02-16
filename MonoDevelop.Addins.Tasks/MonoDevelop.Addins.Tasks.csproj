@@ -24,8 +24,8 @@
   </ItemGroup>
   <ItemGroup>
     <!-- PackagePath works around NuGetizer not packing None+CopyToOutputDirectory by default -->
-    <None Include="MonoDevelop.Addins.targets" CopyToOutputDirectory="PreserveNewest" Pack="True" />
-    <None Include="MonoDevelop.Addins.props" CopyToOutputDirectory="PreserveNewest" Pack="True" />
+    <None Update="MonoDevelop.Addins.targets" CopyToOutputDirectory="PreserveNewest" Pack="True" />
+    <None Update="MonoDevelop.Addins.props" CopyToOutputDirectory="PreserveNewest" Pack="True" />
   </ItemGroup>
   <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents" DependsOnTargets="AllProjectOutputGroups" Returns="@(PackageFile)">
     <ItemGroup>
