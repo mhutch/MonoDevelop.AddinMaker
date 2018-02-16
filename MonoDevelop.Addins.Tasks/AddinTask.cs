@@ -41,6 +41,16 @@ namespace MonoDevelop.Addins.Tasks
 			AddinsDir = Path.GetFullPath (AddinsDir);
 			DatabaseDir = Path.GetFullPath (DatabaseDir);
 
+			bool rebuild = false;
+
+			//the registry can get confused if we switch bindirs
+			var markerFile = Path.Combine (DatabaseDir, "lastbin.txt");
+			if (Directory.Exists (DatabaseDir)) {
+				if (!File.Exists (markerFile) || File.ReadAllText (markerFile) != BinDir) {
+					rebuild = true;
+				}
+			}
+
 			Registry = new AddinRegistry (
 				ConfigDir,
 				BinDir,
@@ -50,8 +60,16 @@ namespace MonoDevelop.Addins.Tasks
 
 			Registry.RegisterExtension (new CecilReflectorExtension ());
 
-			Log.LogMessage (MessageImportance.Normal, "Updating addin database at {0}", DatabaseDir);
-			Registry.Update (new LogProgressStatus (Log, 2));
+			var progress = new LogProgressStatus (Log, 2);
+			if (rebuild) {
+				Log.LogMessage (MessageImportance.Normal, "Rebuilding addin database at {0}", DatabaseDir);
+				Registry.Rebuild (progress);
+			} else {
+				Log.LogMessage (MessageImportance.Normal, "Updating addin database at {0}", DatabaseDir);
+				Registry.Update (progress);
+			}
+
+			File.WriteAllText (markerFile, BinDir);
 
 			return !Log.HasLoggedErrors;
 		}
