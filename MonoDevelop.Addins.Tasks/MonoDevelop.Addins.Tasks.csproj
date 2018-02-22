@@ -2,17 +2,16 @@
   <PropertyGroup>
     <TargetFramework>net461</TargetFramework>
     <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
-    <Title>MonoDevelop Addins Build Support</Title>
+    <Title>MonoDevelop Extension Build Support</Title>
     <PackageId>MonoDevelop.Addins</PackageId>
-    <PackageVersion>0.4.2</PackageVersion>
+    <PackageVersion>0.4.3</PackageVersion>
     <Authors>Mikayla Hutchinson</Authors>
     <PackageLicenseUrl>http://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/mhutch/MonoDevelop.AddinMaker</PackageProjectUrl>
-    <Description>MSBuild targets for building Visual Studio for Mac / Xamarin Studio / MonoDevelop addins.</Description>
+    <Description>MSBuild targets for building Visual Studio for Mac / MonoDevelop extensions.</Description>
     <PackageReleaseNotes>
-Fix zip path separators on Windows.
-Fix GTK# assembly resolution with SDK style projects.
-Make extension reference resolution more robust.
+Fix pack/install/test after build in SDK style projects
+Disable NuGet packaing of extension projects by default
     </PackageReleaseNotes>
     <PrimaryOutputPackageFileKind>Build</PrimaryOutputPackageFileKind>
     <PackOnBuild Condition="$(Configuration)=='Release'">True</PackOnBuild>
