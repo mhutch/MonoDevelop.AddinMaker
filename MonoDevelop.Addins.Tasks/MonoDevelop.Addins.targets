@@ -17,17 +17,15 @@
     <MDProfilePath Condition="'$(MDProfilePath)' == ''">$(MONODEVELOP_TEST_PROFILE)</MDProfilePath>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(InstallAddin)'=='True' And '$(IsAddin)'=='True'">
-    <BuildDependsOn>$(BuildDependsOn);_CoreCreatePackage;_CoreInstallAddin</BuildDependsOn>
+  <PropertyGroup >
+    <_InstallAddinAfterBuild Condition="'$(InstallAddin)'=='True' And '$(IsAddin)'=='True'">True</_InstallAddinAfterBuild>
+    <_PackageAddinAfterBuild Condition="'$(CreatePackage)'=='True' And '$(IsAddin)'=='True'">True</_PackageAddinAfterBuild>
+    <_RunAddinTestsAfterBuild Condition="'$(RunTests)'=='True' And '$(IsAddin)'!='True'">True</_RunAddinTestsAfterBuild>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(CreatePackage)'=='True' And '$(IsAddin)'=='True'">
-    <BuildDependsOn>$(BuildDependsOn);_CoreCreatePackage</BuildDependsOn>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(RunTests)'=='True' And '$(IsAddin)'!='True'">
-    <BuildDependsOn>$(BuildDependsOn);RunTests</BuildDependsOn>
-  </PropertyGroup>
+  <Target Name="_RunAddinTestsAfterBuild" AfterTargets="Build" Condition="'$(_RunAddinTestsAfterBuild)'=='true'" DependsOnTargets="RunTests" />
+  <Target Name="_PackageAddinAfterBuild" AfterTargets="Build" Condition="'$(_PackageAddinAfterBuild)'=='true'" DependsOnTargets="PackageAddin" />
+  <Target Name="_InstallAddinAfterBuild" AfterTargets="Build" Condition="'$(_InstallAddinAfterBuild)'=='true'" DependsOnTargets="InstallAddin" />
 
   <ItemGroup>
     <ProjectCapability Include="AddinMaker" />
