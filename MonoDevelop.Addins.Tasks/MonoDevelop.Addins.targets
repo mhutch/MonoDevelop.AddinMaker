@@ -7,8 +7,9 @@
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.CollectOutputFiles" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.CreatePackage" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
 
-  <PropertyGroup Condition="'$(IsAddin)' != 'False'">
-    <IsAddin>True</IsAddin>
+  <PropertyGroup>
+    <IsAddin Condition="'$(IsAddin)' != 'False'">True</IsAddin>
+    <IsPackable Condition="'$(IsPackable)'==''">False</IsPackable>
   </PropertyGroup>
 
   <PropertyGroup>
