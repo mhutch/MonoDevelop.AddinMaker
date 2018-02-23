@@ -49,6 +49,12 @@ namespace MonoDevelop.AddinMaker
 			return framework.Id.Identifier == TargetFrameworkMoniker.NET_4_5.Identifier;
 		}
 
+		protected override void OnGetTypeTags (HashSet<string> types)
+		{
+			types.Add ("Extension");
+			base.OnGetTypeTags (types);
+		}
+
 		protected override SolutionItemConfiguration OnCreateConfiguration (string id, ConfigurationKind kind)
 		{
 			var cfg = new AddinProjectConfiguration (id);

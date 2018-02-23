@@ -59,7 +59,7 @@
 		<ProjectFlavor
 			guid="{86F6BF2A-E449-4B3E-813B-9ACC37E5545F}"
 			type="MonoDevelop.AddinMaker.AddinProjectFlavor"
-			alias="Addin"
+			alias="Extension"
 			/>
 	</Extension>
 
