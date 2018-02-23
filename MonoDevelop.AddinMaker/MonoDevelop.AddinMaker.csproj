@@ -10,6 +10,12 @@
     <AddinReference Include="MonoDevelop.Xml" />
     <AddinFile Include="..\MonoDevelop.Extensions.ProjectTemplates\bin\MonoDevelop.Extensions.ProjectTemplates.nupkg" Link="Templates\MonoDevelop.Extensions.ProjectTemplates.nupkg" />
     <ProjectReference Include="..\MonoDevelop.Extensions.ProjectTemplates\MonoDevelop.Extensions.ProjectTemplates.csproj" ReferenceOutputAssembly="False" />
+    <AddinFile Include="Templates\FileTemplate.xml" />
+    <AddinFile Include="Templates\FileTemplate.xft.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Templates\FileTemplate.xml" />
+    <None Remove="Templates\FileTemplate.xft.xml" />
   </ItemGroup>
   <Import Project="..\MonoDevelop.AddinMaker.Local.targets" />
 </Project>
