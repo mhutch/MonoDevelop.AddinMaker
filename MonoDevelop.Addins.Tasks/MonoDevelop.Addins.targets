@@ -160,23 +160,18 @@
 
   <Target Name="PackageAddin" DependsOnTargets="Build;_CoreCreatePackage" />
 
-  <PropertyGroup Condition="'$(IsAddin)' == 'True'">
-    <PrepareResourcesDependsOn>
-      _MDCollectOutputFiles;
-      _MDGenerateManifest;
-      $(PrepareResourcesDependsOn)
-    </PrepareResourcesDependsOn>
-    <PrepareForRunDependsOn>
-      _MDCopyOutputFiles;
-      $(PrepareForRunDependsOn)
-    </PrepareForRunDependsOn>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <_MDAddinFilesManifest>$(IntermediateOutputPath)_Manifest.addin.xml</_MDAddinFilesManifest>
-  </PropertyGroup>
+  <!--
+  beforetargets is kinda messy. We can't just go before PrepareResources, because that's _empty_ and actually
+  just depends on a bunch of other targets that do the real work, and we need to go before _those_.
+  SplitResourcesByCulture seems to be the first.
+  -->
+  <Target Name="_PrepareAddinResources" BeforeTargets="SplitResourcesByCulture" Condition="'$(IsAddin)' == 'True'" DependsOnTargets="_MDCollectOutputFiles;_MDGenerateManifest" />
 
   <Target Name="_MDCollectOutputFiles">
+    <!--declare this here instead of toplevel so that IntermediateOutputPath has a value w/SDK style projects-->
+    <PropertyGroup>
+      <_MDAddinFilesManifest>$(IntermediateOutputPath)_Manifest.addin.xml</_MDAddinFilesManifest>
+    </PropertyGroup>
     <CollectOutputFiles
         AddinFiles="@(AddinFile)">
       <Output TaskParameter="AddinFilesWithLinkMetadata" ItemName ="_AddinFilesWithLinkMetadata" />
@@ -190,14 +185,20 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="_MDCopyOutputFiles" Inputs="@(_AddinFilesWithLinkMetadata)" Outputs="@(_AddinFilesWithLinkMetadata->'$(OutputPath)%(Link)')">
+  <Target Name="_MDCopyOutputFiles"
+    Inputs="@(_AddinFilesWithLinkMetadata)"
+    Outputs="@(_AddinFilesWithLinkMetadata->'$(OutputPath)%(Link)')"
+    BeforeTargets="PrepareForRun"
+    Condition="'$(IsAddin)' == 'True'">
     <Copy
       SkipUnchangedFiles="True"
       SourceFiles="@(_AddinFilesWithLinkMetadata)"
       DestinationFiles="@(_AddinFilesWithLinkMetadata->'$(OutputPath)%(Link)')" />
   </Target>
 
-  <Target Name="_MDGenerateManifest" Inputs="$(MSBuildAllProjects);@(_MDResolvedAddins->'%(AddinFile)')" Outputs="$(_MDAddinFilesManifest)">
+  <Target Name="_MDGenerateManifest"
+    Inputs="$(MSBuildAllProjects);@(_MDResolvedAddins->'%(AddinFile)');@(AddinFile)"
+    Outputs="$(_MDAddinFilesManifest)">
     <GenerateManifest
       ManifestFile="$(_MDAddinFilesManifest)"
       ReferenceCopyLocalPaths="@(ReferenceCopyLocalPaths)"
