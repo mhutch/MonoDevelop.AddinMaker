@@ -98,15 +98,6 @@ namespace MonoDevelop.AddinMaker
 			};
 			return list;
 		}
-
-		protected override void OnInitializeFromTemplate (ProjectCreateInformation projectCreateInfo, System.Xml.XmlElement template)
-		{
-			base.OnInitializeFromTemplate (projectCreateInfo, template);
-			var isAddinAttribute = template.GetAttribute ("IsAddin");
-			if (!string.IsNullOrEmpty (isAddinAttribute)) {
-				isAddin = bool.Parse (isAddinAttribute);
-			}
-		}
 	}
 
 	class AddinReferenceEventArgs : EventArgsChain<AddinReferenceEventInfo>
