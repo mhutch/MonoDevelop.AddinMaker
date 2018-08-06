@@ -123,4 +123,8 @@
 	<Extension path="/MonoDevelop/Core/StockIcons">
 		<StockIcon stockid="md-extension-template" resource="MonoDevelop.AddinMaker.images.project-addin-32.png" size="Dnd" />
 	</Extension>
+
+	<Extension path="/MonoDevelop/Ide/Pads">
+		<Pad class="MonoDevelop.AddinMaker.Pads.EditorTagVisualizerPad" _label="Editor Tag Visualizer" defaultPlacement="right" />
+	</Extension>
 </ExtensionModel>
