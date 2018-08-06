@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -7,8 +8,8 @@ using Mono.Addins;
 using MonoDevelop.Core;
 using MonoDevelop.Core.Assemblies;
 using MonoDevelop.Core.Execution;
-using MonoDevelop.Projects;
 using MonoDevelop.Core.Serialization;
+using MonoDevelop.Projects;
 
 namespace MonoDevelop.AddinMaker
 {
@@ -76,11 +77,23 @@ namespace MonoDevelop.AddinMaker
 		protected override ExecutionCommand OnCreateExecutionCommand (ConfigurationSelector configSel, DotNetProjectConfiguration configuration, ProjectRunConfiguration runConfiguration)
 		{
 			var cmd = (DotNetExecutionCommand) base.OnCreateExecutionCommand (configSel, configuration, runConfiguration);
-			cmd.Command = Assembly.GetEntryAssembly ().Location;
+			cmd.Command = GetLaunchAssembly ();
 			cmd.Arguments = "--no-redirect";
 			cmd.EnvironmentVariables["MONODEVELOP_DEV_ADDINS"] = Project.GetOutputFileName (configSel).ParentDirectory;
 			cmd.EnvironmentVariables ["MONODEVELOP_CONSOLE_LOG_LEVEL"] = "All";
 			return cmd;
+		}
+
+		string GetLaunchAssembly()
+		{
+			FilePath binDir = Project.ProjectProperties.GetValue<string> ("MDBinDir");
+			if (binDir != null) {
+				var exe = binDir.Combine ("VisualStudio.exe");
+				if (File.Exists (exe))
+					return exe;
+				exe = binDir.Combine ("MonoDevelop.exe");
+			}
+			return Assembly.GetEntryAssembly ().Location;
 		}
 
 		protected override bool OnGetCanExecute (ExecutionContext context, ConfigurationSelector configuration, SolutionItemRunConfiguration runConfiguration)
