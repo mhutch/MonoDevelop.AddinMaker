@@ -125,6 +125,6 @@
 	</Extension>
 
 	<Extension path="/MonoDevelop/Ide/Pads">
-		<Pad class="MonoDevelop.AddinMaker.Pads.EditorTagVisualizerPad" _label="Editor Tag Visualizer" defaultPlacement="right" />
+		<Pad class="MonoDevelop.AddinMaker.Pads.EditorTagVisualizerPad" _label="Editor Tags" defaultPlacement="right" />
 	</Extension>
 </ExtensionModel>

@@ -22,18 +22,17 @@ namespace MonoDevelop.AddinMaker.Pads
 	{
 		readonly TreeView treeView;
 		readonly TreeStore store;
-		readonly Components.PropertyGrid.PropertyGrid propertyGrid;
-
-		DataField<string> spanField = new DataField<string> ();
-		DataField<string> tagNameField = new DataField<string> ();
-		DataField<ITag> tagField = new DataField<ITag> ();
+		readonly PropertyGrid propertyGrid;
+		readonly DataField<string> spanField = new DataField<string> ();
+		readonly DataField<string> tagNameField = new DataField<string> ();
+		readonly DataField<ITag> tagField = new DataField<ITag> ();
 
 		ActiveEditorTracker editorTracker;
 		IViewTagAggregatorFactoryService tagAggregatorFactoryService;
 		ITagAggregator<ITag> aggregator;
 		readonly HashSet<IMappingTagSpan<ITag>> activeTags = new HashSet<IMappingTagSpan<ITag>> ();
 
-		public EditorTagVisualizer (IPadWindow window)
+		public EditorTagVisualizer ()
 		{
 			tagAggregatorFactoryService = Ide.Composition.CompositionManager.GetExportedValue<IViewTagAggregatorFactoryService> ();
 
@@ -158,10 +157,7 @@ namespace MonoDevelop.AddinMaker.Pads
 			string GetPosition (IMappingPoint mp)
 			{
 				var p = mp.GetPoint (textView.TextBuffer, PositionAffinity.Predecessor);
-				if (p.HasValue) {
-					return p.Value.Position.ToString ();
-				}
-				return "?";
+				return p.HasValue ? p.Value.Position.ToString () : "?";
 			}
 		}
 
@@ -187,6 +183,9 @@ namespace MonoDevelop.AddinMaker.Pads
 		}
 	}
 
+	// because IClassificationType is a reference type, by default it gets displayed as "" with
+	// a combo to pick a known instance via the IReferenceService. That isn't what we want here,
+	// we simply want to display the Classification property
 	[PropertyEditorType (typeof (IClassificationType))]
 	class ClassificationTypeEditorCell : PropertyEditorCell
 	{

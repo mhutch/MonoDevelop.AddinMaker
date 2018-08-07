@@ -6,7 +6,7 @@ using MonoDevelop.Ide.Gui;
 
 namespace MonoDevelop.AddinMaker.Pads
 {
-	public class EditorTagVisualizerPad : PadContent
+	class EditorTagVisualizerPad : PadContent
 	{
 		Control control;
 
@@ -15,14 +15,13 @@ namespace MonoDevelop.AddinMaker.Pads
 		protected override void Initialize (IPadWindow window)
 		{
 			base.Initialize (window);
-			EditorTagVisualizer visualizer = new EditorTagVisualizer (window);
-			control = visualizer;
+			control = new EditorTagVisualizer ();
 		}
 
 		public override void Dispose ()
 		{
 			base.Dispose ();
-			control.Dispose ();
+			control?.Dispose ();
 			control = null;
 		}
 	}
