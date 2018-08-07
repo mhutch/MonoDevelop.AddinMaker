@@ -60,7 +60,7 @@ namespace MonoDevelop.AddinMaker.Pads
 			editorTracker = new ActiveEditorTracker ();
 			editorTracker.ActiveEditorChanged += ActiveEditorChanged;
 			if (editorTracker.TextView != null) {
-				ActiveEditorChanged (editorTracker, new ActiveEditorChangedEventArgs (editorTracker.TextView, null));
+				ActiveEditorChanged (editorTracker, new ActiveEditorChangedEventArgs (editorTracker.TextView, null, editorTracker.Document, null));
 			}
 		}
 
