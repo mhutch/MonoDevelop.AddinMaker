@@ -10,8 +10,7 @@ namespace MonoDevelop.AddinMaker
 {
 	class AddinReferenceNodeBuilder : TypeNodeBuilder
 	{
-		public override Type NodeDataType
-		{
+		public override Type NodeDataType {
 			get { return typeof (AddinReference); }
 		}
 
@@ -26,8 +25,7 @@ namespace MonoDevelop.AddinMaker
 			}
 		}
 
-		public override Type CommandHandlerType
-		{
+		public override Type CommandHandlerType {
 			get { return typeof (AddinReferenceCommandHandler); }
 		}
 
@@ -53,14 +51,13 @@ namespace MonoDevelop.AddinMaker
 		public override void BuildChildNodes (ITreeBuilder treeBuilder, object dataObject)
 		{
 			var addin = (AddinReference)dataObject;
-			var dnp = (DotNetProject)addin.Project;
-			foreach (var asm in dnp.References) {
-				Console.WriteLine (asm);
-			}
-			var refs = dnp.GetReferencedAssemblies (IdeApp.Workspace.ActiveConfiguration);
-			//FIXME: remove blocking call
-			foreach (var r in refs.Result) {
-				Console.WriteLine (r.FilePath);
+			var registry = addin.Project.GetFlavor<AddinProjectFlavor> ().AddinRegistry;
+			var resolved = registry.GetAddin (addin.Include);
+			if (resolved != null) {
+				foreach (var asm in resolved.Description.MainModule.Assemblies) {
+					string asmPath = System.IO.Path.Combine (resolved.Description.BasePath, asm);
+					treeBuilder.AddChild (ProjectReference.CreateAssemblyFileReference (asmPath));
+				}
 			}
 			base.BuildChildNodes (treeBuilder, dataObject);
 		}
@@ -82,7 +79,7 @@ namespace MonoDevelop.AddinMaker
 			[CommandHandler (Ide.Commands.EditCommands.Delete)]
 			public override void DeleteItem ()
 			{
-				var addin = (AddinReference) CurrentNode.DataItem;
+				var addin = (AddinReference)CurrentNode.DataItem;
 				var proj = addin.Project;
 				addin.Project.Items.Remove (addin);
 				Ide.IdeApp.ProjectOperations.SaveAsync (proj);
@@ -90,7 +87,7 @@ namespace MonoDevelop.AddinMaker
 
 			public override void ActivateItem ()
 			{
-				var addin = (AddinReference) CurrentNode.DataItem;
+				var addin = (AddinReference)CurrentNode.DataItem;
 				var registry = addin.Project.GetFlavor<AddinProjectFlavor> ().AddinRegistry;
 				var resolved = registry.GetAddin (addin.Include);
 				if (resolved != null) {
