@@ -4,7 +4,7 @@ using Mono.Addins.Description;
 [assembly: Addin (
 	"AddinMaker",
 	Namespace = "MonoDevelop",
-	Version = "1.4.2",
+	Version = "1.4.3",
 	Url = "http://github.com/mhutch/MonoDevelop.AddinMaker"
 )]
 
