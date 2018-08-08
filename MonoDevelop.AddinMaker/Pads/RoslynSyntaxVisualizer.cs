@@ -126,44 +126,46 @@ namespace MonoDevelop.AddinMaker.Pads
 			var leadingTrivia = syntaxNode.GetLeadingTrivia ();
 			var trailingTrivia = syntaxNode.GetTrailingTrivia ();
 
-			foreach (var trivia in leadingTrivia) {
-				SetNodeText (treeNavigator, trivia.GetType ().Name, trivia.Span, Colors.DarkRed);
-				treeNavigator.InsertAfter ();
-			}
+			AddLeadingTrivia (leadingTrivia);
 
 			SetNodeText (treeNavigator, syntaxNode.GetType ().Name, syntaxNode.Span, Colors.DarkBlue);
 
 			foreach (var child in syntaxNode.ChildNodesAndTokens ()) {
+				treeNavigator.AddChild ();
 				if (child.IsNode) {
-					AddNode (treeNavigator.AddChild (), child.AsNode ());
-					treeNavigator.MoveToParent ();
+					AddNode (treeNavigator, child.AsNode ());
 				} else {
-					treeNavigator.AddChild ();
 					var token = child.AsToken ();
 					if (token.LeadingTrivia != leadingTrivia) {
-						foreach (var trivia in token.LeadingTrivia) {
-							SetNodeText (treeNavigator, trivia.GetType ().Name, trivia.Span, Colors.DarkRed);
-							treeNavigator.InsertAfter ();
-						}
+						AddLeadingTrivia (token.LeadingTrivia);
 					}
-
 					SetNodeText (treeNavigator, token.GetType ().Name, token.Span, Colors.DarkGreen);
-
 					if (token.TrailingTrivia != trailingTrivia) {
-						foreach (var trivia in token.TrailingTrivia) {
-							treeNavigator.InsertAfter ();
-							SetNodeText (treeNavigator, trivia.GetType ().Name, trivia.Span, Colors.DarkRed);
-						}
+						AddTrailingTrivia (token.TrailingTrivia);
 					}
+				}
+				treeNavigator.MoveToParent ();
+			}
 
-					treeNavigator.MoveToParent ();
+			AddTrailingTrivia (trailingTrivia);
+
+			void AddLeadingTrivia (SyntaxTriviaList triviaList)
+			{
+				foreach (var trivia in triviaList) {
+					AddTrivia (trivia);
+					treeNavigator.InsertAfter ();
 				}
 			}
 
-			foreach (var trivia in trailingTrivia) {
-				treeNavigator.InsertAfter ();
-				SetNodeText (treeNavigator, trivia.GetType ().Name, trivia.Span, Colors.DarkRed);
+			void AddTrailingTrivia (SyntaxTriviaList triviaList)
+			{
+				foreach (var trivia in triviaList) {
+					treeNavigator.InsertAfter ();
+					AddTrivia (trivia);
+				}
 			}
+
+			void AddTrivia (SyntaxTrivia trivia) => SetNodeText (treeNavigator, trivia.GetType ().Name, trivia.Span, Colors.DarkRed);
 		}
 
 		void SetNodeText (TreeNavigator nav, string text, TextSpan span, Color color)
