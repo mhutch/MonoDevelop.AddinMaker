@@ -7,11 +7,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 using MonoDevelop.Components.PropertyGrid;
-using MonoDevelop.Ide.Gui;
 using Xwt;
 
 namespace MonoDevelop.AddinMaker.Pads
@@ -84,10 +82,12 @@ namespace MonoDevelop.AddinMaker.Pads
 			}
 
 			var tag = store.GetNavigatorAt (pos)?.GetValue (tagField);
-			propertyGrid.SetCurrentObject (tag, new object [] { tag, });
+			object[] propertyProviders = null;
+			if (tag is ClassificationTag ct) {
+				propertyProviders = new object [] { new ClassificationTagDescriptor (ct) };
+			}
+			propertyGrid.SetCurrentObject (tag, propertyProviders ?? new object [] { tag });
 		}
-
-
 
 		void ActiveEditorChanged (object sender, ActiveEditorChangedEventArgs e)
 		{
@@ -203,23 +203,6 @@ namespace MonoDevelop.AddinMaker.Pads
 				}
 			}
 			return false;
-		}
-	}
-
-	// because IClassificationType is a reference type, by default it gets displayed as "" with
-	// a combo to pick a known instance via the IReferenceService. That isn't what we want here,
-	// we simply want to display the Classification property
-	[PropertyEditorType (typeof (IClassificationType))]
-	class ClassificationTypeEditorCell : PropertyEditorCell
-	{
-		protected override string GetValueText ()
-		{
-			return ((IClassificationType)Value)?.Classification;
-		}
-
-		protected override IPropertyEditor CreateEditor (Gdk.Rectangle cellArea, Gtk.StateType state)
-		{
-			return null;
 		}
 	}
 }
