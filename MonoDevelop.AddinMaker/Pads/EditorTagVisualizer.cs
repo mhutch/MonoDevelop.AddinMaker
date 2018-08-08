@@ -24,7 +24,7 @@ namespace MonoDevelop.AddinMaker.Pads
 		readonly TreeStore store;
 		readonly PropertyGrid propertyGrid;
 		readonly DataField<string> spanField = new DataField<string> ();
-		readonly DataField<string> tagNameField = new DataField<string> ();
+		readonly DataField<string> tagNameMarkupField = new DataField<string> ();
 		readonly DataField<ITag> tagField = new DataField<ITag> ();
 
 		ActiveEditorTracker editorTracker;
@@ -36,19 +36,20 @@ namespace MonoDevelop.AddinMaker.Pads
 		{
 			tagAggregatorFactoryService = Ide.Composition.CompositionManager.GetExportedValue<IViewTagAggregatorFactoryService> ();
 
-			store = new TreeStore (spanField, tagNameField, tagField);
+			store = new TreeStore (spanField, tagNameMarkupField, tagField);
 			treeView = new TreeView (store) {
 				BorderVisible = false,
 				HeadersVisible = false,
 			};
 			treeView.Columns.Add ("Span", spanField).Expands = false;
-			treeView.Columns.Add ("Tag", tagNameField).Expands = true;
+			treeView.Columns.Add ("Tag", new TextCellView { MarkupField = tagNameMarkupField }).Expands = true;
 
 			Add1 ((Gtk.Widget)Toolkit.CurrentEngine.GetNativeWidget (treeView));
 
 			propertyGrid = new PropertyGrid ();
 			Add2 (propertyGrid);
 			ShowAll ();
+			propertyGrid.ShowToolbar = false;
 
 			//FIXME: port to XWT so we can use percentage position
 			Position = 600;
@@ -146,7 +147,7 @@ namespace MonoDevelop.AddinMaker.Pads
 			foreach (var mappingTag in tags) {
 				var span = mappingTag.Span;
 				var nav = store.AddNode ().SetValues (
-					tagNameField, mappingTag.Tag.GetType ().ToString (),
+					tagNameMarkupField, GetTagMarkup (mappingTag.Tag),
 					spanField, $"[{GetPosition (span.Start)}-{GetPosition (span.End)}]",
 					tagField, mappingTag.Tag
 				);
@@ -159,6 +160,28 @@ namespace MonoDevelop.AddinMaker.Pads
 				var p = mp.GetPoint (textView.TextBuffer, PositionAffinity.Predecessor);
 				return p.HasValue ? p.Value.Position.ToString () : "?";
 			}
+		}
+
+		string GetTagMarkup (ITag tag)
+		{
+			Type tagType = tag.GetType ();
+
+			if (tag is ClassificationTag classificationTag && tagType == typeof (ClassificationTag)) {
+				var classification = classificationTag.ClassificationType.Classification;
+				return $"Classification: <i>{Esc (classification)}</i>";
+			}
+
+			if (tag is ErrorTag errorTag && tagType == typeof (ErrorTag)) {
+				return $"Error: <i>{Esc (errorTag.ErrorType)}</i>";
+			}
+
+			if (tagType.Namespace.Equals ("Microsoft.VisualStudio.Text.Tagging", StringComparison.Ordinal)) {
+				return Esc (tagType.Name);
+			}
+
+			return Esc (tagType.FullName);
+
+			string Esc (string s) => GLib.Markup.EscapeText (s);
 		}
 
 		protected override void OnDestroyed ()
