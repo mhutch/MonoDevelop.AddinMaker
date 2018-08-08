@@ -123,6 +123,14 @@ namespace MonoDevelop.AddinMaker.Pads
 
 		void AddNode (TreeNavigator treeNavigator, SyntaxNode syntaxNode)
 		{
+			var leadingTrivia = syntaxNode.GetLeadingTrivia ();
+			var trailingTrivia = syntaxNode.GetTrailingTrivia ();
+
+			foreach (var trivia in leadingTrivia) {
+				SetNodeText (treeNavigator, trivia.GetType ().Name, trivia.Span, Colors.DarkRed);
+				treeNavigator.InsertAfter ();
+			}
+
 			SetNodeText (treeNavigator, syntaxNode.GetType ().Name, syntaxNode.Span, Colors.DarkBlue);
 
 			foreach (var child in syntaxNode.ChildNodesAndTokens ()) {
@@ -130,20 +138,31 @@ namespace MonoDevelop.AddinMaker.Pads
 					AddNode (treeNavigator.AddChild (), child.AsNode ());
 					treeNavigator.MoveToParent ();
 				} else {
-					AddToken (treeNavigator.AddChild (), child.AsToken ());
+					treeNavigator.AddChild ();
+					var token = child.AsToken ();
+					if (token.LeadingTrivia != leadingTrivia) {
+						foreach (var trivia in token.LeadingTrivia) {
+							SetNodeText (treeNavigator, trivia.GetType ().Name, trivia.Span, Colors.DarkRed);
+							treeNavigator.InsertAfter ();
+						}
+					}
+
+					SetNodeText (treeNavigator, token.GetType ().Name, token.Span, Colors.DarkGreen);
+
+					if (token.TrailingTrivia != trailingTrivia) {
+						foreach (var trivia in token.TrailingTrivia) {
+							treeNavigator.InsertAfter ();
+							SetNodeText (treeNavigator, trivia.GetType ().Name, trivia.Span, Colors.DarkRed);
+						}
+					}
+
 					treeNavigator.MoveToParent ();
 				}
 			}
-		}
 
-		void AddToken (TreeNavigator treeNavigator, SyntaxToken syntaxToken)
-		{
-			SetNodeText (treeNavigator, syntaxToken.GetType ().Name, syntaxToken.Span, Colors.DarkGreen);
-
-			foreach (var trivia in syntaxToken.GetAllTrivia ()) {
-				var child = treeNavigator.AddChild ();
-				SetNodeText (child, trivia.GetType ().Name, trivia.Span, Colors.DarkRed);
-				treeNavigator.MoveToParent ();
+			foreach (var trivia in trailingTrivia) {
+				treeNavigator.InsertAfter ();
+				SetNodeText (treeNavigator, trivia.GetType ().Name, trivia.Span, Colors.DarkRed);
 			}
 		}
 
