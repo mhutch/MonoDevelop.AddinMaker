@@ -1,5 +1,6 @@
 using Gtk;
 using Mono.Addins;
+using MonoDevelop.Components;
 using MonoDevelop.Ide.Gui;
 using MonoDevelop.Ide.Gui.Components;
 
@@ -77,6 +78,6 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 
 	interface ITreeDetailBuilder
 	{
-		Widget GetDetailWidget (object dataObject);
+		Control GetDetailWidget (object dataObject);
 	}
 }

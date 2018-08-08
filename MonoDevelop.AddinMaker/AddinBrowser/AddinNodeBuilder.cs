@@ -2,6 +2,7 @@ using System;
 using Mono.Addins;
 using MonoDevelop.Ide.Gui.Components;
 using Gtk;
+using MonoDevelop.Components;
 
 namespace MonoDevelop.AddinMaker.AddinBrowser
 {
@@ -38,7 +39,7 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 			base.BuildChildNodes (treeBuilder, addin.Description.MainModule);
 		}
 
-		public Widget GetDetailWidget (object dataObject)
+		public Control GetDetailWidget (object dataObject)
 		{
 			return new AddinDetailWidget ((Addin)dataObject);
 		}

@@ -2,6 +2,7 @@ using System;
 using Mono.Addins.Description;
 using MonoDevelop.Ide.Gui.Components;
 using Gtk;
+using MonoDevelop.Components;
 
 namespace MonoDevelop.AddinMaker.AddinBrowser
 {
@@ -23,7 +24,7 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 			nodeInfo.Label = extension.Path;
 		}
 
-		public Widget GetDetailWidget (object dataObject)
+		public Control GetDetailWidget (object dataObject)
 		{
 			return new ExtensionDetailWidget ((Extension)dataObject);
 		}
