@@ -105,6 +105,12 @@ namespace MonoDevelop.AddinMaker.Pads
 			cts = new CancellationTokenSource ();
 			var ct = cts.Token;
 
+			if (editorTracker.Document.AnalysisDocument == null) {
+				store.Clear ();
+				lastSourceText = null;
+				return;
+			}
+
 			var tree = await editorTracker.Document.AnalysisDocument.GetSyntaxTreeAsync (ct);
 			var root = await tree.GetRootAsync (ct);
 			var text = await editorTracker.Document.AnalysisDocument.GetTextAsync (ct);
@@ -180,7 +186,7 @@ namespace MonoDevelop.AddinMaker.Pads
 
 		void SelectBestMatchForCaret ()
 		{
-			if (suppressChangeEvent) {
+			if (suppressChangeEvent || lastSourceText == null) {
 				return;
 			}
 
