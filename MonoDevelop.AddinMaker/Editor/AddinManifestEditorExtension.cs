@@ -64,9 +64,7 @@ namespace MonoDevelop.AddinMaker.Editor
 
 		ICompletionDataList HandlePathCompletion ()
 		{
-			var valueState = Tracker.Engine.CurrentState as MonoDevelop.Xml.Parser.XmlAttributeValueState;
-
-			if (valueState != null) {
+			if (Tracker.Engine.CurrentState is MonoDevelop.Xml.Parser.XmlAttributeValueState valueState) {
 				var att = Tracker.Engine.Nodes.OfType<XAttribute> ().FirstOrDefault ();
 
 				if (att != null && att.IsNamed && att.Name.FullName == "path") {
@@ -77,8 +75,7 @@ namespace MonoDevelop.AddinMaker.Editor
 						string s = Editor.GetTextAt (start, currentPosition - start);
 						if (s.EndsWith ("/", System.StringComparison.Ordinal)) {
 							var item = GetSchemaItem ();
-							var ext = item as ExtensionElement;
-							if (ext != null) {
+							if (item is ExtensionElement ext) {
 								return ext.GetPathCompletions (s);
 							}
 						}
