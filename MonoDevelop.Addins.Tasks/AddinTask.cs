@@ -79,17 +79,6 @@ namespace MonoDevelop.Addins.Tasks
 
 	class CecilReflectorExtension : AddinFileSystemExtension
 	{
-		//force it to use the cecil reflector. rhe SR one breaks easily under MSBuild
-		public override IAssemblyReflector GetReflectorForFile (IAssemblyLocator locator, string path)
-		{
-			string asmFile = Path.Combine (Path.GetDirectoryName (GetType ().Assembly.Location), "Mono.Addins.CecilReflector.dll");
-			Assembly asm = Assembly.LoadFrom (asmFile);
-			Type t = asm.GetType ("Mono.Addins.CecilReflector.Reflector");
-			var reflector = (IAssemblyReflector)Activator.CreateInstance (t);
-			reflector.Initialize (locator);
-			return reflector;
-		}
-
 		//mono.addins uses an appdomain even when using the cecil reflector
 		//but that breaks us because the appdomain's base directory is the msbuild
 		//bindir so it can't load the assembly. force it to run inproc instead.

@@ -128,6 +128,8 @@ namespace MonoDevelop.Addins.Tasks
 
 			ResolvedAddins = resolvedAddins.ToArray ();
 
+			Registry.Dispose();
+
 			return success;
 		}
 
