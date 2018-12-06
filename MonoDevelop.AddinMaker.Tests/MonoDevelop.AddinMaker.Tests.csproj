@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\MonoDevelop.AddinMaker.Local.props" />
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net471</TargetFramework>
     <IsAddin>False</IsAddin>
   </PropertyGroup>
   <ItemGroup>
