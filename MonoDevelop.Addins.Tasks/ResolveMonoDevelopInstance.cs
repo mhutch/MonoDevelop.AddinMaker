@@ -69,7 +69,7 @@ namespace MonoDevelop.Addins.Tasks
 				return false;
 			}
 
-			if (!string.Equals (ProfileVersion, compatVersion)) {
+			if (!string.IsNullOrEmpty (ProfileVersion) && !string.Equals (ProfileVersion, compatVersion)) {
 				Log.LogWarning ($"The provided ProfileVersion '{ProfileVersion}' does not match the target instance. Overriding with '{compatVersion}'.");
 			}
 
