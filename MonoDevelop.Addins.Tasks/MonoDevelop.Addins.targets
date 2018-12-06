@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.ResolveMonoDevelopAddins" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
-  <UsingTask TaskName="MonoDevelop.Addins.Tasks.GetDefaultMonoDevelopLocations" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
-  <UsingTask TaskName="MonoDevelop.Addins.Tasks.GetMonoDevelopTargetFramework" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
+  <UsingTask TaskName="MonoDevelop.Addins.Tasks.ResolveMonoDevelopInstance" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.GenerateManifest" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.CollectOutputFiles" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
   <UsingTask TaskName="MonoDevelop.Addins.Tasks.CreatePackage" AssemblyFile="MonoDevelop.Addins.Tasks.dll" />
@@ -13,7 +12,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <MDProfileVersion Condition="'$(MDProfileVersion)' == ''">7.0</MDProfileVersion>
     <MDProfilePath Condition="'$(MDProfilePath)' == ''">$(MONODEVELOP_TEST_PROFILE)</MDProfilePath>
   </PropertyGroup>
 
@@ -74,16 +72,27 @@
     </Reference>
   </ItemGroup>
 
-  <Target Name="ResolveMonoDevelopLocations" BeforeTargets="GetReferenceAssemblyPaths">
-    <GetDefaultMonoDevelopLocations ProfileVersion="$(MDProfileVersion)" ProfilePath="$(MDProfilePath)" ReferencePath="$(ReferencePath)">
+  <Target Name="ResolveMonoDevelopInstance" BeforeTargets="GetReferenceAssemblyPaths">
+    <ResolveMonoDevelopInstance
+        ProfileVersion="$(MDProfileVersion)"
+        ProfilePath="$(MDProfilePath)"
+        BinDir="$(MDBinDir)"
+        AppDir="$(MDAppDir)"
+        TargetFrameworkVersion="$(TargetFrameworkVersion)"
+        TargetFrameworkMoniker="$(TargetFrameworkMoniker)"
+      >
       <Output TaskParameter="ConfigDir"   PropertyName="MDConfigDir"   Condition="'$(MDConfigDir)' == ''"    />
       <Output TaskParameter="AddinsDir"   PropertyName="MDAddinsDir"   Condition="'$(MDAddinsDir)' == ''"    />
-      <Output TaskParameter="BinDir" PropertyName="MDBinDir" Condition="'$(MDBinDir)' == ''"  />
-    </GetDefaultMonoDevelopLocations>
+      <Output TaskParameter="BinDir" PropertyName="MDBinDir" />
+      <Output TaskParameter="ProfileVersion" PropertyName="MDProfileVersion" />
+      <Output TaskParameter="TargetFrameworkVersion" PropertyName="TargetFrameworkVersion" />
+      <Output TaskParameter="TargetFrameworkMoniker" PropertyName="TargetFrameworkMoniker" />
+    </ResolveMonoDevelopInstance>
 
-    <Message Text = "MDConfigDir:   $(MDConfigDir)" />
-    <Message Text = "MDAddinsDir:   $(MDAddinsDir)" />
-    <Message Text = "MDBinDir:      $(MDBinDir)" />
+    <Message Text = "MDBinDir:          $(MDBinDir)" />
+    <Message Text = "MDProfileVersion:  $(MDProfileVersion)" />
+    <Message Text = "MDConfigDir:       $(MDConfigDir)" />
+    <Message Text = "MDAddinsDir:       $(MDAddinsDir)" />
 
     <PropertyGroup>
       <MDToolExe Condition="Exists('$(MDBinDir)\vstool.exe')">$(MDBinDir)\vstool.exe</MDToolExe>
@@ -94,33 +103,16 @@
 
     <Error Text = "Bin directory not found: $(MDBinDir)" Condition="!Exists('$(MDToolExe)')" />
 
-    <PropertyGroup>  
+    <PropertyGroup>
       <AssemblySearchPaths>$(MDBinDir);$(AssemblySearchPaths)</AssemblySearchPaths>
       <MDDatabaseDir>$(IntermediateOutputPath)mdam\db</MDDatabaseDir>
       <MDConfigDir Condition="'$(MDConfigDir)'==''">$(IntermediateOutputPath)mdam\config</MDConfigDir>
       <MDAddinsDir Condition="'$(MDAddinsDir)'==''">$(IntermediateOutputPath)mdam\addins</MDAddinsDir>
     </PropertyGroup>
-
-    <GetMonoDevelopTargetFramework MDBinDir="$(MDBinDir)">
-      <Output TaskParameter="MDTargetFrameworkMoniker"   PropertyName="MDTargetFrameworkMoniker" />
-      <Output TaskParameter="MDTargetFrameworkVersion"   PropertyName="MDTargetFrameworkVersion" />
-	</GetMonoDevelopTargetFramework>
-
-    <Message Text = "MDTargetFrameworkVersion:   $(MDTargetFrameworkVersion)" />
-
-    <Warning
-		Text = "Overriding your project's target framework '$(TargetFrameworkVersion)' with target MonoDevelop's framework '$(MDTargetFrameworkVersion)'."
-		Condition="'$(MDTargetFrameworkVersion)'!='$(TargetFrameworkVersion)'"/>
-
-    <PropertyGroup>
-		<TargetFrameworkMoniker>$(MDTargetFrameworkMoniker)</TargetFrameworkMoniker>
-		<TargetFrameworkVersion>$(MDTargetFrameworkVersion)</TargetFrameworkVersion>
-    </PropertyGroup>
-
   </Target>
 
   <!-- FIXME logically this should before ResolveReferences but MD currently uses ResolveAssemblyReferences -->
-  <Target Name="_MDResolveAddinReferences" DependsOnTargets="ResolveMonoDevelopLocations" BeforeTargets="ResolveAssemblyReferences">
+  <Target Name="_MDResolveAddinReferences" DependsOnTargets="ResolveMonoDevelopInstance" BeforeTargets="ResolveAssemblyReferences">
     <ResolveMonoDevelopAddins
       ConfigDir="$(MDConfigDir)"
       AddinsDir="$(MDAddinsDir)"
@@ -213,7 +205,7 @@
     <TestRunnerArgs>run-md-tests</TestRunnerArgs>
   </PropertyGroup>
 
-  <Target Name="RunTests" DependsOnTargets="ResolveMonoDevelopLocations">
+  <Target Name="RunTests" DependsOnTargets="ResolveMonoDevelopInstance">
     <Exec Command="$(_MDToolCommand) $(TestRunnerArgs) &quot;$(TargetPath)&quot;" />
   </Target>
 

@@ -1,9 +1,4 @@
 ﻿<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <!-- TODO can we determine this from the target MD instance early enough for the project system to use it? -->
-  <PropertyGroup>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-  </PropertyGroup>
-
   <ItemGroup Condition="'$(EnableDefaultItems)'=='True' and '$(EnableDefaultEmbeddedResourceItems)'=='True'">
     <EmbeddedResource Include="**\*.addin.xml" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
   </ItemGroup>
