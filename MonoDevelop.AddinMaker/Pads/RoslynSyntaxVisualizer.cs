@@ -54,6 +54,9 @@ namespace MonoDevelop.AddinMaker.Pads
 			var span = nav.GetValue (spanField);
 
 			var roslynSnapshot = lastSourceText.FindCorrespondingEditorTextSnapshot ();
+			if (roslynSnapshot == null) {
+				return;
+			}
 			var editorSpan = new SnapshotSpan (roslynSnapshot, span.Start, span.Length);
 
 			suppressChangeEvent = true;
@@ -191,6 +194,9 @@ namespace MonoDevelop.AddinMaker.Pads
 			}
 
 			var roslynSnapshot = lastSourceText.FindCorrespondingEditorTextSnapshot ();
+			if (roslynSnapshot == null) {
+				return;
+			}
 			var point = editorTracker.TextView.Caret.Position.BufferPosition.TranslateTo (roslynSnapshot, PointTrackingMode.Positive);
 
 			var node = store.GetFirstNode ();
