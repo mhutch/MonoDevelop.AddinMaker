@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\MonoDevelop.AddinMaker.Local.props" />
   <PropertyGroup>
-    <TargetFramework>net471</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <CreatePackage Condition="$(Configuration)=='Release'">True</CreatePackage>
   </PropertyGroup>
   <ItemGroup>

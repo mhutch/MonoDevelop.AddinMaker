@@ -69,23 +69,22 @@ namespace MonoDevelop.AddinMaker.Pads
 
 		void ActiveEditorChanged (object sender, ActiveEditorChangedEventArgs e)
 		{
-			if (e.OldDocument != null && e.OldDocument != e.NewDocument) {
-				e.OldDocument.AnalysisDocumentChanged -= AnalysisDocumentChanged;
-			}
-
-			if (e.NewDocument != null && e.OldDocument != e.NewDocument) {
-				e.NewDocument.AnalysisDocumentChanged += AnalysisDocumentChanged;
-			}
-
 			if (e.OldView != null) {
 				e.OldView.Caret.PositionChanged -= CaretPositionChanged;
+				e.OldView.TextBuffer.Changed -= BufferChanged;
 			}
 
 			if (e.NewView != null) {
 				e.NewView.Caret.PositionChanged += CaretPositionChanged;
+				e.NewView.TextBuffer.Changed += BufferChanged;
 			}
 
 			AnalysisDocumentChanged (e.NewDocument, EventArgs.Empty);
+		}
+
+		void BufferChanged (object sender, TextContentChangedEventArgs e)
+		{
+			Runtime.RunInMainThread (Update);
 		}
 
 		void CaretPositionChanged (object sender, Microsoft.VisualStudio.Text.Editor.CaretPositionChangedEventArgs e)
@@ -95,7 +94,7 @@ namespace MonoDevelop.AddinMaker.Pads
 
 		CancellationTokenSource cts;
 
-		void AnalysisDocumentChanged (object sender, System.EventArgs e)
+		void AnalysisDocumentChanged (object sender, EventArgs e)
 		{
 			Runtime.RunInMainThread (Update);
 		}
@@ -108,15 +107,17 @@ namespace MonoDevelop.AddinMaker.Pads
 			cts = new CancellationTokenSource ();
 			var ct = cts.Token;
 
-			if (editorTracker.Document.AnalysisDocument == null) {
+			var snapshot = editorTracker.TextView.TextBuffer.CurrentSnapshot;
+			Document document = snapshot.GetOpenDocumentInCurrentContextWithChanges ();
+			if (document == null) {
 				store.Clear ();
 				lastSourceText = null;
 				return;
 			}
 
-			var tree = await editorTracker.Document.AnalysisDocument.GetSyntaxTreeAsync (ct);
+			var tree = await document.GetSyntaxTreeAsync (ct);
 			var root = await tree.GetRootAsync (ct);
-			var text = await editorTracker.Document.AnalysisDocument.GetTextAsync (ct);
+			var text = await document.GetTextAsync (ct);
 
 			if (ct.IsCancellationRequested) {
 				return;

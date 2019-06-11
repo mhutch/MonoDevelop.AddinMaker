@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 using MonoDevelop.Components.PropertyGrid;
+using MonoDevelop.Ide.Composition;
 using Xwt;
 
 namespace MonoDevelop.AddinMaker.Pads
@@ -32,7 +33,7 @@ namespace MonoDevelop.AddinMaker.Pads
 
 		public EditorTagVisualizer ()
 		{
-			tagAggregatorFactoryService = Ide.Composition.CompositionManager.GetExportedValue<IViewTagAggregatorFactoryService> ();
+			tagAggregatorFactoryService = CompositionManager.Instance.GetExportedValue<IViewTagAggregatorFactoryService> ();
 
 			store = new TreeStore (spanField, tagNameMarkupField, tagField);
 			treeView = new TreeView (store) {
@@ -120,6 +121,10 @@ namespace MonoDevelop.AddinMaker.Pads
 		void Update ()
 		{
 			var textView = editorTracker.TextView;
+			if (textView == null) {
+				return;
+			}
+
 			var caretSpan = new SnapshotSpan (textView.Caret.Position.BufferPosition, 0);
 			var tags = aggregator.GetTags (caretSpan).ToList ();
 			Application.Invoke (() => UpdateStore (tags));

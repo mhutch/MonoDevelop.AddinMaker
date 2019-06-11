@@ -17,9 +17,9 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 			get { return "Addin Browser"; }
 		}
 
-		public override Task<MonoDevelop.Ide.Gui.Document> ShowDocument ()
+		public override Task<Ide.Gui.Document> ShowDocument ()
 		{
-			return Task.FromResult (AddinBrowserViewContent.Open (registry));
+			return AddinBrowserViewContent.Open (registry);
 		}
 	}
 }

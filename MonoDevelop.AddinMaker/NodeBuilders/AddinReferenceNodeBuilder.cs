@@ -91,7 +91,7 @@ namespace MonoDevelop.AddinMaker
 				var registry = addin.Project.GetFlavor<AddinProjectFlavor> ().AddinRegistry;
 				var resolved = registry.GetAddin (addin.Include);
 				if (resolved != null) {
-					AddinBrowserViewContent.Open (registry, resolved);
+					AddinBrowserViewContent.Open (registry, resolved).Ignore ();
 				}
 			}
 		}

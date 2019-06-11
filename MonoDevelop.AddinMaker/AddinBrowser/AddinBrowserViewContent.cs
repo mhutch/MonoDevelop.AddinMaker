@@ -6,31 +6,39 @@ using MonoDevelop.Components;
 using MonoDevelop.Ide;
 using MonoDevelop.Ide.Gui;
 using MonoDevelop.Ide.Gui.Content;
+using MonoDevelop.Ide.Gui.Documents;
 using MonoDevelop.Ide.Navigation;
 
 namespace MonoDevelop.AddinMaker.AddinBrowser
 {
-	class AddinBrowserViewContent : ViewContent, INavigable
+	class AddinBrowserViewContent : DocumentController, INavigable
 	{
-		readonly AddinBrowserWidget widget;
+		AddinBrowserWidget widget;
+		Control control;
+		AddinRegistry registry;
 
 		public AddinBrowserViewContent (AddinRegistry registry)
 		{
-			ContentName = "Addin Browser";
-			widget = new AddinBrowserWidget (registry);
+			DocumentTitle = "Addin Browser";
+			AccessibilityDescription = DocumentTitle;
+
+			this.registry = registry;
 		}
 
-		public override Control Control {
-			get { return widget; }
+		protected override bool ControllerIsViewOnly => true;
+
+		protected override Control OnGetViewControl (DocumentViewContent view)
+		{
+			return control ?? (control = widget = new AddinBrowserWidget (registry));
 		}
 
 		//TODO: allow opening a specific addin and path
-		public static Document Open (AddinRegistry registry, object selection = null)
+		public static async Task<Document> Open (AddinRegistry registry, object selection = null)
 		{
 			foreach (var doc in IdeApp.Workbench.Documents) {
 				var content = doc.GetContent<AddinBrowserViewContent> ();
 				if (content != null && content.widget.TreeView.Registry == registry) {
-					content.WorkbenchWindow.SelectWindow ();
+					content.Document.Select ();
 					if (selection != null) {
 						content.widget.TreeView.SelectObject (selection);
 					}
@@ -42,25 +50,8 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 			if (selection != null) {
 				newContent.widget.TreeView.SelectObject (selection);
 			}
-			return IdeApp.Workbench.OpenDocument (newContent, true);
+			return await IdeApp.Workbench.OpenDocument (newContent, true);
 		}
-
-		public override Task Load (FileOpenInformation fileOpenInformation)
-		{
-			throw new NotSupportedException ();
-		}
-
-		/*
-		protected override void OnWorkbenchWindowChanged (EventArgs e)
-		{
-			base.OnWorkbenchWindowChanged (e);
-
-			if (WorkbenchWindow != null) {
-				var toolbar = WorkbenchWindow.GetToolbar (this);
-				widget.SetToolbar (toolbar);
-			}
-		}
-		*/
 
 		public NavigationPoint BuildNavigationPoint ()
 		{

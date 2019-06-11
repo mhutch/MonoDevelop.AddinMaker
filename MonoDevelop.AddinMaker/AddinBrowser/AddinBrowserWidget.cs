@@ -1,7 +1,6 @@
 using Gtk;
 using Mono.Addins;
 using MonoDevelop.Components;
-using MonoDevelop.Ide.Gui;
 using MonoDevelop.Ide.Gui.Components;
 
 namespace MonoDevelop.AddinMaker.AddinBrowser
@@ -69,10 +68,6 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 
 			detailItem = nav.DataItem;
 			SetDetailWidget (tdb.GetDetailWidget (detailItem));
-		}
-
-		public void SetToolbar (DocumentToolbar toolbar)
-		{
 		}
 	}
 

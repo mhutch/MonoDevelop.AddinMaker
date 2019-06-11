@@ -25,30 +25,30 @@ namespace MonoDevelop.AddinMaker.Pads
 		void ActiveDocumentChanged (object sender, EventArgs e)
 		{
 			if (Document != null) {
-				Document.ViewChanged -= ActiveViewChanged;
+				Document.ContentChanged -= ActiveContentChanged;
 			}
 			var oldActiveDocument = Document;
 			Document = IdeApp.Workbench.ActiveDocument;
 
 			if (Document != null) {
-				Document.ViewChanged += ActiveViewChanged;
+				Document.ContentChanged += ActiveContentChanged;
 			}
 
-			ActiveViewChanged (null, null, oldActiveDocument);
+			ActiveContentChanged (null, null, oldActiveDocument);
 		}
 
-		void ActiveViewChanged (object sender, EventArgs e)
+		void ActiveContentChanged (object sender, EventArgs e)
 		{
-			ActiveViewChanged (sender, e, Document);
+			ActiveContentChanged (sender, e, Document);
 		}
 
-		void ActiveViewChanged (object sender, EventArgs e, Document oldDocument)
+		void ActiveContentChanged (object sender, EventArgs e, Document oldDocument)
 		{
 			//FIXME there doesn't seem to be a better way to determine whether the view is an editor
 			//or to pull out the focused view when it's split e.g. diff view
 			var oldView = TextView;
-			if (Document?.ActiveView?.GetContent<ITextFile> () != null) {
-				TextView = Document.Editor.TextView;
+			if (Document?.GetContent<ITextView> () is ITextView view) {
+				TextView = view;
 			} else {
 				TextView = null;
 			}
@@ -69,7 +69,7 @@ namespace MonoDevelop.AddinMaker.Pads
 
 			IdeApp.Workbench.ActiveDocumentChanged -= ActiveDocumentChanged;
 			if (Document != null) {
-				Document.ViewChanged -= ActiveViewChanged;
+				Document.ContentChanged -= ActiveContentChanged;
 			}
 		}
 	}
