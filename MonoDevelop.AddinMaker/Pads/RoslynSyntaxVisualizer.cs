@@ -134,29 +134,38 @@ namespace MonoDevelop.AddinMaker.Pads
 			SelectBestMatchForCaret ();
 		}
 
-		void AddNode (TreeNavigator treeNavigator, SyntaxNode syntaxNode)
+		void AddNode (TreeNavigator treeNavigator, SyntaxNode syntaxNode, bool hideLeadingTrivia = false)
 		{
 			var leadingTrivia = syntaxNode.GetLeadingTrivia ();
 			var trailingTrivia = syntaxNode.GetTrailingTrivia ();
 
-			AddLeadingTrivia (leadingTrivia);
+			if (!hideLeadingTrivia) {
+				AddLeadingTrivia (leadingTrivia);
+			}
 
-			SetNodeText (treeNavigator, syntaxNode.GetType ().Name, syntaxNode.Span, Colors.DarkBlue);
+			AddSyntaxNode (treeNavigator, syntaxNode);
 
+			bool isFirst = true;
 			foreach (var child in syntaxNode.ChildNodesAndTokens ()) {
+				//leading trivia is duplicated between the compilation unit and its first child
+				bool hideChildLeadingTrivia = isFirst && syntaxNode is ICompilationUnitSyntax;
+				isFirst = false;
+
 				treeNavigator.AddChild ();
+
 				if (child.IsNode) {
-					AddNode (treeNavigator, child.AsNode ());
+					AddNode (treeNavigator, child.AsNode (), hideChildLeadingTrivia);
 				} else {
 					var token = child.AsToken ();
 					if (token.LeadingTrivia != leadingTrivia) {
 						AddLeadingTrivia (token.LeadingTrivia);
 					}
-					SetNodeText (treeNavigator, token.GetType ().Name, token.Span, Colors.DarkGreen);
+					AddSyntaxToken (treeNavigator, token);
 					if (token.TrailingTrivia != trailingTrivia) {
 						AddTrailingTrivia (token.TrailingTrivia);
 					}
 				}
+
 				treeNavigator.MoveToParent ();
 			}
 
@@ -165,7 +174,7 @@ namespace MonoDevelop.AddinMaker.Pads
 			void AddLeadingTrivia (SyntaxTriviaList triviaList)
 			{
 				foreach (var trivia in triviaList) {
-					AddTrivia (trivia);
+					AddSyntaxTrivia (treeNavigator, trivia);
 					treeNavigator.InsertAfter ();
 				}
 			}
@@ -174,11 +183,28 @@ namespace MonoDevelop.AddinMaker.Pads
 			{
 				foreach (var trivia in triviaList) {
 					treeNavigator.InsertAfter ();
-					AddTrivia (trivia);
+					AddSyntaxTrivia (treeNavigator, trivia);
 				}
 			}
+		}
 
-			void AddTrivia (SyntaxTrivia trivia) => SetNodeText (treeNavigator, trivia.GetType ().Name, trivia.Span, Colors.DarkRed);
+		//FIXME: we should compute the text on demand, but XWT doesn't let us do this
+		void AddSyntaxTrivia (TreeNavigator nav, SyntaxTrivia trivia)
+		{
+			var kind = (Microsoft.CodeAnalysis.CSharp.SyntaxKind)trivia.RawKind;
+			SetNodeText (nav, $"{kind}", trivia.Span, Colors.DarkRed);
+		}
+
+		void AddSyntaxToken (TreeNavigator nav, SyntaxToken token)
+		{
+			var kind = (Microsoft.CodeAnalysis.CSharp.SyntaxKind)token.RawKind;
+			SetNodeText (nav, $"{kind}", token.Span, Colors.DarkGreen);
+		}
+
+		void AddSyntaxNode (TreeNavigator nav, SyntaxNode node)
+		{
+			var kind = (Microsoft.CodeAnalysis.CSharp.SyntaxKind)node.RawKind;
+			SetNodeText (nav, $"{kind}", node.Span, Colors.DarkBlue);
 		}
 
 		void SetNodeText (TreeNavigator nav, string text, TextSpan span, Color color)
