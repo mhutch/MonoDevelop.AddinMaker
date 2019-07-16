@@ -65,7 +65,7 @@ namespace MonoDevelop.AddinMaker.Pads
 		}
 
 		//FIXME: why is PropertyEditorCell public but EditorManager isn't?
-		static void LoadPropertyEditorAssembly (PropertyGrid propertyGrid, Assembly assembly)
+		internal static void LoadPropertyEditorAssembly (PropertyGrid propertyGrid, Assembly assembly)
 		{
 			const BindingFlags bfi = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public;
 			var managerProp = propertyGrid.GetType ().GetProperty ("EditorManager", bfi);

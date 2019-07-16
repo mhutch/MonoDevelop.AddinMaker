@@ -15,13 +15,13 @@ namespace MonoDevelop.AddinMaker.Pads
 		protected override void Initialize (IPadWindow window)
 		{
 			base.Initialize (window);
-			control = new XwtControl (new RoslynSyntaxVisualizer ());
+			control = new RoslynSyntaxVisualizer ();
 		}
 
 		public override void Dispose ()
 		{
 			base.Dispose ();
-			control.Dispose ();
+			control?.Dispose ();
 			control = null;
 		}
 	}
