@@ -61,7 +61,9 @@ namespace MonoDevelop.AddinMaker.Pads
 
 			suppressChangeEvent = true;
 			try {
+				editorTracker.TextView.Caret.MoveTo (editorSpan.Start);
 				editorTracker.TextView.Selection.Select (editorSpan, false);
+				editorTracker.TextView.Caret.EnsureVisible ();
 			} finally {
 				suppressChangeEvent = false;
 			}
