@@ -121,12 +121,15 @@ namespace MonoDevelop.AddinMaker.Pads
 		void Update ()
 		{
 			var textView = editorTracker.TextView;
+			List<IMappingTagSpan<ITag>> tags;
+
 			if (textView == null) {
-				return;
+				tags = new List<IMappingTagSpan<ITag>> (0);
+			} else {
+				var caretSpan = new SnapshotSpan (textView.Caret.Position.BufferPosition, 0);
+				tags = aggregator.GetTags (caretSpan).ToList ();
 			}
 
-			var caretSpan = new SnapshotSpan (textView.Caret.Position.BufferPosition, 0);
-			var tags = aggregator.GetTags (caretSpan).ToList ();
 			Application.Invoke (() => UpdateStore (tags));
 		}
 

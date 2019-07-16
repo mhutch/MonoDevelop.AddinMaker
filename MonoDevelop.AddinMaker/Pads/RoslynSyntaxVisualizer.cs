@@ -107,8 +107,9 @@ namespace MonoDevelop.AddinMaker.Pads
 			cts = new CancellationTokenSource ();
 			var ct = cts.Token;
 
-			var snapshot = editorTracker.TextView.TextBuffer.CurrentSnapshot;
-			Document document = snapshot.GetOpenDocumentInCurrentContextWithChanges ();
+			var snapshot = editorTracker.TextView?.TextBuffer?.CurrentSnapshot;
+			Document document = snapshot?.GetOpenDocumentInCurrentContextWithChanges ();
+
 			if (document == null) {
 				store.Clear ();
 				lastSourceText = null;
