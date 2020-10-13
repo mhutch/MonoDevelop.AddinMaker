@@ -37,7 +37,7 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 		{
 			foreach (var doc in IdeApp.Workbench.Documents) {
 				var content = doc.GetContent<AddinBrowserViewContent> ();
-				if (content != null && content.widget.TreeView.Registry == registry) {
+				if (content != null && content.widget.TreeView.Controller.Registry == registry) {
 					content.Document.Select ();
 					if (selection != null) {
 						content.widget.TreeView.SelectObject (selection);
@@ -56,7 +56,7 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 		public NavigationPoint BuildNavigationPoint ()
 		{
 			//TODO: save the widget's actual selection
-			return new AddinNavigationPoint (widget.TreeView.Registry);
+			return new AddinNavigationPoint (widget.TreeView.Controller.Registry);
 		}
 	}
 }
