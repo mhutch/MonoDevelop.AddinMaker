@@ -31,19 +31,20 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 		{
 			public override void ActivateItem ()
 			{
-				var dependency = (AddinDependency) CurrentNode.DataItem;
+                var dependency = (AddinDependency)CurrentNode.DataItem;
+				var controller = (AddinTreeViewController)base.Controller;
 
-				var tree = (AddinTreeView)Tree;
-				var resolved = tree.Registry.GetAddin (dependency.FullAddinId);
+				var tree = (AddinTreeView)base.Controller.Control;
+                var resolved = controller.Registry.GetAddin (dependency.FullAddinId);
 
-				if (resolved != null) {
-					//delay the selection, or this will re-select is
-					GLib.Timeout.Add (200, () => {
-						tree.SelectObject (resolved);
-						return false;
-					});
-				}
-			}
+                if (resolved != null) {
+                    //delay the selection, or this will re-select is
+                    GLib.Timeout.Add (200, () => {
+                        tree.SelectObject (resolved);
+                        return false;
+                    });
+                }
+            }
 		}
 	}
 }

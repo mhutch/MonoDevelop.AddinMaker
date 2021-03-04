@@ -13,7 +13,24 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 
 		public AddinBrowserWidget (AddinRegistry registry)
 		{
-			TreeView = new AddinTreeView (registry);
+			var nodebuilder = new NodeBuilder [] {
+				new AddinNodeBuilder (),
+				new ExtensionFolderNodeBuilder (),
+				new ExtensionNodeBuilder (),
+				new ExtensionPointNodeBuilder (),
+				new ExtensionPointFolderNodeBuilder (),
+				new DependencyFolderNodeBuilder (),
+				new AddinDependencyNodeBuilder (),
+				new ModulesFolderNodeBuilder (),
+				new ModuleNodeBuilder (),
+				new AssembliesFolderNodeBuilder (),
+				new AddinAssemblyNodeBuilder (),
+				new FilesFolderNodeBuilder (),
+				new AddinFileNodeBuilder (),
+			};
+
+            var controller = new AddinTreeViewController (registry, nodebuilder, new TreePadOption [0]);
+			TreeView = new AddinTreeView (controller);
 			var gtkTreeView = TreeView.GetNativeWidget<Gtk.Widget> ();
 
 			TreeView.AllowsMultipleSelection = false;
@@ -45,7 +62,7 @@ namespace MonoDevelop.AddinMaker.AddinBrowser
 
 		void FillDetailPanel ()
 		{
-			ITreeNavigator nav = TreeView.GetSelectedNode ();
+			ITreeNavigator nav = TreeView.Controller.GetSelectedNode ();
 			ITreeDetailBuilder tdb;
 
 			if (nav == null) {
